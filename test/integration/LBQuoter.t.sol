@@ -71,41 +71,20 @@ contract LiquidityBinQuoterTest is TestHelper {
         );
 
         vm.startPrank(AvalancheAddresses.V2_FACTORY_OWNER);
-        legacyFactoryV2.addQuoteAsset(usdc);
-        legacyFactoryV2.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 USDT = 1 USDC
-        legacyFactoryV2.createLBPair(wnative, usdc, ID_ONE + 50, DEFAULT_BIN_STEP); // 1 NATIVE > 1 USDC
-        legacyFactoryV2.createLBPair(bnb, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 BNB = 1 USDC
         vm.stopPrank();
 
         factory.createLBPair(weth, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 WETH = 1 USDC
         factory.createLBPair(bnb, usdc, ID_ONE + 50, DEFAULT_BIN_STEP); // 1 BNB > 1 USDC
 
         // Add liquidity to V2
-        ILBRouter.LiquidityParameters memory liquidityParameters =
-            getLiquidityParameters(usdt, usdc, highLiquidityAmount, ID_ONE, 7, 0);
-        legacyRouterV2.addLiquidity(liquidityParameters.toLegacy());
-
-        liquidityParameters = getLiquidityParameters(wnative, usdc, lowLiquidityAmount, ID_ONE + 50, 7, 0);
-        legacyRouterV2.addLiquidity(liquidityParameters.toLegacy());
-
-        liquidityParameters = getLiquidityParameters(weth, usdc, highLiquidityAmount, ID_ONE, 7, 0);
-        router.addLiquidity(liquidityParameters);
-
-        liquidityParameters = getLiquidityParameters(bnb, usdc, highLiquidityAmount, ID_ONE, 7, 0);
-        legacyRouterV2.addLiquidity(liquidityParameters.toLegacy());
-
-        liquidityParameters = getLiquidityParameters(bnb, usdc, lowLiquidityAmount, ID_ONE + 50, 7, 0);
+        ILBRouter.LiquidityParameters memory liquidityParameters = getLiquidityParameters(bnb, usdc, lowLiquidityAmount, ID_ONE + 50, 7, 0);
         router.addLiquidity(liquidityParameters);
     }
 
     function test_Constructor() public view {
         assertEq(address(quoter.getRouterV2_2()), address(router), "test_Constructor::1");
-        assertEq(address(quoter.getRouterV2_1()), address(AvalancheAddresses.JOE_V2_1_ROUTER), "test_Constructor::2");
         assertEq(address(quoter.getFactoryV1()), AvalancheAddresses.JOE_V1_FACTORY, "test_Constructor::3");
-        assertEq(address(quoter.getLegacyFactoryV2()), AvalancheAddresses.JOE_V2_FACTORY, "test_Constructor::4");
         assertEq(address(quoter.getFactoryV2_2()), address(factory), "test_Constructor::5");
-        assertEq(address(quoter.getFactoryV2_1()), AvalancheAddresses.JOE_V2_1_FACTORY, "test_Constructor::6");
-        assertEq(address(quoter.getLegacyRouterV2()), address(legacyRouterV2), "test_Constructor::7");
     }
 
     function test_InvalidLength() public {

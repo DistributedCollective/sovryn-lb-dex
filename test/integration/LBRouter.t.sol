@@ -38,20 +38,11 @@ contract LiquidityBinRouterForkTest is TestHelper {
             block.timestamp + 1
         );
 
-        vm.startPrank(AvalancheAddresses.V2_FACTORY_OWNER);
-        legacyFactoryV2.addQuoteAsset(usdc);
-        legacyFactoryV2.createLBPair(wnative, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 NATIVE = 1 USDC
-        vm.stopPrank();
-
         factory.createLBPair(weth, wnative, ID_ONE, DEFAULT_BIN_STEP); // 1 WETH = 1 NATIVE
         factory.createLBPair(taxToken, wnative, ID_ONE, DEFAULT_BIN_STEP); // 1 TaxToken = 1 NATIVE
 
         // Add liquidity to V2
-        ILBRouter.LiquidityParameters memory liquidityParameters =
-            getLiquidityParameters(wnative, usdc, liquidityAmount, ID_ONE, 7, 0);
-        legacyRouterV2.addLiquidityAVAX{value: liquidityParameters.amountX}(liquidityParameters.toLegacy());
-
-        liquidityParameters = getLiquidityParameters(weth, wnative, liquidityAmount, ID_ONE, 7, 0);
+        ILBRouter.LiquidityParameters memory liquidityParameters = getLiquidityParameters(weth, wnative, liquidityAmount, ID_ONE, 7, 0);
         router.addLiquidityNATIVE{value: liquidityParameters.amountY}(liquidityParameters);
 
         liquidityParameters = getLiquidityParameters(taxToken, wnative, liquidityAmount, ID_ONE, 7, 0);

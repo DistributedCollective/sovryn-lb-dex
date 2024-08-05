@@ -33,11 +33,7 @@ contract LBQuoter {
     error LBQuoter_InvalidLength();
 
     address private immutable _factoryV1;
-    address private immutable _legacyFactoryV2;
-    address private immutable _factoryV2_1;
     address private immutable _factoryV2_2;
-    address private immutable _legacyRouterV2;
-    address private immutable _routerV2_1;
     address private immutable _routerV2_2;
 
     /**
@@ -63,28 +59,16 @@ contract LBQuoter {
     /**
      * @notice Constructor
      * @param factoryV1 Dex V1 factory address
-     * @param legacyFactoryV2 Dex V2 factory address
-     * @param factoryV2_1 Dex V2.1 factory address
      * @param factoryV2_2 Dex V2.2 factory address
-     * @param legacyRouterV2 Dex V2 router address
-     * @param routerV2_1 Dex V2.1 router address
      * @param routerV2_2 Dex V2.2 router address
      */
     constructor(
         address factoryV1,
-        address legacyFactoryV2,
-        address factoryV2_1,
         address factoryV2_2,
-        address legacyRouterV2,
-        address routerV2_1,
         address routerV2_2
     ) {
         _factoryV1 = factoryV1;
-        _legacyFactoryV2 = legacyFactoryV2;
-        _factoryV2_1 = factoryV2_1;
         _factoryV2_2 = factoryV2_2;
-        _legacyRouterV2 = legacyRouterV2;
-        _routerV2_1 = routerV2_1;
         _routerV2_2 = routerV2_2;
     }
 
@@ -97,43 +81,11 @@ contract LBQuoter {
     }
 
     /**
-     * @notice Returns the Dex V2 factory address
-     * @return legacyFactoryV2 Dex V2 factory address
-     */
-    function getLegacyFactoryV2() public view returns (address legacyFactoryV2) {
-        legacyFactoryV2 = _legacyFactoryV2;
-    }
-
-    /**
-     * @notice Returns the Dex V2.1 factory address
-     * @return factoryV2_1 Dex V2.1 factory address
-     */
-    function getFactoryV2_1() public view returns (address factoryV2_1) {
-        factoryV2_1 = _factoryV2_1;
-    }
-
-    /**
      * @notice Returns the Dex V2.2 factory address
      * @return factoryV2_2 Dex V2.2 factory address
      */
     function getFactoryV2_2() public view returns (address factoryV2_2) {
         factoryV2_2 = _factoryV2_2;
-    }
-
-    /**
-     * @notice Returns the Dex V2 router address
-     * @return legacyRouterV2 Dex V2 router address
-     */
-    function getLegacyRouterV2() public view returns (address legacyRouterV2) {
-        legacyRouterV2 = _legacyRouterV2;
-    }
-
-    /**
-     * @notice Returns the Dex V2.1 router address
-     * @return routerV2_1 Dex V2.1 router address
-     */
-    function getRouterV2_1() public view returns (address routerV2_1) {
-        routerV2_1 = _routerV2_1;
     }
 
     /**
@@ -202,77 +154,6 @@ contract LBQuoter {
                                     );
 
                                     quote.fees[i] = ((uint256(fees) * 1e18) / quote.amounts[i]).safe128(); // fee percentage in amountIn
-                                }
-                            } catch {}
-                        }
-                    }
-                }
-            }
-
-            if (_factoryV2_1 != address(0)) {
-                // Fetch swaps for V2.1
-                ILBFactory.LBPairInformation[] memory LBPairsAvailable =
-                    ILBFactory(_factoryV2_1).getAllLBPairs(IERC20(route[i]), IERC20(route[i + 1]));
-
-                if (LBPairsAvailable.length > 0 && quote.amounts[i] > 0) {
-                    for (uint256 j; j < LBPairsAvailable.length; j++) {
-                        if (!LBPairsAvailable[j].ignoredForRouting) {
-                            bool swapForY = address(LBPairsAvailable[j].LBPair.getTokenY()) == route[i + 1];
-
-                            try ILBRouter(_routerV2_1).getSwapOut(
-                                LBPairsAvailable[j].LBPair, quote.amounts[i], swapForY
-                            ) returns (uint128 amountInLeft, uint128 swapAmountOut, uint128 fees) {
-                                if (amountInLeft == 0 && swapAmountOut > quote.amounts[i + 1]) {
-                                    quote.amounts[i + 1] = swapAmountOut;
-                                    quote.pairs[i] = address(LBPairsAvailable[j].LBPair);
-                                    quote.binSteps[i] = uint16(LBPairsAvailable[j].binStep);
-                                    quote.versions[i] = ILBRouter.Version.V2_1;
-
-                                    // Getting current price
-                                    uint24 activeId = LBPairsAvailable[j].LBPair.getActiveId();
-                                    quote.virtualAmountsWithoutSlippage[i + 1] = _getV2Quote(
-                                        quote.virtualAmountsWithoutSlippage[i] - fees,
-                                        activeId,
-                                        quote.binSteps[i],
-                                        swapForY
-                                    );
-
-                                    quote.fees[i] = ((uint256(fees) * 1e18) / quote.amounts[i]).safe128(); // fee percentage in amountIn
-                                }
-                            } catch {}
-                        }
-                    }
-                }
-            }
-
-            if (_legacyFactoryV2 != address(0)) {
-                // Fetch swap for V2
-                ILBLegacyFactory.LBPairInformation[] memory legacyLBPairsAvailable =
-                    ILBLegacyFactory(_legacyFactoryV2).getAllLBPairs(IERC20(route[i]), IERC20(route[i + 1]));
-
-                if (legacyLBPairsAvailable.length > 0 && quote.amounts[i] > 0) {
-                    for (uint256 j; j < legacyLBPairsAvailable.length; j++) {
-                        if (!legacyLBPairsAvailable[j].ignoredForRouting) {
-                            bool swapForY = address(legacyLBPairsAvailable[j].LBPair.tokenY()) == route[i + 1];
-                            try ILBLegacyRouter(_legacyRouterV2).getSwapOut(
-                                legacyLBPairsAvailable[j].LBPair, quote.amounts[i], swapForY
-                            ) returns (uint256 swapAmountOut, uint256 fees) {
-                                if (swapAmountOut > quote.amounts[i + 1]) {
-                                    quote.amounts[i + 1] = swapAmountOut.safe128();
-                                    quote.pairs[i] = address(legacyLBPairsAvailable[j].LBPair);
-                                    quote.binSteps[i] = legacyLBPairsAvailable[j].binStep;
-                                    quote.versions[i] = ILBRouter.Version.V2;
-
-                                    // Getting current price
-                                    (,, uint256 activeId) = legacyLBPairsAvailable[j].LBPair.getReservesAndId();
-                                    quote.virtualAmountsWithoutSlippage[i + 1] = _getV2Quote(
-                                        quote.virtualAmountsWithoutSlippage[i] - fees,
-                                        (activeId).safe24(),
-                                        quote.binSteps[i],
-                                        swapForY
-                                    );
-
-                                    quote.fees[i] = ((fees * 1e18) / quote.amounts[i]).safe128(); // fee percentage in amountIn
                                 }
                             } catch {}
                         }
@@ -365,81 +246,6 @@ contract LBQuoter {
                                     ) + fees;
 
                                     quote.fees[i - 1] = ((uint256(fees) * 1e18) / quote.amounts[i - 1]).safe128(); // fee percentage in amountIn
-                                }
-                            } catch {}
-                        }
-                    }
-                }
-            }
-
-            if (_factoryV2_1 != address(0)) {
-                // Fetch swaps for V2.1
-                ILBFactory.LBPairInformation[] memory LBPairsAvailable =
-                    ILBFactory(_factoryV2_1).getAllLBPairs(IERC20(route[i - 1]), IERC20(route[i]));
-
-                if (LBPairsAvailable.length > 0 && quote.amounts[i] > 0) {
-                    for (uint256 j; j < LBPairsAvailable.length; j++) {
-                        if (!LBPairsAvailable[j].ignoredForRouting) {
-                            bool swapForY = address(LBPairsAvailable[j].LBPair.getTokenY()) == route[i];
-                            try ILBRouter(_routerV2_1).getSwapIn(LBPairsAvailable[j].LBPair, quote.amounts[i], swapForY)
-                            returns (uint128 swapAmountIn, uint128 amountOutLeft, uint128 fees) {
-                                if (
-                                    amountOutLeft == 0 && swapAmountIn != 0
-                                        && (swapAmountIn < quote.amounts[i - 1] || quote.amounts[i - 1] == 0)
-                                ) {
-                                    quote.amounts[i - 1] = swapAmountIn;
-                                    quote.pairs[i - 1] = address(LBPairsAvailable[j].LBPair);
-                                    quote.binSteps[i - 1] = uint16(LBPairsAvailable[j].binStep);
-                                    quote.versions[i - 1] = ILBRouter.Version.V2_1;
-
-                                    // Getting current price
-                                    uint24 activeId = LBPairsAvailable[j].LBPair.getActiveId();
-                                    quote.virtualAmountsWithoutSlippage[i - 1] = _getV2Quote(
-                                        quote.virtualAmountsWithoutSlippage[i],
-                                        activeId,
-                                        quote.binSteps[i - 1],
-                                        !swapForY
-                                    ) + fees;
-
-                                    quote.fees[i - 1] = ((uint256(fees) * 1e18) / quote.amounts[i - 1]).safe128(); // fee percentage in amountIn
-                                }
-                            } catch {}
-                        }
-                    }
-                }
-            }
-
-            if (_legacyFactoryV2 != address(0)) {
-                // Fetch swaps for V2
-                ILBLegacyFactory.LBPairInformation[] memory legacyLBPairsAvailable =
-                    ILBLegacyFactory(_legacyFactoryV2).getAllLBPairs(IERC20(route[i - 1]), IERC20(route[i]));
-
-                if (legacyLBPairsAvailable.length > 0 && quote.amounts[i] > 0) {
-                    for (uint256 j; j < legacyLBPairsAvailable.length; j++) {
-                        if (!legacyLBPairsAvailable[j].ignoredForRouting) {
-                            bool swapForY = address(legacyLBPairsAvailable[j].LBPair.tokenY()) == route[i];
-                            try ILBLegacyRouter(_legacyRouterV2).getSwapIn(
-                                legacyLBPairsAvailable[j].LBPair, quote.amounts[i], swapForY
-                            ) returns (uint256 swapAmountIn, uint256 fees) {
-                                if (
-                                    swapAmountIn != 0
-                                        && (swapAmountIn < quote.amounts[i - 1] || quote.amounts[i - 1] == 0)
-                                ) {
-                                    quote.amounts[i - 1] = (swapAmountIn).safe128();
-                                    quote.pairs[i - 1] = address(legacyLBPairsAvailable[j].LBPair);
-                                    quote.binSteps[i - 1] = legacyLBPairsAvailable[j].binStep;
-                                    quote.versions[i - 1] = ILBRouter.Version.V2;
-
-                                    // Getting current price
-                                    (,, uint256 activeId) = legacyLBPairsAvailable[j].LBPair.getReservesAndId();
-                                    quote.virtualAmountsWithoutSlippage[i - 1] = _getV2Quote(
-                                        quote.virtualAmountsWithoutSlippage[i],
-                                        uint24(activeId),
-                                        quote.binSteps[i - 1],
-                                        !swapForY
-                                    ) + fees.safe128();
-
-                                    quote.fees[i - 1] = ((fees * 1e18) / quote.amounts[i - 1]).safe128(); // fee percentage in amountIn
                                 }
                             } catch {}
                         }

@@ -22,11 +22,7 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         newQuoter = new LBQuoter(
             AvalancheAddresses.JOE_V1_FACTORY,
-            AvalancheAddresses.JOE_V2_FACTORY,
-            AvalancheAddresses.JOE_V2_1_FACTORY,
             factory,
-            AvalancheAddresses.JOE_V2_ROUTER,
-            AvalancheAddresses.JOE_V2_1_ROUTER,
             router
         );
     }

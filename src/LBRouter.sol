@@ -36,10 +36,7 @@ contract LBRouter is ILBRouter {
     using PackedUint128Math for bytes32;
 
     ILBFactory private immutable _factory2_2;
-    ILBFactory private immutable _factory2_1;
     IJoeFactory private immutable _factoryV1;
-    ILBLegacyFactory private immutable _legacyFactory;
-    ILBLegacyRouter private immutable _legacyRouter;
     IWNATIVE private immutable _wnative;
 
     modifier onlyFactoryOwner() {
@@ -63,25 +60,16 @@ contract LBRouter is ILBRouter {
     /**
      * @notice Constructor
      * @param factory2_2 Address of Joe V2.2 factory
-     * @param factory2_1 Address of Joe V2.1 factory
      * @param factoryV1 Address of Joe V1 factory
-     * @param legacyFactory Address of Joe V2 factory
-     * @param legacyRouter Address of Joe V2 router
      * @param wnative Address of WNATIVE
      */
     constructor(
         ILBFactory factory2_2,
         IJoeFactory factoryV1,
-        ILBLegacyFactory legacyFactory,
-        ILBLegacyRouter legacyRouter,
-        ILBFactory factory2_1,
         IWNATIVE wnative
     ) {
         _factory2_2 = factory2_2;
-        _factory2_1 = factory2_1;
         _factoryV1 = factoryV1;
-        _legacyFactory = legacyFactory;
-        _legacyRouter = legacyRouter;
         _wnative = wnative;
     }
 
@@ -101,35 +89,11 @@ contract LBRouter is ILBRouter {
     }
 
     /**
-     * View function to get the factory V2.1 address
-     * @return lbFactory The address of the factory V2.1
-     */
-    function getFactoryV2_1() external view override returns (ILBFactory lbFactory) {
-        return _factory2_1;
-    }
-
-    /**
-     * View function to get the factory V2 address
-     * @return legacyLBfactory The address of the factory V2
-     */
-    function getLegacyFactory() external view override returns (ILBLegacyFactory legacyLBfactory) {
-        return _legacyFactory;
-    }
-
-    /**
      * View function to get the factory V1 address
      * @return factoryV1 The address of the factory V1
      */
     function getV1Factory() external view override returns (IJoeFactory factoryV1) {
         return _factoryV1;
-    }
-
-    /**
-     * View function to get the router V2 address
-     * @return legacyRouter The address of the router V2
-     */
-    function getLegacyRouter() external view override returns (ILBLegacyRouter legacyRouter) {
-        return _legacyRouter;
     }
 
     /**
@@ -795,10 +759,6 @@ contract LBRouter is ILBRouter {
 
                 uint256 amountOut_ = amountsIn[i];
                 amountsIn[i - 1] = uint128(amountOut_.getAmountIn(reserveIn, reserveOut));
-            } else if (version == Version.V2) {
-                (amountsIn[i - 1],) = _legacyRouter.getSwapIn(
-                    ILBLegacyPair(pair), uint128(amountsIn[i]), ILBLegacyPair(pair).tokenX() == token
-                );
             } else {
                 (amountsIn[i - 1],,) =
                     getSwapIn(ILBPair(pair), uint128(amountsIn[i]), ILBPair(pair).getTokenX() == token);
@@ -1025,13 +985,7 @@ contract LBRouter is ILBRouter {
         view
         returns (address lbPair)
     {
-        if (version == Version.V2) {
-            lbPair = address(_legacyFactory.getLBPairInformation(tokenX, tokenY, binStep).LBPair);
-        } else if (version == Version.V2_1) {
-            lbPair = address(_factory2_1.getLBPairInformation(tokenX, tokenY, binStep).LBPair);
-        } else {
-            lbPair = address(_factory2_2.getLBPairInformation(tokenX, tokenY, binStep).LBPair);
-        }
+        lbPair = address(_factory2_2.getLBPairInformation(tokenX, tokenY, binStep).LBPair);
 
         if (lbPair == address(0)) {
             revert LBRouter__PairNotCreated(address(tokenX), address(tokenY), binStep);

@@ -107,13 +107,7 @@ interface ILBRouter {
 
     function getFactory() external view returns (ILBFactory);
 
-    function getFactoryV2_1() external view returns (ILBFactory);
-
-    function getLegacyFactory() external view returns (ILBLegacyFactory);
-
     function getV1Factory() external view returns (IJoeFactory);
-
-    function getLegacyRouter() external view returns (ILBLegacyRouter);
 
     function getWNATIVE() external view returns (IWNATIVE);
 
