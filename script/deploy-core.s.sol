@@ -27,7 +27,7 @@ contract CoreDeployer is Script {
         address wNative;
     }
 
-    string[] chains = ["avalanche_fuji", "arbitrum_one_goerli"];
+    string[] chains = ["bob_testnet"];
 
     function setUp() public {
         _overwriteDefaultArbitrumRPC();
