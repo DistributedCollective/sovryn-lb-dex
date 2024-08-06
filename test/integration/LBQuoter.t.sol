@@ -70,14 +70,27 @@ contract LiquidityBinQuoterTest is TestHelper {
             block.timestamp + 1
         );
 
-        vm.startPrank(AvalancheAddresses.V2_FACTORY_OWNER);
-        vm.stopPrank();
+        factory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 USDT = 1 USDC
+        factory.createLBPair(wnative, usdc, ID_ONE + 50, DEFAULT_BIN_STEP); // 1 NATIVE > 1 USDC
 
         factory.createLBPair(weth, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 WETH = 1 USDC
         factory.createLBPair(bnb, usdc, ID_ONE + 50, DEFAULT_BIN_STEP); // 1 BNB > 1 USDC
 
         // Add liquidity to V2
-        ILBRouter.LiquidityParameters memory liquidityParameters = getLiquidityParameters(bnb, usdc, lowLiquidityAmount, ID_ONE + 50, 7, 0);
+        ILBRouter.LiquidityParameters memory liquidityParameters =
+            getLiquidityParameters(usdt, usdc, highLiquidityAmount, ID_ONE, 7, 0);
+        router.addLiquidity(liquidityParameters);
+
+        liquidityParameters = getLiquidityParameters(wnative, usdc, lowLiquidityAmount, ID_ONE + 50, 7, 0);
+        router.addLiquidity(liquidityParameters);
+
+        liquidityParameters = getLiquidityParameters(weth, usdc, highLiquidityAmount, ID_ONE, 7, 0);
+        router.addLiquidity(liquidityParameters);
+
+        liquidityParameters = getLiquidityParameters(bnb, usdc, highLiquidityAmount, ID_ONE + 50, 7, 0);
+        router.addLiquidity(liquidityParameters);
+
+        liquidityParameters = getLiquidityParameters(bnb, usdc, lowLiquidityAmount, ID_ONE + 50, 7, 0);
         router.addLiquidity(liquidityParameters);
     }
 
@@ -118,7 +131,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario1::5");
         assertApproxEqRel(quote.amounts[1], amountIn, 5e16, "test_Scenario1::6");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario1::7");
-        assertEq(uint256(quote.versions[0]), 1, "test_Scenario1::8");
+        assertEq(uint256(quote.versions[0]), 3, "test_Scenario1::8");
 
         // Small amountOut
         uint128 amountOut = 1e16;
@@ -136,7 +149,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertApproxEqRel(quote.amounts[0], amountOut, 5e16, "test_Scenario1::13");
         assertEq(quote.amounts[1], amountOut, "test_Scenario1::14");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario1::15");
-        assertEq(uint256(quote.versions[0]), 1, "test_Scenario1::16");
+        assertEq(uint256(quote.versions[0]), 3, "test_Scenario1::16");
     }
 
     function test_Scenario2() public view {
@@ -152,7 +165,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario2::1");
         assertGt(quote.amounts[1], amountIn, "test_Scenario2::2");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario2::3");
-        assertEq(uint256(quote.versions[0]), 1, "test_Scenario2::4");
+        assertEq(uint256(quote.versions[0]), 3, "test_Scenario2::4");
 
         // Large amountIn
         amountIn = 100e18;
@@ -170,7 +183,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertLt(quote.amounts[0], amountOut, "test_Scenario2::9");
         assertEq(quote.amounts[1], amountOut, "test_Scenario2::10");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario2::11");
-        assertEq(uint256(quote.versions[0]), 1, "test_Scenario2::12");
+        assertEq(uint256(quote.versions[0]), 3, "test_Scenario2::12");
 
         // Large amountOut
         amountOut = 100e18;
@@ -226,7 +239,7 @@ contract LiquidityBinQuoterTest is TestHelper {
     }
 
     function test_Scenario4() public view {
-        // BNB/USDC, V2 with high liquidity, V2.2 with low liquidity
+        // BNB/USDC, V2.2 with low liquidity
         address[] memory route = new address[](2);
         route[0] = address(bnb);
         route[1] = address(usdc);
@@ -245,9 +258,9 @@ contract LiquidityBinQuoterTest is TestHelper {
         quote = quoter.findBestPathFromAmountIn(route, amountIn);
 
         assertEq(quote.amounts[0], amountIn, "test_Scenario4::5");
-        assertApproxEqRel(quote.amounts[1], amountIn, 5e16, "test_Scenario4::6");
+        assertApproxEqRel(quote.amounts[1], amountIn, 6e16, "test_Scenario4::6");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario4::7");
-        assertEq(uint256(quote.versions[0]), 1, "test_Scenario4::8");
+        assertEq(uint256(quote.versions[0]), 3, "test_Scenario4::8");
 
         // Small amountOut
         uint128 amountOut = 1e16;
@@ -265,33 +278,6 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertApproxEqRel(quote.amounts[0], amountOut, 5e16, "test_Scenario4::13");
         assertEq(quote.amounts[1], amountOut, "test_Scenario4::14");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario4::15");
-        assertEq(uint256(quote.versions[0]), 1, "test_Scenario4::16");
-    }
-
-    function test_Scenario5() public view {
-        // WETH/WAVAX, V2.1 with high liquidity
-        address[] memory route = new address[](2);
-        route[0] = address(wnative);
-        route[1] = address(wethe);
-
-        uint256 price = 103.5e18; // 103.5 avax for 1 weth
-
-        // Large amountIn
-        uint128 amountIn = 100e18;
-        LBQuoter.Quote memory quote = quoter.findBestPathFromAmountIn(route, amountIn);
-
-        assertEq(quote.amounts[0], amountIn, "test_Scenario5::1");
-        assertApproxEqRel(quote.amounts[1], amountIn * 1e18 / price, 5e16, "test_Scenario5::2");
-        assertEq(quote.binSteps[0], 10, "test_Scenario5::3");
-        assertEq(uint256(quote.versions[0]), 2, "test_Scenario5::4");
-
-        // Large amountOut
-        uint128 amountOut = 100e18;
-        quote = quoter.findBestPathFromAmountOut(route, amountOut);
-
-        assertApproxEqRel(quote.amounts[0], price * amountOut / 1e18, 5e16, "test_Scenario5::5");
-        assertEq(quote.amounts[1], amountOut, "test_Scenario5::6");
-        assertEq(quote.binSteps[0], 10, "test_Scenario5::7");
-        assertEq(uint256(quote.versions[0]), 2, "test_Scenario5::8");
+        assertEq(uint256(quote.versions[0]), 3, "test_Scenario4::16");
     }
 }

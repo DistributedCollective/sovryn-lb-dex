@@ -38,11 +38,20 @@ contract LiquidityBinRouterForkTest is TestHelper {
             block.timestamp + 1
         );
 
+        factory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 NATIVE = 1 USDC
+        factory.createLBPair(wnative, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 NATIVE = 1 USDC
         factory.createLBPair(weth, wnative, ID_ONE, DEFAULT_BIN_STEP); // 1 WETH = 1 NATIVE
         factory.createLBPair(taxToken, wnative, ID_ONE, DEFAULT_BIN_STEP); // 1 TaxToken = 1 NATIVE
 
         // Add liquidity to V2
-        ILBRouter.LiquidityParameters memory liquidityParameters = getLiquidityParameters(weth, wnative, liquidityAmount, ID_ONE, 7, 0);
+        ILBRouter.LiquidityParameters memory liquidityParameters =
+            getLiquidityParameters(wnative, usdc, liquidityAmount, ID_ONE, 7, 0);
+        router.addLiquidityNATIVE{value: liquidityParameters.amountX}(liquidityParameters);
+
+        liquidityParameters = getLiquidityParameters(usdt, usdc, liquidityAmount, ID_ONE, 7, 0);
+        router.addLiquidity(liquidityParameters);
+
+        liquidityParameters = getLiquidityParameters(weth, wnative, liquidityAmount, ID_ONE, 7, 0);
         router.addLiquidityNATIVE{value: liquidityParameters.amountY}(liquidityParameters);
 
         liquidityParameters = getLiquidityParameters(taxToken, wnative, liquidityAmount, ID_ONE, 7, 0);
@@ -130,12 +139,12 @@ contract LiquidityBinRouterForkTest is TestHelper {
             path.tokenPath[2] = wnative;
             path.tokenPath[3] = tokenOut;
 
-            path.pairBinSteps[0] = 0;
+            path.pairBinSteps[0] = DEFAULT_BIN_STEP;
             path.pairBinSteps[1] = DEFAULT_BIN_STEP;
             path.pairBinSteps[2] = DEFAULT_BIN_STEP;
 
-            path.versions[0] = ILBRouter.Version.V1;
-            path.versions[1] = ILBRouter.Version.V2;
+            path.versions[0] = ILBRouter.Version.V2_2;
+            path.versions[1] = ILBRouter.Version.V2_2;
             path.versions[2] = ILBRouter.Version.V2_2;
         } else {
             path.tokenPath[0] = tokenIn;
@@ -145,11 +154,11 @@ contract LiquidityBinRouterForkTest is TestHelper {
 
             path.pairBinSteps[0] = DEFAULT_BIN_STEP;
             path.pairBinSteps[1] = DEFAULT_BIN_STEP;
-            path.pairBinSteps[2] = 0;
+            path.pairBinSteps[2] = DEFAULT_BIN_STEP;
 
             path.versions[0] = ILBRouter.Version.V2_2;
-            path.versions[1] = ILBRouter.Version.V2;
-            path.versions[2] = ILBRouter.Version.V1;
+            path.versions[1] = ILBRouter.Version.V2_2;
+            path.versions[2] = ILBRouter.Version.V2_2;
         }
     }
 
