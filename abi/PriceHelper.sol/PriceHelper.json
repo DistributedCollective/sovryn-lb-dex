@@ -1,0 +1,2342 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122095fca243f0c7034908e48d56c47d717ff6a9d7679e07812ada9925b9d61ff9d664736f6c63430008140033",
+    "sourceMap": "408:2626:75:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;408:2626:75;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122095fca243f0c7034908e48d56c47d717ff6a9d7679e07812ada9925b9d61ff9d664736f6c63430008140033",
+    "sourceMap": "408:2626:75:-:0;;;;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"Trader Joe\",\"kind\":\"dev\",\"methods\":{},\"title\":\"Liquidity Book Price Helper Library\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"This library contains functions to calculate prices\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/libraries/PriceHelper.sol\":\"PriceHelper\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"src/libraries/Constants.sol\":{\"keccak256\":\"0xeb531944284c1a12410b47605869a65f7a3d6f97e24e9dff5a9b8972e9dd6e5a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4840c7e6de5c27bd9c46bed582bdaa9e7de4b9d3e9441a4b7b0de40f6ae1e7ca\",\"dweb:/ipfs/QmNZnqNc2MayvLR3VsmPZ3tzhkFkPgD3J7tKLwWr6mzFxM\"]},\"src/libraries/PriceHelper.sol\":{\"keccak256\":\"0xe660c07d0812609a65bcdccc1d7212116e8075c3a86cf9b15ead3639b0f9fdb7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://61c85e1bc1107f22b13c3c5e43fdda89eb6ed3f9ab9df123e18914b24f3ff054\",\"dweb:/ipfs/QmUewajrhnmLPJ7qgDmXb4FZbNJdtArxGu5eQca8Mo1YTb\"]},\"src/libraries/math/BitMath.sol\":{\"keccak256\":\"0x7b359776521706ae1291cbf8707919aaa5cb78d59b9dfbe5393322c393250b1f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bb9fe4accf6abda06f8b4ba02f86d37df109e4b8d14b78a848eb4b4cee359485\",\"dweb:/ipfs/QmSTkrek6fhvgiato8tC6ARz4M11Ynqgyuy7d2QeGiWXEG\"]},\"src/libraries/math/SafeCast.sol\":{\"keccak256\":\"0x3e22926e8f7d352568f01a896860c83b3ab35b47a0ed9a0f2e780a82aa52f4a8\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3fc2ade1520197ab28ad6292a1d70d3182b9741030ad69c8a915b4c09ebec1f5\",\"dweb:/ipfs/QmYRtP5AiMXCpiBPrmuWd2R1mYGyuXoa24GeZJRUBSS7wH\"]},\"src/libraries/math/Uint128x128Math.sol\":{\"keccak256\":\"0xe84206e2561ef32aef2d23ce5022f0174898a26d4d60346675e7a7fd76054fc0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4238023aeb54caf0d245b00063b37a736142413d3040a175b8d5765ee148242d\",\"dweb:/ipfs/QmSqvRJAxtCLjkp19rW8jxzvocr6e478u2Ge5iLyJojJXF\"]},\"src/libraries/math/Uint256x256Math.sol\":{\"keccak256\":\"0xa85a6d3be7cdf95ec9b246d36c3843de738af3df11fcc2bf8bf6e15c350870d6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ffa97dbe1dc755a243a81a2590e3f25e5399549351a941c2835cca190a0a3fa0\",\"dweb:/ipfs/QmbKUhSjHj1Y48dCPfiYSLybQ8miYfQ99EWsWdP8orpeaB\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.20+commit.a1b79de6"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "ds-test/=lib/forge-std/lib/ds-test/src/",
+        "erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+        "forge-std/=lib/forge-std/src/",
+        "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 800
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/libraries/PriceHelper.sol": "PriceHelper"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "src/libraries/Constants.sol": {
+        "keccak256": "0xeb531944284c1a12410b47605869a65f7a3d6f97e24e9dff5a9b8972e9dd6e5a",
+        "urls": [
+          "bzz-raw://4840c7e6de5c27bd9c46bed582bdaa9e7de4b9d3e9441a4b7b0de40f6ae1e7ca",
+          "dweb:/ipfs/QmNZnqNc2MayvLR3VsmPZ3tzhkFkPgD3J7tKLwWr6mzFxM"
+        ],
+        "license": "MIT"
+      },
+      "src/libraries/PriceHelper.sol": {
+        "keccak256": "0xe660c07d0812609a65bcdccc1d7212116e8075c3a86cf9b15ead3639b0f9fdb7",
+        "urls": [
+          "bzz-raw://61c85e1bc1107f22b13c3c5e43fdda89eb6ed3f9ab9df123e18914b24f3ff054",
+          "dweb:/ipfs/QmUewajrhnmLPJ7qgDmXb4FZbNJdtArxGu5eQca8Mo1YTb"
+        ],
+        "license": "MIT"
+      },
+      "src/libraries/math/BitMath.sol": {
+        "keccak256": "0x7b359776521706ae1291cbf8707919aaa5cb78d59b9dfbe5393322c393250b1f",
+        "urls": [
+          "bzz-raw://bb9fe4accf6abda06f8b4ba02f86d37df109e4b8d14b78a848eb4b4cee359485",
+          "dweb:/ipfs/QmSTkrek6fhvgiato8tC6ARz4M11Ynqgyuy7d2QeGiWXEG"
+        ],
+        "license": "MIT"
+      },
+      "src/libraries/math/SafeCast.sol": {
+        "keccak256": "0x3e22926e8f7d352568f01a896860c83b3ab35b47a0ed9a0f2e780a82aa52f4a8",
+        "urls": [
+          "bzz-raw://3fc2ade1520197ab28ad6292a1d70d3182b9741030ad69c8a915b4c09ebec1f5",
+          "dweb:/ipfs/QmYRtP5AiMXCpiBPrmuWd2R1mYGyuXoa24GeZJRUBSS7wH"
+        ],
+        "license": "MIT"
+      },
+      "src/libraries/math/Uint128x128Math.sol": {
+        "keccak256": "0xe84206e2561ef32aef2d23ce5022f0174898a26d4d60346675e7a7fd76054fc0",
+        "urls": [
+          "bzz-raw://4238023aeb54caf0d245b00063b37a736142413d3040a175b8d5765ee148242d",
+          "dweb:/ipfs/QmSqvRJAxtCLjkp19rW8jxzvocr6e478u2Ge5iLyJojJXF"
+        ],
+        "license": "MIT"
+      },
+      "src/libraries/math/Uint256x256Math.sol": {
+        "keccak256": "0xa85a6d3be7cdf95ec9b246d36c3843de738af3df11fcc2bf8bf6e15c350870d6",
+        "urls": [
+          "bzz-raw://ffa97dbe1dc755a243a81a2590e3f25e5399549351a941c2835cca190a0a3fa0",
+          "dweb:/ipfs/QmbKUhSjHj1Y48dCPfiYSLybQ8miYfQ99EWsWdP8orpeaB"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/libraries/PriceHelper.sol",
+    "id": 69832,
+    "exportedSymbols": {
+      "Constants": [
+        66792
+      ],
+      "PriceHelper": [
+        69831
+      ],
+      "SafeCast": [
+        71619
+      ],
+      "Uint128x128Math": [
+        73202
+      ],
+      "Uint256x256Math": [
+        73612
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "33:3002:75",
+    "nodes": [
+      {
+        "id": 69659,
+        "nodeType": "PragmaDirective",
+        "src": "33:24:75",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".10"
+        ]
+      },
+      {
+        "id": 69661,
+        "nodeType": "ImportDirective",
+        "src": "59:59:75",
+        "nodes": [],
+        "absolutePath": "src/libraries/math/Uint128x128Math.sol",
+        "file": "./math/Uint128x128Math.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 69832,
+        "sourceUnit": 73203,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 69660,
+              "name": "Uint128x128Math",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 73202,
+              "src": "67:15:75",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 69663,
+        "nodeType": "ImportDirective",
+        "src": "119:59:75",
+        "nodes": [],
+        "absolutePath": "src/libraries/math/Uint256x256Math.sol",
+        "file": "./math/Uint256x256Math.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 69832,
+        "sourceUnit": 73613,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 69662,
+              "name": "Uint256x256Math",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 73612,
+              "src": "127:15:75",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 69665,
+        "nodeType": "ImportDirective",
+        "src": "179:45:75",
+        "nodes": [],
+        "absolutePath": "src/libraries/math/SafeCast.sol",
+        "file": "./math/SafeCast.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 69832,
+        "sourceUnit": 71620,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 69664,
+              "name": "SafeCast",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 71619,
+              "src": "187:8:75",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 69667,
+        "nodeType": "ImportDirective",
+        "src": "225:42:75",
+        "nodes": [],
+        "absolutePath": "src/libraries/Constants.sol",
+        "file": "./Constants.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 69832,
+        "sourceUnit": 66793,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 69666,
+              "name": "Constants",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 66792,
+              "src": "233:9:75",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 69831,
+        "nodeType": "ContractDefinition",
+        "src": "408:2626:75",
+        "nodes": [
+          {
+            "id": 69671,
+            "nodeType": "UsingForDirective",
+            "src": "434:34:75",
+            "nodes": [],
+            "global": false,
+            "libraryName": {
+              "id": 69669,
+              "name": "Uint128x128Math",
+              "nameLocations": [
+                "440:15:75"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 73202,
+              "src": "440:15:75"
+            },
+            "typeName": {
+              "id": 69670,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "460:7:75",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "id": 69674,
+            "nodeType": "UsingForDirective",
+            "src": "473:34:75",
+            "nodes": [],
+            "global": false,
+            "libraryName": {
+              "id": 69672,
+              "name": "Uint256x256Math",
+              "nameLocations": [
+                "479:15:75"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 73612,
+              "src": "479:15:75"
+            },
+            "typeName": {
+              "id": 69673,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "499:7:75",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "id": 69677,
+            "nodeType": "UsingForDirective",
+            "src": "512:27:75",
+            "nodes": [],
+            "global": false,
+            "libraryName": {
+              "id": 69675,
+              "name": "SafeCast",
+              "nameLocations": [
+                "518:8:75"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 71619,
+              "src": "518:8:75"
+            },
+            "typeName": {
+              "id": 69676,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "531:7:75",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "id": 69682,
+            "nodeType": "VariableDeclaration",
+            "src": "545:47:75",
+            "nodes": [],
+            "constant": true,
+            "mutability": "constant",
+            "name": "REAL_ID_SHIFT",
+            "nameLocation": "569:13:75",
+            "scope": 69831,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_int256",
+              "typeString": "int256"
+            },
+            "typeName": {
+              "id": 69678,
+              "name": "int256",
+              "nodeType": "ElementaryTypeName",
+              "src": "545:6:75",
+              "typeDescriptions": {
+                "typeIdentifier": "t_int256",
+                "typeString": "int256"
+              }
+            },
+            "value": {
+              "commonType": {
+                "typeIdentifier": "t_rational_8388608_by_1",
+                "typeString": "int_const 8388608"
+              },
+              "id": 69681,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "hexValue": "31",
+                "id": 69679,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "585:1:75",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_1_by_1",
+                  "typeString": "int_const 1"
+                },
+                "value": "1"
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "<<",
+              "rightExpression": {
+                "hexValue": "3233",
+                "id": 69680,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "590:2:75",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_23_by_1",
+                  "typeString": "int_const 23"
+                },
+                "value": "23"
+              },
+              "src": "585:7:75",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_8388608_by_1",
+                "typeString": "int_const 8388608"
+              }
+            },
+            "visibility": "private"
+          },
+          {
+            "id": 69712,
+            "nodeType": "FunctionDefinition",
+            "src": "806:217:75",
+            "nodes": [],
+            "body": {
+              "id": 69711,
+              "nodeType": "Block",
+              "src": "895:128:75",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    69693
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 69693,
+                      "mutability": "mutable",
+                      "name": "base",
+                      "nameLocation": "913:4:75",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 69711,
+                      "src": "905:12:75",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 69692,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "905:7:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 69697,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 69695,
+                        "name": "binStep",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 69687,
+                        "src": "928:7:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint16",
+                          "typeString": "uint16"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint16",
+                          "typeString": "uint16"
+                        }
+                      ],
+                      "id": 69694,
+                      "name": "getBase",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 69776,
+                      "src": "920:7:75",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint16_$returns$_t_uint256_$",
+                        "typeString": "function (uint16) pure returns (uint256)"
+                      }
+                    },
+                    "id": 69696,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "920:16:75",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "905:31:75"
+                },
+                {
+                  "assignments": [
+                    69699
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 69699,
+                      "mutability": "mutable",
+                      "name": "exponent",
+                      "nameLocation": "953:8:75",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 69711,
+                      "src": "946:15:75",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
+                      },
+                      "typeName": {
+                        "id": 69698,
+                        "name": "int256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "946:6:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int256",
+                          "typeString": "int256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 69703,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 69701,
+                        "name": "id",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 69685,
+                        "src": "976:2:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint24",
+                          "typeString": "uint24"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint24",
+                          "typeString": "uint24"
+                        }
+                      ],
+                      "id": 69700,
+                      "name": "getExponent",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 69796,
+                      "src": "964:11:75",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint24_$returns$_t_int256_$",
+                        "typeString": "function (uint24) pure returns (int256)"
+                      }
+                    },
+                    "id": 69702,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "964:15:75",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "946:33:75"
+                },
+                {
+                  "expression": {
+                    "id": 69709,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 69704,
+                      "name": "price",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 69690,
+                      "src": "990:5:75",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [
+                        {
+                          "id": 69707,
+                          "name": "exponent",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 69699,
+                          "src": "1007:8:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_int256",
+                            "typeString": "int256"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_int256",
+                            "typeString": "int256"
+                          }
+                        ],
+                        "expression": {
+                          "id": 69705,
+                          "name": "base",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 69693,
+                          "src": "998:4:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 69706,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1003:3:75",
+                        "memberName": "pow",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 73201,
+                        "src": "998:8:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_int256_$returns$_t_uint256_$attached_to$_t_uint256_$",
+                          "typeString": "function (uint256,int256) pure returns (uint256)"
+                        }
+                      },
+                      "id": 69708,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "998:18:75",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "990:26:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 69710,
+                  "nodeType": "ExpressionStatement",
+                  "src": "990:26:75"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 69683,
+              "nodeType": "StructuredDocumentation",
+              "src": "599:202:75",
+              "text": " @dev Calculates the price from the id and the bin step\n @param id The id\n @param binStep The bin step\n @return price The price as a 128.128-binary fixed-point number"
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPriceFromId",
+            "nameLocation": "815:14:75",
+            "parameters": {
+              "id": 69688,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69685,
+                  "mutability": "mutable",
+                  "name": "id",
+                  "nameLocation": "837:2:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69712,
+                  "src": "830:9:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 69684,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "830:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 69687,
+                  "mutability": "mutable",
+                  "name": "binStep",
+                  "nameLocation": "848:7:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69712,
+                  "src": "841:14:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 69686,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "841:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "829:27:75"
+            },
+            "returnParameters": {
+              "id": 69691,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69690,
+                  "mutability": "mutable",
+                  "name": "price",
+                  "nameLocation": "888:5:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69712,
+                  "src": "880:13:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69689,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "880:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "879:15:75"
+            },
+            "scope": 69831,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 69751,
+            "nodeType": "FunctionDefinition",
+            "src": "1236:279:75",
+            "nodes": [],
+            "body": {
+              "id": 69750,
+              "nodeType": "Block",
+              "src": "1325:190:75",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    69723
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 69723,
+                      "mutability": "mutable",
+                      "name": "base",
+                      "nameLocation": "1343:4:75",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 69750,
+                      "src": "1335:12:75",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 69722,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1335:7:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 69727,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 69725,
+                        "name": "binStep",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 69717,
+                        "src": "1358:7:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint16",
+                          "typeString": "uint16"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint16",
+                          "typeString": "uint16"
+                        }
+                      ],
+                      "id": 69724,
+                      "name": "getBase",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 69776,
+                      "src": "1350:7:75",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint16_$returns$_t_uint256_$",
+                        "typeString": "function (uint16) pure returns (uint256)"
+                      }
+                    },
+                    "id": 69726,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1350:16:75",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1335:31:75"
+                },
+                {
+                  "assignments": [
+                    69729
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 69729,
+                      "mutability": "mutable",
+                      "name": "realId",
+                      "nameLocation": "1383:6:75",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 69750,
+                      "src": "1376:13:75",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
+                      },
+                      "typeName": {
+                        "id": 69728,
+                        "name": "int256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1376:6:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int256",
+                          "typeString": "int256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 69737,
+                  "initialValue": {
+                    "commonType": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    },
+                    "id": 69736,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "expression": {
+                          "id": 69730,
+                          "name": "price",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 69715,
+                          "src": "1392:5:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 69731,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1398:4:75",
+                        "memberName": "log2",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 73145,
+                        "src": "1392:10:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_int256_$attached_to$_t_uint256_$",
+                          "typeString": "function (uint256) pure returns (int256)"
+                        }
+                      },
+                      "id": 69732,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1392:12:75",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "/",
+                    "rightExpression": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "expression": {
+                          "id": 69733,
+                          "name": "base",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 69723,
+                          "src": "1407:4:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 69734,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1412:4:75",
+                        "memberName": "log2",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 73145,
+                        "src": "1407:9:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_int256_$attached_to$_t_uint256_$",
+                          "typeString": "function (uint256) pure returns (int256)"
+                        }
+                      },
+                      "id": 69735,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1407:11:75",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
+                      }
+                    },
+                    "src": "1392:26:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1376:42:75"
+                },
+                {
+                  "id": 69749,
+                  "nodeType": "UncheckedBlock",
+                  "src": "1429:80:75",
+                  "statements": [
+                    {
+                      "expression": {
+                        "id": 69747,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftHandSide": {
+                          "id": 69738,
+                          "name": "id",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 69720,
+                          "src": "1453:2:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint24",
+                            "typeString": "uint24"
+                          }
+                        },
+                        "nodeType": "Assignment",
+                        "operator": "=",
+                        "rightHandSide": {
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "expression": {
+                              "arguments": [
+                                {
+                                  "commonType": {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  },
+                                  "id": 69743,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "leftExpression": {
+                                    "id": 69741,
+                                    "name": "REAL_ID_SHIFT",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 69682,
+                                    "src": "1466:13:75",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_int256",
+                                      "typeString": "int256"
+                                    }
+                                  },
+                                  "nodeType": "BinaryOperation",
+                                  "operator": "+",
+                                  "rightExpression": {
+                                    "id": 69742,
+                                    "name": "realId",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 69729,
+                                    "src": "1482:6:75",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_int256",
+                                      "typeString": "int256"
+                                    }
+                                  },
+                                  "src": "1466:22:75",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  }
+                                ],
+                                "id": 69740,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": true,
+                                "lValueRequested": false,
+                                "nodeType": "ElementaryTypeNameExpression",
+                                "src": "1458:7:75",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_type$_t_uint256_$",
+                                  "typeString": "type(uint256)"
+                                },
+                                "typeName": {
+                                  "id": 69739,
+                                  "name": "uint256",
+                                  "nodeType": "ElementaryTypeName",
+                                  "src": "1458:7:75",
+                                  "typeDescriptions": {}
+                                }
+                              },
+                              "id": 69744,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "typeConversion",
+                              "lValueRequested": false,
+                              "nameLocations": [],
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1458:31:75",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "id": 69745,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberLocation": "1490:6:75",
+                            "memberName": "safe24",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 71574,
+                            "src": "1458:38:75",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_uint24_$attached_to$_t_uint256_$",
+                              "typeString": "function (uint256) pure returns (uint24)"
+                            }
+                          },
+                          "id": 69746,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1458:40:75",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint24",
+                            "typeString": "uint24"
+                          }
+                        },
+                        "src": "1453:45:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint24",
+                          "typeString": "uint24"
+                        }
+                      },
+                      "id": 69748,
+                      "nodeType": "ExpressionStatement",
+                      "src": "1453:45:75"
+                    }
+                  ]
+                }
+              ]
+            },
+            "documentation": {
+              "id": 69713,
+              "nodeType": "StructuredDocumentation",
+              "src": "1029:202:75",
+              "text": " @dev Calculates the id from the price and the bin step\n @param price The price as a 128.128-binary fixed-point number\n @param binStep The bin step\n @return id The id"
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getIdFromPrice",
+            "nameLocation": "1245:14:75",
+            "parameters": {
+              "id": 69718,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69715,
+                  "mutability": "mutable",
+                  "name": "price",
+                  "nameLocation": "1268:5:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69751,
+                  "src": "1260:13:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69714,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1260:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 69717,
+                  "mutability": "mutable",
+                  "name": "binStep",
+                  "nameLocation": "1282:7:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69751,
+                  "src": "1275:14:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 69716,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1275:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1259:31:75"
+            },
+            "returnParameters": {
+              "id": 69721,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69720,
+                  "mutability": "mutable",
+                  "name": "id",
+                  "nameLocation": "1321:2:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69751,
+                  "src": "1314:9:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 69719,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1314:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1313:11:75"
+            },
+            "scope": 69831,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 69776,
+            "nodeType": "FunctionDefinition",
+            "src": "1693:213:75",
+            "nodes": [],
+            "body": {
+              "id": 69775,
+              "nodeType": "Block",
+              "src": "1758:148:75",
+              "nodes": [],
+              "statements": [
+                {
+                  "id": 69774,
+                  "nodeType": "UncheckedBlock",
+                  "src": "1768:132:75",
+                  "statements": [
+                    {
+                      "expression": {
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 69772,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "expression": {
+                            "id": 69759,
+                            "name": "Constants",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 66792,
+                            "src": "1799:9:75",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                              "typeString": "type(library Constants)"
+                            }
+                          },
+                          "id": 69760,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "memberLocation": "1809:5:75",
+                          "memberName": "SCALE",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 66765,
+                          "src": "1799:15:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "+",
+                        "rightExpression": {
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 69771,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "components": [
+                              {
+                                "commonType": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                "id": 69767,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "leftExpression": {
+                                  "arguments": [
+                                    {
+                                      "id": 69763,
+                                      "name": "binStep",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 69754,
+                                      "src": "1826:7:75",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_uint16",
+                                        "typeString": "uint16"
+                                      }
+                                    }
+                                  ],
+                                  "expression": {
+                                    "argumentTypes": [
+                                      {
+                                        "typeIdentifier": "t_uint16",
+                                        "typeString": "uint16"
+                                      }
+                                    ],
+                                    "id": 69762,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": true,
+                                    "lValueRequested": false,
+                                    "nodeType": "ElementaryTypeNameExpression",
+                                    "src": "1818:7:75",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_uint256_$",
+                                      "typeString": "type(uint256)"
+                                    },
+                                    "typeName": {
+                                      "id": 69761,
+                                      "name": "uint256",
+                                      "nodeType": "ElementaryTypeName",
+                                      "src": "1818:7:75",
+                                      "typeDescriptions": {}
+                                    }
+                                  },
+                                  "id": 69764,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "kind": "typeConversion",
+                                  "lValueRequested": false,
+                                  "nameLocations": [],
+                                  "names": [],
+                                  "nodeType": "FunctionCall",
+                                  "src": "1818:16:75",
+                                  "tryCall": false,
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "nodeType": "BinaryOperation",
+                                "operator": "<<",
+                                "rightExpression": {
+                                  "expression": {
+                                    "id": 69765,
+                                    "name": "Constants",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 66792,
+                                    "src": "1838:9:75",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                                      "typeString": "type(library Constants)"
+                                    }
+                                  },
+                                  "id": 69766,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "lValueRequested": false,
+                                  "memberLocation": "1848:12:75",
+                                  "memberName": "SCALE_OFFSET",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 66760,
+                                  "src": "1838:22:75",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint8",
+                                    "typeString": "uint8"
+                                  }
+                                },
+                                "src": "1818:42:75",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              }
+                            ],
+                            "id": 69768,
+                            "isConstant": false,
+                            "isInlineArray": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "nodeType": "TupleExpression",
+                            "src": "1817:44:75",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "/",
+                          "rightExpression": {
+                            "expression": {
+                              "id": 69769,
+                              "name": "Constants",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 66792,
+                              "src": "1864:9:75",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                                "typeString": "type(library Constants)"
+                              }
+                            },
+                            "id": 69770,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "memberLocation": "1874:15:75",
+                            "memberName": "BASIS_POINT_MAX",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 66782,
+                            "src": "1864:25:75",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "1817:72:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "1799:90:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "functionReturnParameters": 69758,
+                      "id": 69773,
+                      "nodeType": "Return",
+                      "src": "1792:97:75"
+                    }
+                  ]
+                }
+              ]
+            },
+            "documentation": {
+              "id": 69752,
+              "nodeType": "StructuredDocumentation",
+              "src": "1521:167:75",
+              "text": " @dev Calculates the base from the bin step, which is `1 + binStep / BASIS_POINT_MAX`\n @param binStep The bin step\n @return base The base"
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getBase",
+            "nameLocation": "1702:7:75",
+            "parameters": {
+              "id": 69755,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69754,
+                  "mutability": "mutable",
+                  "name": "binStep",
+                  "nameLocation": "1717:7:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69776,
+                  "src": "1710:14:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 69753,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1710:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1709:16:75"
+            },
+            "returnParameters": {
+              "id": 69758,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69757,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69776,
+                  "src": "1749:7:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69756,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1749:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1748:9:75"
+            },
+            "scope": 69831,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 69796,
+            "nodeType": "FunctionDefinition",
+            "src": "2068:156:75",
+            "nodes": [],
+            "body": {
+              "id": 69795,
+              "nodeType": "Block",
+              "src": "2131:93:75",
+              "nodes": [],
+              "statements": [
+                {
+                  "id": 69794,
+                  "nodeType": "UncheckedBlock",
+                  "src": "2141:77:75",
+                  "statements": [
+                    {
+                      "expression": {
+                        "commonType": {
+                          "typeIdentifier": "t_int256",
+                          "typeString": "int256"
+                        },
+                        "id": 69792,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "arguments": [
+                            {
+                              "arguments": [
+                                {
+                                  "id": 69788,
+                                  "name": "id",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 69779,
+                                  "src": "2187:2:75",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint24",
+                                    "typeString": "uint24"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_uint24",
+                                    "typeString": "uint24"
+                                  }
+                                ],
+                                "id": 69787,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": true,
+                                "lValueRequested": false,
+                                "nodeType": "ElementaryTypeNameExpression",
+                                "src": "2179:7:75",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_type$_t_uint256_$",
+                                  "typeString": "type(uint256)"
+                                },
+                                "typeName": {
+                                  "id": 69786,
+                                  "name": "uint256",
+                                  "nodeType": "ElementaryTypeName",
+                                  "src": "2179:7:75",
+                                  "typeDescriptions": {}
+                                }
+                              },
+                              "id": 69789,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "typeConversion",
+                              "lValueRequested": false,
+                              "nameLocations": [],
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "2179:11:75",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            ],
+                            "id": 69785,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "2172:6:75",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_int256_$",
+                              "typeString": "type(int256)"
+                            },
+                            "typeName": {
+                              "id": 69784,
+                              "name": "int256",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "2172:6:75",
+                              "typeDescriptions": {}
+                            }
+                          },
+                          "id": 69790,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "2172:19:75",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_int256",
+                            "typeString": "int256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "-",
+                        "rightExpression": {
+                          "id": 69791,
+                          "name": "REAL_ID_SHIFT",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 69682,
+                          "src": "2194:13:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_int256",
+                            "typeString": "int256"
+                          }
+                        },
+                        "src": "2172:35:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int256",
+                          "typeString": "int256"
+                        }
+                      },
+                      "functionReturnParameters": 69783,
+                      "id": 69793,
+                      "nodeType": "Return",
+                      "src": "2165:42:75"
+                    }
+                  ]
+                }
+              ]
+            },
+            "documentation": {
+              "id": 69777,
+              "nodeType": "StructuredDocumentation",
+              "src": "1912:151:75",
+              "text": " @dev Calculates the exponent from the id, which is `id - REAL_ID_SHIFT`\n @param id The id\n @return exponent The exponent"
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getExponent",
+            "nameLocation": "2077:11:75",
+            "parameters": {
+              "id": 69780,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69779,
+                  "mutability": "mutable",
+                  "name": "id",
+                  "nameLocation": "2096:2:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69796,
+                  "src": "2089:9:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 69778,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2089:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2088:11:75"
+            },
+            "returnParameters": {
+              "id": 69783,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69782,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69796,
+                  "src": "2123:6:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 69781,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2123:6:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2122:8:75"
+            },
+            "scope": 69831,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 69813,
+            "nodeType": "FunctionDefinition",
+            "src": "2444:177:75",
+            "nodes": [],
+            "body": {
+              "id": 69812,
+              "nodeType": "Block",
+              "src": "2529:92:75",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "expression": {
+                          "id": 69806,
+                          "name": "Constants",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 66792,
+                          "src": "2570:9:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                            "typeString": "type(library Constants)"
+                          }
+                        },
+                        "id": 69807,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "memberLocation": "2580:12:75",
+                        "memberName": "SCALE_OFFSET",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 66760,
+                        "src": "2570:22:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      },
+                      {
+                        "expression": {
+                          "id": 69808,
+                          "name": "Constants",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 66792,
+                          "src": "2594:9:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                            "typeString": "type(library Constants)"
+                          }
+                        },
+                        "id": 69809,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "memberLocation": "2604:9:75",
+                        "memberName": "PRECISION",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 66768,
+                        "src": "2594:19:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 69804,
+                        "name": "price",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 69799,
+                        "src": "2546:5:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "id": 69805,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "2552:17:75",
+                      "memberName": "shiftDivRoundDown",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 73410,
+                      "src": "2546:23:75",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint8_$_t_uint256_$returns$_t_uint256_$attached_to$_t_uint256_$",
+                        "typeString": "function (uint256,uint8,uint256) pure returns (uint256)"
+                      }
+                    },
+                    "id": 69810,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2546:68:75",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 69803,
+                  "id": 69811,
+                  "nodeType": "Return",
+                  "src": "2539:75:75"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 69797,
+              "nodeType": "StructuredDocumentation",
+              "src": "2230:209:75",
+              "text": " @dev Converts a price with 18 decimals to a 128.128-binary fixed-point number\n @param price The price with 18 decimals\n @return price128x128 The 128.128-binary fixed-point number"
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "convertDecimalPriceTo128x128",
+            "nameLocation": "2453:28:75",
+            "parameters": {
+              "id": 69800,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69799,
+                  "mutability": "mutable",
+                  "name": "price",
+                  "nameLocation": "2490:5:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69813,
+                  "src": "2482:13:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69798,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2482:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2481:15:75"
+            },
+            "returnParameters": {
+              "id": 69803,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69802,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69813,
+                  "src": "2520:7:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69801,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2520:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2519:9:75"
+            },
+            "scope": 69831,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 69830,
+            "nodeType": "FunctionDefinition",
+            "src": "2841:191:75",
+            "nodes": [],
+            "body": {
+              "id": 69829,
+              "nodeType": "Block",
+              "src": "2933:99:75",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "expression": {
+                          "id": 69823,
+                          "name": "Constants",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 66792,
+                          "src": "2981:9:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                            "typeString": "type(library Constants)"
+                          }
+                        },
+                        "id": 69824,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "memberLocation": "2991:9:75",
+                        "memberName": "PRECISION",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 66768,
+                        "src": "2981:19:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "expression": {
+                          "id": 69825,
+                          "name": "Constants",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 66792,
+                          "src": "3002:9:75",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Constants_$66792_$",
+                            "typeString": "type(library Constants)"
+                          }
+                        },
+                        "id": 69826,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "memberLocation": "3012:12:75",
+                        "memberName": "SCALE_OFFSET",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 66760,
+                        "src": "3002:22:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      ],
+                      "expression": {
+                        "id": 69821,
+                        "name": "price128x128",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 69816,
+                        "src": "2950:12:75",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "id": 69822,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "2963:17:75",
+                      "memberName": "mulShiftRoundDown",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 73330,
+                      "src": "2950:30:75",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$_t_uint8_$returns$_t_uint256_$attached_to$_t_uint256_$",
+                        "typeString": "function (uint256,uint256,uint8) pure returns (uint256)"
+                      }
+                    },
+                    "id": 69827,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2950:75:75",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 69820,
+                  "id": 69828,
+                  "nodeType": "Return",
+                  "src": "2943:82:75"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 69814,
+              "nodeType": "StructuredDocumentation",
+              "src": "2627:209:75",
+              "text": " @dev Converts a 128.128-binary fixed-point number to a price with 18 decimals\n @param price128x128 The 128.128-binary fixed-point number\n @return price The price with 18 decimals"
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "convert128x128PriceToDecimal",
+            "nameLocation": "2850:28:75",
+            "parameters": {
+              "id": 69817,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69816,
+                  "mutability": "mutable",
+                  "name": "price128x128",
+                  "nameLocation": "2887:12:75",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69830,
+                  "src": "2879:20:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69815,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2879:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2878:22:75"
+            },
+            "returnParameters": {
+              "id": 69820,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 69819,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 69830,
+                  "src": "2924:7:75",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69818,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2924:7:75",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2923:9:75"
+            },
+            "scope": 69831,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "internal"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "PriceHelper",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": {
+          "id": 69668,
+          "nodeType": "StructuredDocumentation",
+          "src": "269:138:75",
+          "text": " @title Liquidity Book Price Helper Library\n @author Trader Joe\n @notice This library contains functions to calculate prices"
+        },
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          69831
+        ],
+        "name": "PriceHelper",
+        "nameLocation": "416:11:75",
+        "scope": 69832,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 75
+}
