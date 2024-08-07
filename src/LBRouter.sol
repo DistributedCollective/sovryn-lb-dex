@@ -202,7 +202,7 @@ contract LBRouter is ILBRouter {
     {
         ILBPair lbPair = ILBPair(
             _getLBPairInformation(
-                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep, Version.V2_2
+                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep, Version.V2
             )
         );
         if (liquidityParameters.tokenX != lbPair.getTokenX()) revert LBRouter__WrongTokenOrder();
@@ -240,7 +240,7 @@ contract LBRouter is ILBRouter {
     {
         ILBPair _LBPair = ILBPair(
             _getLBPairInformation(
-                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep, Version.V2_2
+                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep, Version.V2
             )
         );
         if (liquidityParameters.tokenX != _LBPair.getTokenX()) revert LBRouter__WrongTokenOrder();
@@ -291,7 +291,7 @@ contract LBRouter is ILBRouter {
         address to,
         uint256 deadline
     ) external override ensure(deadline) returns (uint256 amountX, uint256 amountY) {
-        ILBPair _LBPair = ILBPair(_getLBPairInformation(tokenX, tokenY, binStep, Version.V2_2));
+        ILBPair _LBPair = ILBPair(_getLBPairInformation(tokenX, tokenY, binStep, Version.V2));
         bool isWrongOrder = tokenX != _LBPair.getTokenX();
 
         if (isWrongOrder) (amountXMin, amountYMin) = (amountYMin, amountXMin);
@@ -327,7 +327,7 @@ contract LBRouter is ILBRouter {
         address payable to,
         uint256 deadline
     ) external override ensure(deadline) returns (uint256 amountToken, uint256 amountNATIVE) {
-        ILBPair lbPair = ILBPair(_getLBPairInformation(token, IERC20(_wnative), binStep, Version.V2_2));
+        ILBPair lbPair = ILBPair(_getLBPairInformation(token, IERC20(_wnative), binStep, Version.V2));
 
         {
             bool isNATIVETokenY = IERC20(_wnative) == lbPair.getTokenY();
@@ -730,7 +730,7 @@ contract LBRouter is ILBRouter {
 
     /**
      * @notice Helper function to return the amounts in
-     * @param versions The list of versions (V1, V2, V2_1 or V2_2)
+     * @param versions The list of versions (V1, V2)
      * @param pairs The list of pairs
      * @param tokenPath The swap path
      * @param amountOut The amount out
@@ -801,7 +801,7 @@ contract LBRouter is ILBRouter {
      * @notice Helper function to swap exact tokens for tokens
      * @param amountIn The amount of token sent
      * @param pairs The list of pairs
-     * @param versions The list of versions (V1, V2, V2_1 or V2_2)
+     * @param versions The list of versions (V1, V2)
      * @param tokenPath The swap path using the binSteps following `pairBinSteps`
      * @param to The address of the recipient
      * @return amountOut The amount of token sent to `to`
@@ -841,13 +841,6 @@ contract LBRouter is ILBRouter {
                         amountOut = amountOut.getAmountOut(reserve1, reserve0);
                         IJoePair(pair).swap(amountOut, 0, recipient, "");
                     }
-                } else if (version == Version.V2) {
-                    bool swapForY = tokenNext == ILBLegacyPair(pair).tokenY();
-
-                    (uint256 amountXOut, uint256 amountYOut) = ILBLegacyPair(pair).swap(swapForY, recipient);
-
-                    if (swapForY) amountOut = amountYOut;
-                    else amountOut = amountXOut;
                 } else {
                     bool swapForY = tokenNext == ILBPair(pair).getTokenY();
 
@@ -863,7 +856,7 @@ contract LBRouter is ILBRouter {
     /**
      * @notice Helper function to swap tokens for exact tokens
      * @param pairs The array of pairs
-     * @param versions The list of versions (V1, V2, V2_1 or V2_2)
+     * @param versions The list of versions (V1, V2)
      * @param tokenPath The swap path using the binSteps following `pairBinSteps`
      * @param amountsIn The list of amounts in
      * @param to The address of the recipient
@@ -900,13 +893,6 @@ contract LBRouter is ILBRouter {
                     } else {
                         IJoePair(pair).swap(amountOut, 0, recipient, "");
                     }
-                } else if (version == Version.V2) {
-                    bool swapForY = tokenNext == ILBLegacyPair(pair).tokenY();
-
-                    (uint256 amountXOut, uint256 amountYOut) = ILBLegacyPair(pair).swap(swapForY, recipient);
-
-                    if (swapForY) amountOut = amountYOut;
-                    else amountOut = amountXOut;
                 } else {
                     bool swapForY = tokenNext == ILBPair(pair).getTokenY();
 
@@ -922,7 +908,7 @@ contract LBRouter is ILBRouter {
     /**
      * @notice Helper function to swap exact tokens supporting for fee on transfer tokens
      * @param pairs The list of pairs
-     * @param versions The list of versions (V1, V2, V2_1 or V2_2)
+     * @param versions The list of versions (V1, V2)
      * @param tokenPath The swap path using the binSteps following `pairBinSteps`
      * @param to The address of the recipient
      */
@@ -962,8 +948,6 @@ contract LBRouter is ILBRouter {
 
                         IJoePair(pair).swap(amountOut, 0, recipient, "");
                     }
-                } else if (version == Version.V2) {
-                    ILBLegacyPair(pair).swap(tokenNext == ILBLegacyPair(pair).tokenY(), recipient);
                 } else {
                     ILBPair(pair).swap(tokenNext == ILBPair(pair).getTokenY(), recipient);
                 }
@@ -1017,7 +1001,7 @@ contract LBRouter is ILBRouter {
     /**
      * @notice Helper function to return a list of pairs
      * @param pairBinSteps The list of bin steps
-     * @param versions The list of versions (V1, V2, V2_1 or V2_2)
+     * @param versions The list of versions (V1, V2)
      * @param tokenPath The swap path using the binSteps following `pairBinSteps`
      * @return pairs The list of pairs
      */

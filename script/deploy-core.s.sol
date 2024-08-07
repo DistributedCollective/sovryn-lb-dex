@@ -19,11 +19,9 @@ contract CoreDeployer is Script {
     struct Deployment {
         address factoryV1;
         address factoryV2;
-        address factoryV2_1;
         address multisig;
         address routerV1;
         address routerV2;
-        address routerV2_1;
         address wNative;
     }
 
@@ -48,43 +46,43 @@ contract CoreDeployer is Script {
             vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
 
             vm.broadcast(deployer);
-            LBFactory factoryV2_2 = new LBFactory(deployer, deployer, FLASHLOAN_FEE);
-            console.log("LBFactory deployed -->", address(factoryV2_2));
+            LBFactory factoryV2 = new LBFactory(deployer, deployer, FLASHLOAN_FEE);
+            console.log("LBFactory deployed -->", address(factoryV2));
 
             vm.broadcast(deployer);
-            LBPair pairImplementation = new LBPair(factoryV2_2);
+            LBPair pairImplementation = new LBPair(factoryV2);
             console.log("LBPair implementation deployed -->", address(pairImplementation));
 
             vm.broadcast(deployer);
-            LBRouter routerV2_2 = new LBRouter(
-                factoryV2_2,
+            LBRouter routerV2 = new LBRouter(
+                factoryV2,
                 IJoeFactory(deployment.factoryV1),
                 IWNATIVE(deployment.wNative)
             );
-            console.log("LBRouter deployed -->", address(routerV2_2));
+            console.log("LBRouter deployed -->", address(routerV2));
 
             vm.startBroadcast(deployer);
             LBQuoter quoter = new LBQuoter(
                 deployment.factoryV1,
-                address(factoryV2_2),
-                address(routerV2_2)
+                address(factoryV2),
+                address(routerV2)
             );
             console.log("LBQuoter deployed -->", address(quoter));
 
-            factoryV2_2.setLBPairImplementation(address(pairImplementation));
-            console.log("LBPair implementation set on factoryV2_2\n");
+            factoryV2.setLBPairImplementation(address(pairImplementation));
+            console.log("LBPair implementation set on factoryV2\n");
 
             uint256 quoteAssets = ILBLegacyFactory(deployment.factoryV2).getNumberOfQuoteAssets();
             for (uint256 j = 0; j < quoteAssets; j++) {
                 IERC20 quoteAsset = ILBLegacyFactory(deployment.factoryV2).getQuoteAsset(j);
-                factoryV2_2.addQuoteAsset(quoteAsset);
+                factoryV2.addQuoteAsset(quoteAsset);
                 console.log("Quote asset whitelisted -->", address(quoteAsset));
             }
 
             uint256[] memory presetList = BipsConfig.getPresetList();
             for (uint256 j; j < presetList.length; j++) {
                 BipsConfig.FactoryPreset memory preset = BipsConfig.getPreset(presetList[j]);
-                factoryV2_2.setPreset(
+                factoryV2.setPreset(
                     preset.binStep,
                     preset.baseFactor,
                     preset.filterPeriod,
@@ -97,7 +95,7 @@ contract CoreDeployer is Script {
                 );
             }
 
-            factoryV2_2.transferOwnership(deployment.multisig);
+            factoryV2.transferOwnership(deployment.multisig);
             vm.stopBroadcast();
         }
     }

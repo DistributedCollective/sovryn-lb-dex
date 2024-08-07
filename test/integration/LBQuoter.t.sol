@@ -95,9 +95,9 @@ contract LiquidityBinQuoterTest is TestHelper {
     }
 
     function test_Constructor() public view {
-        assertEq(address(quoter.getRouterV2_2()), address(router), "test_Constructor::1");
+        assertEq(address(quoter.getRouterV2()), address(router), "test_Constructor::1");
         assertEq(address(quoter.getFactoryV1()), AvalancheAddresses.JOE_V1_FACTORY, "test_Constructor::3");
-        assertEq(address(quoter.getFactoryV2_2()), address(factory), "test_Constructor::5");
+        assertEq(address(quoter.getFactoryV2()), address(factory), "test_Constructor::5");
     }
 
     function test_InvalidLength() public {
@@ -131,7 +131,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario1::5");
         assertApproxEqRel(quote.amounts[1], amountIn, 5e16, "test_Scenario1::6");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario1::7");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario1::8");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario1::8");
 
         // Small amountOut
         uint128 amountOut = 1e16;
@@ -149,7 +149,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertApproxEqRel(quote.amounts[0], amountOut, 5e16, "test_Scenario1::13");
         assertEq(quote.amounts[1], amountOut, "test_Scenario1::14");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario1::15");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario1::16");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario1::16");
     }
 
     function test_Scenario2() public view {
@@ -165,7 +165,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario2::1");
         assertGt(quote.amounts[1], amountIn, "test_Scenario2::2");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario2::3");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario2::4");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario2::4");
 
         // Large amountIn
         amountIn = 100e18;
@@ -183,7 +183,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertLt(quote.amounts[0], amountOut, "test_Scenario2::9");
         assertEq(quote.amounts[1], amountOut, "test_Scenario2::10");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario2::11");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario2::12");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario2::12");
 
         // Large amountOut
         amountOut = 100e18;
@@ -217,7 +217,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario3::5");
         assertApproxEqRel(quote.amounts[1], amountIn, 5e16, "test_Scenario3::6");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario3::7");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario3::8");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario3::8");
 
         // Small amountOut
         uint128 amountOut = 1e16;
@@ -235,7 +235,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertApproxEqRel(quote.amounts[0], amountOut, 5e16, "test_Scenario3::13");
         assertEq(quote.amounts[1], amountOut, "test_Scenario3::14");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario3::15");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario3::16");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario3::16");
     }
 
     function test_Scenario4() public view {
@@ -251,7 +251,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario4::1");
         assertGt(quote.amounts[1], amountIn, "test_Scenario4::2");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario4::3");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario4::4");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario4::4");
 
         // Large amountIn
         amountIn = 100e18;
@@ -260,7 +260,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertEq(quote.amounts[0], amountIn, "test_Scenario4::5");
         assertApproxEqRel(quote.amounts[1], amountIn, 6e16, "test_Scenario4::6");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario4::7");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario4::8");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario4::8");
 
         // Small amountOut
         uint128 amountOut = 1e16;
@@ -269,7 +269,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertLt(quote.amounts[0], amountOut, "test_Scenario4::9");
         assertEq(quote.amounts[1], amountOut, "test_Scenario4::10");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario4::11");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario4::12");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario4::12");
 
         // Large amountOut
         amountOut = 100e18;
@@ -278,6 +278,6 @@ contract LiquidityBinQuoterTest is TestHelper {
         assertApproxEqRel(quote.amounts[0], amountOut, 5e16, "test_Scenario4::13");
         assertEq(quote.amounts[1], amountOut, "test_Scenario4::14");
         assertEq(quote.binSteps[0], DEFAULT_BIN_STEP, "test_Scenario4::15");
-        assertEq(uint256(quote.versions[0]), 3, "test_Scenario4::16");
+        assertEq(uint256(quote.versions[0]), 1, "test_Scenario4::16");
     }
 }

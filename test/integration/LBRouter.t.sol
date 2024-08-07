@@ -143,9 +143,9 @@ contract LiquidityBinRouterForkTest is TestHelper {
             path.pairBinSteps[1] = DEFAULT_BIN_STEP;
             path.pairBinSteps[2] = DEFAULT_BIN_STEP;
 
-            path.versions[0] = ILBRouter.Version.V2_2;
-            path.versions[1] = ILBRouter.Version.V2_2;
-            path.versions[2] = ILBRouter.Version.V2_2;
+            path.versions[0] = ILBRouter.Version.V2;
+            path.versions[1] = ILBRouter.Version.V2;
+            path.versions[2] = ILBRouter.Version.V2;
         } else {
             path.tokenPath[0] = tokenIn;
             path.tokenPath[1] = wnative;
@@ -156,9 +156,9 @@ contract LiquidityBinRouterForkTest is TestHelper {
             path.pairBinSteps[1] = DEFAULT_BIN_STEP;
             path.pairBinSteps[2] = DEFAULT_BIN_STEP;
 
-            path.versions[0] = ILBRouter.Version.V2_2;
-            path.versions[1] = ILBRouter.Version.V2_2;
-            path.versions[2] = ILBRouter.Version.V2_2;
+            path.versions[0] = ILBRouter.Version.V2;
+            path.versions[1] = ILBRouter.Version.V2;
+            path.versions[2] = ILBRouter.Version.V2;
         }
     }
 
