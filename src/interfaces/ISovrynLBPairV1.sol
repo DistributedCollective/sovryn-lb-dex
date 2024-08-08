@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 
 /// @title Sovryn LB V1 Pair Interface
 /// @notice Interface to interact with Sovryn LB V1 Pairs
-interface ISovrynLBPair {
+interface ISovrynLBPairV1 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
     event Transfer(address indexed from, address indexed to, uint256 value);
 

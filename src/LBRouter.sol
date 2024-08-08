@@ -14,13 +14,13 @@ import {PackedUint128Math} from "./libraries/math/PackedUint128Math.sol";
 import {TokenHelper, IERC20} from "./libraries/TokenHelper.sol";
 import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 
-import {ISovrynLBPair} from "./interfaces/ISovrynLBPair.sol";
+import {ISovrynLBPairV1} from "./interfaces/ISovrynLBPairV1.sol";
 import {ILBPair} from "./interfaces/ILBPair.sol";
 import {ILBLegacyPair} from "./interfaces/ILBLegacyPair.sol";
 import {ILBToken} from "./interfaces/ILBToken.sol";
 import {ILBRouter} from "./interfaces/ILBRouter.sol";
 import {ILBLegacyRouter} from "./interfaces/ILBLegacyRouter.sol";
-import {ISovrynLBFactory} from "./interfaces/ISovrynLBFactory.sol";
+import {ISovrynLBFactoryV1} from "./interfaces/ISovrynLBFactoryV1.sol";
 import {ILBLegacyFactory} from "./interfaces/ILBLegacyFactory.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {IWNATIVE} from "./interfaces/IWNATIVE.sol";
@@ -36,7 +36,7 @@ contract LBRouter is ILBRouter {
     using PackedUint128Math for bytes32;
 
     ILBFactory private immutable _factory2;
-    ISovrynLBFactory private immutable _factoryV1;
+    ISovrynLBFactoryV1 private immutable _factoryV1;
     IWNATIVE private immutable _wnative;
 
     modifier onlyFactoryOwner() {
@@ -65,7 +65,7 @@ contract LBRouter is ILBRouter {
      */
     constructor(
         ILBFactory factory2,
-        ISovrynLBFactory factoryV1,
+        ISovrynLBFactoryV1 factoryV1,
         IWNATIVE wnative
     ) {
         _factory2 = factory2;
@@ -92,7 +92,7 @@ contract LBRouter is ILBRouter {
      * View function to get the factory V1 address
      * @return factoryV1 The address of the factory V1
      */
-    function getV1Factory() external view override returns (ISovrynLBFactory factoryV1) {
+    function getV1Factory() external view override returns (ISovrynLBFactoryV1 factoryV1) {
         return _factoryV1;
     }
 
@@ -752,7 +752,7 @@ contract LBRouter is ILBRouter {
             address pair = pairs[i - 1];
 
             if (version == Version.V1) {
-                (uint256 reserveIn, uint256 reserveOut,) = ISovrynLBPair(pair).getReserves();
+                (uint256 reserveIn, uint256 reserveOut,) = ISovrynLBPairV1(pair).getReserves();
                 if (token > tokenPath[i]) {
                     (reserveIn, reserveOut) = (reserveOut, reserveIn);
                 }
@@ -832,14 +832,14 @@ contract LBRouter is ILBRouter {
                 recipient = i + 1 == pairs.length ? to : pairs[i + 1];
 
                 if (version == Version.V1) {
-                    (uint256 reserve0, uint256 reserve1,) = ISovrynLBPair(pair).getReserves();
+                    (uint256 reserve0, uint256 reserve1,) = ISovrynLBPairV1(pair).getReserves();
 
                     if (token < tokenNext) {
                         amountOut = amountOut.getAmountOut(reserve0, reserve1);
-                        ISovrynLBPair(pair).swap(0, amountOut, recipient, "");
+                        ISovrynLBPairV1(pair).swap(0, amountOut, recipient, "");
                     } else {
                         amountOut = amountOut.getAmountOut(reserve1, reserve0);
-                        ISovrynLBPair(pair).swap(amountOut, 0, recipient, "");
+                        ISovrynLBPairV1(pair).swap(amountOut, 0, recipient, "");
                     }
                 } else {
                     bool swapForY = tokenNext == ILBPair(pair).getTokenY();
@@ -889,9 +889,9 @@ contract LBRouter is ILBRouter {
                 if (version == Version.V1) {
                     amountOut = amountsIn[i + 1];
                     if (token < tokenNext) {
-                        ISovrynLBPair(pair).swap(0, amountOut, recipient, "");
+                        ISovrynLBPairV1(pair).swap(0, amountOut, recipient, "");
                     } else {
-                        ISovrynLBPair(pair).swap(amountOut, 0, recipient, "");
+                        ISovrynLBPairV1(pair).swap(amountOut, 0, recipient, "");
                     }
                 } else {
                     bool swapForY = tokenNext == ILBPair(pair).getTokenY();
@@ -936,17 +936,17 @@ contract LBRouter is ILBRouter {
                 recipient = i + 1 == pairs.length ? to : pairs[i + 1];
 
                 if (version == Version.V1) {
-                    (uint256 _reserve0, uint256 _reserve1,) = ISovrynLBPair(pair).getReserves();
+                    (uint256 _reserve0, uint256 _reserve1,) = ISovrynLBPairV1(pair).getReserves();
                     if (token < tokenNext) {
                         uint256 amountIn = token.balanceOf(pair) - _reserve0;
                         uint256 amountOut = amountIn.getAmountOut(_reserve0, _reserve1);
 
-                        ISovrynLBPair(pair).swap(0, amountOut, recipient, "");
+                        ISovrynLBPairV1(pair).swap(0, amountOut, recipient, "");
                     } else {
                         uint256 amountIn = token.balanceOf(pair) - _reserve1;
                         uint256 amountOut = amountIn.getAmountOut(_reserve1, _reserve0);
 
-                        ISovrynLBPair(pair).swap(amountOut, 0, recipient, "");
+                        ISovrynLBPairV1(pair).swap(amountOut, 0, recipient, "");
                     }
                 } else {
                     ILBPair(pair).swap(tokenNext == ILBPair(pair).getTokenY(), recipient);

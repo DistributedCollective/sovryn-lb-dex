@@ -10,11 +10,11 @@ import {PriceHelper} from "./libraries/PriceHelper.sol";
 import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 import {SafeCast} from "./libraries/math/SafeCast.sol";
 
-import {ISovrynLBFactory} from "./interfaces/ISovrynLBFactory.sol";
+import {ISovrynLBFactoryV1} from "./interfaces/ISovrynLBFactoryV1.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {ILBLegacyFactory} from "./interfaces/ILBLegacyFactory.sol";
 import {ILBLegacyRouter} from "./interfaces/ILBLegacyRouter.sol";
-import {ISovrynLBPair} from "./interfaces/ISovrynLBPair.sol";
+import {ISovrynLBPairV1} from "./interfaces/ISovrynLBPairV1.sol";
 import {ILBLegacyPair} from "./interfaces/ILBLegacyPair.sol";
 import {ILBPair} from "./interfaces/ILBPair.sol";
 import {ILBRouter} from "./interfaces/ILBRouter.sol";
@@ -163,7 +163,7 @@ contract LBQuoter {
 
             // Fetch swap for V1
             if (_factoryV1 != address(0)) {
-                address pair = ISovrynLBFactory(_factoryV1).getPair(route[i], route[i + 1]);
+                address pair = ISovrynLBFactoryV1(_factoryV1).getPair(route[i], route[i + 1]);
 
                 if (pair != address(0) && quote.amounts[i] > 0) {
                     (uint256 reserveIn, uint256 reserveOut) = _getReserves(pair, route[i], route[i + 1]);
@@ -255,7 +255,7 @@ contract LBQuoter {
 
             if (_factoryV1 != address(0)) {
                 // Fetch swap for V1
-                address pair = ISovrynLBFactory(_factoryV1).getPair(route[i - 1], route[i]);
+                address pair = ISovrynLBFactoryV1(_factoryV1).getPair(route[i - 1], route[i]);
                 if (pair != address(0) && quote.amounts[i] > 0) {
                     (uint256 reserveIn, uint256 reserveOut) = _getReserves(pair, route[i - 1], route[i]);
 
@@ -296,7 +296,7 @@ contract LBQuoter {
         returns (uint256 reserveA, uint256 reserveB)
     {
         (address token0,) = SovrynLBLibrary.sortTokens(tokenA, tokenB);
-        (uint256 reserve0, uint256 reserve1,) = ISovrynLBPair(pair).getReserves();
+        (uint256 reserve0, uint256 reserve1,) = ISovrynLBPairV1(pair).getReserves();
         (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
     }
 

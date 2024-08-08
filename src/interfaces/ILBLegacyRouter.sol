@@ -5,7 +5,7 @@ pragma solidity ^0.8.10;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {ILBFactory} from "./ILBFactory.sol";
-import {ISovrynLBFactory} from "./ISovrynLBFactory.sol";
+import {ISovrynLBFactoryV1} from "./ISovrynLBFactoryV1.sol";
 import {ILBLegacyPair} from "./ILBLegacyPair.sol";
 import {ILBToken} from "./ILBToken.sol";
 import {IWNATIVE} from "./IWNATIVE.sol";

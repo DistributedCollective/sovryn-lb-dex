@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-import {ISovrynLBFactory} from "./ISovrynLBFactory.sol";
+import {ISovrynLBFactoryV1} from "./ISovrynLBFactoryV1.sol";
 import {ILBFactory} from "./ILBFactory.sol";
 import {ILBLegacyFactory} from "./ILBLegacyFactory.sol";
 import {ILBLegacyRouter} from "./ILBLegacyRouter.sol";
@@ -103,7 +103,7 @@ interface ILBRouter {
 
     function getFactory() external view returns (ILBFactory);
 
-    function getV1Factory() external view returns (ISovrynLBFactory);
+    function getV1Factory() external view returns (ISovrynLBFactoryV1);
 
     function getWNATIVE() external view returns (IWNATIVE);
 

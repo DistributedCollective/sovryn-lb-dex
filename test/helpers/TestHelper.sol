@@ -79,7 +79,7 @@ abstract contract TestHelper is Test {
 
     // Forked contracts
     ISovrynLBRouter02 internal routerV1;
-    ISovrynLBFactory internal factoryV1;
+    ISovrynLBFactoryV1 internal factoryV1;
 
     function setUp() public virtual {
         wnative = WNATIVE(AvalancheAddresses.WNATIVE);
@@ -109,7 +109,7 @@ abstract contract TestHelper is Test {
 
         // Get forked contracts
         routerV1 = ISovrynLBRouter02(AvalancheAddresses.SovrynLB_V1_ROUTER);
-        factoryV1 = ISovrynLBFactory(AvalancheAddresses.SovrynLB_V1_FACTORY);
+        factoryV1 = ISovrynLBFactoryV1(AvalancheAddresses.SovrynLB_V1_FACTORY);
 
         // Create factory
         factory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);

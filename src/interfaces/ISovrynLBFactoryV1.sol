@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 
 /// @title Sovryn LB V1 Factory Interface
 /// @notice Interface to interact with Sovryn LB V1 Factory
-interface ISovrynLBFactory {
+interface ISovrynLBFactoryV1 {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
     function feeTo() external view returns (address);
