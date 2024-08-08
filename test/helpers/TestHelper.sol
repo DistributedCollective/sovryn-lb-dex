@@ -9,7 +9,7 @@ import "src/LBPair.sol";
 import "src/LBRouter.sol";
 import "src/LBQuoter.sol";
 import "src/interfaces/ILBRouter.sol";
-import "src/interfaces/IJoeRouter02.sol";
+import "src/interfaces/ISovrynLBRouter02.sol";
 import "src/interfaces/ILBLegacyRouter.sol";
 import "src/interfaces/ILBLegacyFactory.sol";
 import "src/LBToken.sol";
@@ -78,8 +78,8 @@ abstract contract TestHelper is Test {
     LBPair internal pairImplementation;
 
     // Forked contracts
-    IJoeRouter02 internal routerV1;
-    IJoeFactory internal factoryV1;
+    ISovrynLBRouter02 internal routerV1;
+    ISovrynLBFactory internal factoryV1;
 
     function setUp() public virtual {
         wnative = WNATIVE(AvalancheAddresses.WNATIVE);
@@ -108,8 +108,8 @@ abstract contract TestHelper is Test {
         vm.label(address(taxToken), "taxToken");
 
         // Get forked contracts
-        routerV1 = IJoeRouter02(AvalancheAddresses.JOE_V1_ROUTER);
-        factoryV1 = IJoeFactory(AvalancheAddresses.JOE_V1_FACTORY);
+        routerV1 = ISovrynLBRouter02(AvalancheAddresses.SovrynLB_V1_ROUTER);
+        factoryV1 = ISovrynLBFactory(AvalancheAddresses.SovrynLB_V1_FACTORY);
 
         // Create factory
         factory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);

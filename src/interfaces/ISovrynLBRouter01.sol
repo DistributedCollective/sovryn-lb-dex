@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.10;
 
-/// @title Joe V1 Router01 Interface
-/// @notice Interface to interact with Joe V1 Router
-interface IJoeRouter01 {
+/// @title Sovryn LB V1 Router01 Interface
+/// @notice Interface to interact with Sovryn LB V1 Router
+interface ISovrynLBRouter01 {
     function factory() external pure returns (address);
 
     function WAVAX() external pure returns (address);

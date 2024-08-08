@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.10;
 
-import {IJoeRouter01} from "./IJoeRouter01.sol";
+import {ISovrynLBRouter01} from "./ISovrynLBRouter01.sol";
 
-/// @title Joe V1 Router Interface
-/// @notice Interface to interact with Joe V1 Router
-interface IJoeRouter02 is IJoeRouter01 {
+/// @title Sovryn LB V1 Router Interface
+/// @notice Interface to interact with Sovryn LB V1 Router
+interface ISovrynLBRouter02 is ISovrynLBRouter01 {
     function removeLiquidityAVAXSupportingFeeOnTransferTokens(
         address token,
         uint256 liquidity,

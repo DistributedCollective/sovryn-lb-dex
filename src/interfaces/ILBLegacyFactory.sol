@@ -7,7 +7,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ILBLegacyPair} from "./ILBLegacyPair.sol";
 
 /// @title Liquidity Book Factory Interface
-/// @author Trader Joe
+/// @author Trader Sovryn LB
 /// @notice Required interface of LBFactory contract
 interface ILBLegacyFactory {
     /// @dev Structure to store the LBPair information, such as:

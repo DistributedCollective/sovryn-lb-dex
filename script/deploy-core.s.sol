@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 import "forge-std/Script.sol";
 
 import {ILBFactory, LBFactory} from "src/LBFactory.sol";
-import {ILBRouter, IJoeFactory, ILBLegacyFactory, ILBLegacyRouter, IWNATIVE, LBRouter} from "src/LBRouter.sol";
+import {ILBRouter, ISovrynLBFactory, ILBLegacyFactory, ILBLegacyRouter, IWNATIVE, LBRouter} from "src/LBRouter.sol";
 import {IERC20, LBPair} from "src/LBPair.sol";
 import {LBQuoter} from "src/LBQuoter.sol";
 
@@ -56,7 +56,7 @@ contract CoreDeployer is Script {
             vm.broadcast(deployer);
             LBRouter routerV2 = new LBRouter(
                 factoryV2,
-                IJoeFactory(deployment.factoryV1),
+                ISovrynLBFactory(deployment.factoryV1),
                 IWNATIVE(deployment.wNative)
             );
             console.log("LBRouter deployed -->", address(routerV2));

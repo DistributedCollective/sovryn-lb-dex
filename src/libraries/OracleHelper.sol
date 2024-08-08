@@ -8,7 +8,7 @@ import {PairParameterHelper} from "./PairParameterHelper.sol";
 
 /**
  * @title Liquidity Book Oracle Helper Library
- * @author Trader Joe
+ * @author Trader Sovryn LB
  * @notice This library contains functions to manage the oracle
  * The oracle samples are stored in a single bytes32 array.
  * Each sample is encoded as follows:

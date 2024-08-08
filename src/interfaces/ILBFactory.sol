@@ -9,7 +9,7 @@ import {ILBPair} from "./ILBPair.sol";
 
 /**
  * @title Liquidity Book Factory Interface
- * @author Trader Joe
+ * @author Trader Sovryn LB
  * @notice Required interface of LBFactory contract
  */
 interface ILBFactory {

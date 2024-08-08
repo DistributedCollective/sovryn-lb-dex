@@ -5,23 +5,23 @@ pragma solidity ^0.8.20;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {Constants} from "./libraries/Constants.sol";
-import {JoeLibrary} from "./libraries/JoeLibrary.sol";
+import {SovrynLBLibrary} from "./libraries/SovrynLBLibrary.sol";
 import {PriceHelper} from "./libraries/PriceHelper.sol";
 import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 import {SafeCast} from "./libraries/math/SafeCast.sol";
 
-import {IJoeFactory} from "./interfaces/IJoeFactory.sol";
+import {ISovrynLBFactory} from "./interfaces/ISovrynLBFactory.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {ILBLegacyFactory} from "./interfaces/ILBLegacyFactory.sol";
 import {ILBLegacyRouter} from "./interfaces/ILBLegacyRouter.sol";
-import {IJoePair} from "./interfaces/IJoePair.sol";
+import {ISovrynLBPair} from "./interfaces/ISovrynLBPair.sol";
 import {ILBLegacyPair} from "./interfaces/ILBLegacyPair.sol";
 import {ILBPair} from "./interfaces/ILBPair.sol";
 import {ILBRouter} from "./interfaces/ILBRouter.sol";
 
 /**
  * @title Liquidity Book Quoter
- * @author Trader Joe
+ * @author Trader Sovryn LB
  * @notice Helper contract to determine best path through multiple markets
  * This contract shouldn't be used on-chain as it consumes a lot of gas
  * It should be used for off-chain purposes, like calculating the best path for a swap
@@ -58,9 +58,9 @@ contract LBQuoter {
 
     /**
      * @notice Constructor
-     * @param factoryV1 Dex V1 factory address
-     * @param factoryV2 Dex V2 factory address
-     * @param routerV2 Dex V2 router address
+     * @param factoryV1 Sovryn LB Dex V1 factory address
+     * @param factoryV2 Sovryn LB Dex V2 factory address
+     * @param routerV2 Sovryn LB Dex V2 router address
      */
     constructor(
         address factoryV1,
@@ -163,18 +163,18 @@ contract LBQuoter {
 
             // Fetch swap for V1
             if (_factoryV1 != address(0)) {
-                address pair = IJoeFactory(_factoryV1).getPair(route[i], route[i + 1]);
+                address pair = ISovrynLBFactory(_factoryV1).getPair(route[i], route[i + 1]);
 
                 if (pair != address(0) && quote.amounts[i] > 0) {
                     (uint256 reserveIn, uint256 reserveOut) = _getReserves(pair, route[i], route[i + 1]);
 
                     if (reserveIn > 0 && reserveOut > 0) {
-                        uint256 swapAmountOut = JoeLibrary.getAmountOut(quote.amounts[i], reserveIn, reserveOut);
+                        uint256 swapAmountOut = SovrynLBLibrary.getAmountOut(quote.amounts[i], reserveIn, reserveOut);
 
                         if (swapAmountOut > quote.amounts[i + 1]) {
                             quote.amounts[i + 1] = swapAmountOut.safe128();
                             quote.pairs[i] = pair;
-                            quote.virtualAmountsWithoutSlippage[i + 1] = JoeLibrary.quote(
+                            quote.virtualAmountsWithoutSlippage[i + 1] = SovrynLBLibrary.quote(
                                 quote.virtualAmountsWithoutSlippage[i] * 997, reserveIn * 1000, reserveOut
                             ).safe128();
 
@@ -255,18 +255,18 @@ contract LBQuoter {
 
             if (_factoryV1 != address(0)) {
                 // Fetch swap for V1
-                address pair = IJoeFactory(_factoryV1).getPair(route[i - 1], route[i]);
+                address pair = ISovrynLBFactory(_factoryV1).getPair(route[i - 1], route[i]);
                 if (pair != address(0) && quote.amounts[i] > 0) {
                     (uint256 reserveIn, uint256 reserveOut) = _getReserves(pair, route[i - 1], route[i]);
 
                     if (reserveIn > 0 && reserveOut > quote.amounts[i]) {
-                        uint256 swapAmountIn = JoeLibrary.getAmountIn(quote.amounts[i], reserveIn, reserveOut);
+                        uint256 swapAmountIn = SovrynLBLibrary.getAmountIn(quote.amounts[i], reserveIn, reserveOut);
 
                         if (swapAmountIn < quote.amounts[i - 1] || quote.amounts[i - 1] == 0) {
                             quote.amounts[i - 1] = swapAmountIn.safe128();
                             quote.pairs[i - 1] = pair;
                             quote.virtualAmountsWithoutSlippage[i - 1] = (
-                                JoeLibrary.quote(
+                                SovrynLBLibrary.quote(
                                     quote.virtualAmountsWithoutSlippage[i] * 1000, reserveOut * 997, reserveIn
                                 ) + 1
                             ).safe128();
@@ -282,7 +282,7 @@ contract LBQuoter {
     }
 
     /**
-     * @dev Forked from JoeLibrary
+     * @dev Forked from SovrynLBLibrary
      * @dev Doesn't rely on the init code hash of the factory
      * @param pair Address of the pair
      * @param tokenA Address of token A
@@ -295,8 +295,8 @@ contract LBQuoter {
         view
         returns (uint256 reserveA, uint256 reserveB)
     {
-        (address token0,) = JoeLibrary.sortTokens(tokenA, tokenB);
-        (uint256 reserve0, uint256 reserve1,) = IJoePair(pair).getReserves();
+        (address token0,) = SovrynLBLibrary.sortTokens(tokenA, tokenB);
+        (uint256 reserve0, uint256 reserve1,) = ISovrynLBPair(pair).getReserves();
         (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
     }
 

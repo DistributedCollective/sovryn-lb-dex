@@ -96,7 +96,7 @@ contract LiquidityBinQuoterTest is TestHelper {
 
     function test_Constructor() public view {
         assertEq(address(quoter.getRouterV2()), address(router), "test_Constructor::1");
-        assertEq(address(quoter.getFactoryV1()), AvalancheAddresses.JOE_V1_FACTORY, "test_Constructor::3");
+        assertEq(address(quoter.getFactoryV1()), AvalancheAddresses.SovrynLB_V1_FACTORY, "test_Constructor::3");
         assertEq(address(quoter.getFactoryV2()), address(factory), "test_Constructor::5");
     }
 

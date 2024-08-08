@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.10;
 
-/// @title Joe V1 Factory Interface
-/// @notice Interface to interact with Joe V1 Factory
-interface IJoeFactory {
+/// @title Sovryn LB V1 Factory Interface
+/// @notice Interface to interact with Sovryn LB V1 Factory
+interface ISovrynLBFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
     function feeTo() external view returns (address);
