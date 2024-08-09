@@ -10,6 +10,7 @@ import {IERC20, LBPair} from "src/LBPair.sol";
 import {LBQuoter} from "src/LBQuoter.sol";
 
 import {BipsConfig} from "./config/bips-config.sol";
+import {LBDexUpgradeableBeacon} from "src/LBDexUpgradeableBeacon.sol";
 
 contract CoreDeployer is Script {
     using stdJson for string;
@@ -46,7 +47,11 @@ contract CoreDeployer is Script {
             vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
 
             vm.broadcast(deployer);
-            LBFactory factoryV2 = new LBFactory(deployer, deployer, FLASHLOAN_FEE);
+            LBFactory factoryV2 = new LBFactory();
+            LBPair lbPairImplementation = new LBPair(ILBFactory(address(factoryV2)));
+            LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), deployer);
+            factoryV2.initialize(deployer, deployer, FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+            
             console.log("LBFactory deployed -->", address(factoryV2));
 
             vm.broadcast(deployer);
@@ -54,11 +59,7 @@ contract CoreDeployer is Script {
             console.log("LBPair implementation deployed -->", address(pairImplementation));
 
             vm.broadcast(deployer);
-            LBRouter routerV2 = new LBRouter(
-                factoryV2,
-                ISovrynLBFactoryV1(deployment.factoryV1),
-                IWNATIVE(deployment.wNative)
-            );
+            LBRouter routerV2 = new LBRouter(factoryV2, ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative));
             console.log("LBRouter deployed -->", address(routerV2));
 
             vm.startBroadcast(deployer);

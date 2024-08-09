@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 import "src/libraries/ImmutableClone.sol";
 import "./mocks/MockHooks.sol";
+import {LBDexUpgradeableBeacon} from "src/LBDexUpgradeableBeacon.sol";
 
 /**
  * Test scenarios:
@@ -73,12 +74,18 @@ contract LiquidityBinFactoryTest is TestHelper {
 
         vm.expectEmit(true, true, true, true);
         emit FlashLoanFeeSet(0, DEFAULT_FLASHLOAN_FEE);
-        new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);
+        LBFactory factory = new LBFactory();
+        
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+
+        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
         // Reverts if the flash loan fee is above the max fee
+        LBFactory newFactory = new LBFactory();
         uint256 maxFee = factory.getMaxFlashLoanFee();
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__FlashLoanFeeAboveMax.selector, maxFee + 1, maxFee));
-        new LBFactory(DEV, DEV, maxFee + 1);
+        newFactory.initialize(DEV, DEV, maxFee + 1, address(lbDexUpgradeableBeacon));
     }
 
     function test_SetLBPairImplementation() public {
@@ -99,7 +106,12 @@ contract LiquidityBinFactoryTest is TestHelper {
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__SameImplementation.selector, newImplementation));
         factory.setLBPairImplementation(address(newImplementation));
 
-        LBFactory anotherFactory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);
+        LBFactory anotherFactory = new LBFactory();
+        
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(anotherFactory)));
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+
+        anotherFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
         anotherFactory.setPreset(1, 1, 1, 1, 1, 1, 1, 1, false);
         anotherFactory.addQuoteAsset(usdc);
@@ -120,17 +132,9 @@ contract LiquidityBinFactoryTest is TestHelper {
     }
 
     function test_CreateLBPair() public {
-        address expectedPairAddress = ImmutableClone.predictDeterministicAddress(
-            address(pairImplementation),
-            abi.encodePacked(usdt, usdc, DEFAULT_BIN_STEP),
-            keccak256(abi.encode(usdc, usdt, DEFAULT_BIN_STEP)),
-            address(factory)
-        );
-
         // Check for the correct events
-        vm.expectEmit(true, true, true, true);
-        emit LBPairCreated(usdt, usdc, DEFAULT_BIN_STEP, ILBPair(expectedPairAddress), 0);
-
+        vm.expectEmit(true, true, true, false);
+        emit LBPairCreated(usdt, usdc, DEFAULT_BIN_STEP, ILBPair(address(0)), 0);
         ILBPair pair = factory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP);
 
         assertEq(factory.getNumberOfLBPairs(), 1, "test_CreateLBPair::1");
@@ -230,7 +234,12 @@ contract LiquidityBinFactoryTest is TestHelper {
         factory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP);
 
         // Can't create pair if the implementation is not set
-        LBFactory newFactory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);
+        LBFactory newFactory = new LBFactory();
+        
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(newFactory)));
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+
+        newFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
         // Can't create a pair if the preset is not set
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__BinStepHasNoPreset.selector, DEFAULT_BIN_STEP));

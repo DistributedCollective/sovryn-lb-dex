@@ -35,6 +35,8 @@ interface ILBFactory {
     error LBFactory__SameHooksParameters(bytes32 hooksParameters);
     error LBFactory__InvalidHooksParameters();
     error LBFactory__CannotGrantDefaultAdminRole();
+    error LBFactory__AdminDoesExists(address admin);
+    error LBFactory__AdminDoesNotExists(address admin);
 
     /**
      * @dev Structure to store the LBPair information, such as:
@@ -81,6 +83,10 @@ interface ILBFactory {
 
     event QuoteAssetRemoved(IERC20 indexed quoteAsset);
 
+    event AdminAdded(address indexed sender, address indexed admin);
+
+    event AdminRemoved(address indexed sender, address indexed admin);
+
     function getMinBinStep() external pure returns (uint256);
 
     function getFeeRecipient() external view returns (address);
@@ -98,6 +104,8 @@ interface ILBFactory {
     function getNumberOfQuoteAssets() external view returns (uint256);
 
     function getQuoteAssetAtIndex(uint256 index) external view returns (IERC20);
+
+    function initialize(address feeRecipient, address initialOwner, uint256 flashLoanFee, address lbPairBeaconAddress) external;
 
     function isQuoteAsset(IERC20 token) external view returns (bool);
 

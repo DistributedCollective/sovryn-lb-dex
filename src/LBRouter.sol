@@ -24,13 +24,14 @@ import {ISovrynLBFactoryV1} from "./interfaces/ISovrynLBFactoryV1.sol";
 import {ILBLegacyFactory} from "./interfaces/ILBLegacyFactory.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {IWNATIVE} from "./interfaces/IWNATIVE.sol";
+import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 /**
  * @title Liquidity Book Router
  * @author Trader Sovryn LB
  * @notice Main contract to interact with to swap and manage liquidity on Sovryn LB V2 exchange.
  */
-contract LBRouter is ILBRouter {
+contract LBRouter is Initializable, ILBRouter {
     using TokenHelper for IERC20;
     using SovrynLBLibrary for uint256;
     using PackedUint128Math for bytes32;
@@ -57,12 +58,6 @@ contract LBRouter is ILBRouter {
         _;
     }
 
-    /**
-     * @notice Constructor
-     * @param factory2 Address of LB DEX V2.2 factory
-     * @param factoryV1 Address of LB DEX V1 factory
-     * @param wnative Address of WNATIVE
-     */
     constructor(
         ILBFactory factory2,
         ISovrynLBFactoryV1 factoryV1,

@@ -5,6 +5,7 @@ pragma solidity ^0.8.20;
 import "./helpers/TestHelper.sol";
 import "../src/libraries/ImmutableClone.sol";
 
+
 contract LBPairFeesTest is TestHelper {
     using PackedUint128Math for uint128;
 
@@ -559,9 +560,11 @@ contract LBPairFeesTest is TestHelper {
 
         vm.assume(baseFee + varFee > 1e17);
 
-        bytes memory data = abi.encodePacked(wnative, usdc, binStep);
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexBeaconProxy lbDexBeaconProxy = new LBDexBeaconProxy(address(lbDexUpgradeableBeacon), address(wnative), address(usdc), binStep, "");
 
-        pairWnative = LBPair(ImmutableClone.cloneDeterministic(address(pairImplementation), data, keccak256(data)));
+        pairWnative = LBPair(address(lbDexBeaconProxy));
 
         vm.prank(address(factory));
         pairWnative.initialize(1, 1, 1, 1, 1, 1, 1, 1);

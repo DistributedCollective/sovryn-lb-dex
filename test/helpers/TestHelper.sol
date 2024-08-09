@@ -24,8 +24,10 @@ import "test/mocks/WNATIVE.sol";
 import "test/mocks/ERC20.sol";
 import "test/mocks/FlashBorrower.sol";
 import "test/mocks/ERC20TransferTax.sol";
+import {LBDexUpgradeableBeacon} from "src/LBDexUpgradeableBeacon.sol";
 
 import {AvalancheAddresses} from "../integration/Addresses.sol";
+
 
 abstract contract TestHelper is Test {
     using Uint256x256Math for uint256;
@@ -112,7 +114,10 @@ abstract contract TestHelper is Test {
         factoryV1 = ISovrynLBFactoryV1(AvalancheAddresses.SovrynLB_V1_FACTORY);
 
         // Create factory
-        factory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);
+        factory = new LBFactory();
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
         pairImplementation = new LBPair(factory);
 
         // Setup factory
@@ -121,8 +126,7 @@ abstract contract TestHelper is Test {
         setDefaultFactoryPresets(DEFAULT_BIN_STEP);
 
         // Create router
-        router =
-            new LBRouter(factory, factoryV1, IWNATIVE(address(wnative)));
+        router = new LBRouter(factory, factoryV1, IWNATIVE(address(wnative)));
 
         // Create quoter
         quoter = new LBQuoter(

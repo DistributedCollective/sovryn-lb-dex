@@ -4,9 +4,10 @@ pragma solidity ^0.8.20;
 
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import {EnumerableMap} from "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {Ownable2Step, Ownable} from "@openzeppelin/contracts/access/Ownable2Step.sol";
+import {Ownable2StepUpgradeable, OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
+import {UpgradeableBeacon} from "@openzeppelin/contracts/proxy/beacon/UpgradeableBeacon.sol";
 
 import {PairParameterHelper} from "./libraries/PairParameterHelper.sol";
 import {Encoded} from "./libraries/math/Encoded.sol";
@@ -18,6 +19,7 @@ import {Hooks} from "./libraries/Hooks.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {ILBPair} from "./interfaces/ILBPair.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
+import {LBDexBeaconProxy} from "./LBDexBeaconProxy.sol";
 
 /**
  * @title Liquidity Book Factory
@@ -26,7 +28,7 @@ import {ILBHooks} from "./interfaces/ILBHooks.sol";
  * Enables setting fee parameters, flashloan fees and LBPair implementation.
  * Unless the `isOpen` is `true`, only the owner of the factory can create pairs.
  */
-contract LBFactory is Ownable2Step, AccessControl, ILBFactory {
+contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFactory {
     using SafeCast for uint256;
     using Encoded for bytes32;
     using PairParameterHelper for bytes32;
@@ -67,17 +69,27 @@ contract LBFactory is Ownable2Step, AccessControl, ILBFactory {
      */
     mapping(IERC20 => mapping(IERC20 => EnumerableSet.UintSet)) private _availableLBPairBinSteps;
 
+    /** Beacon management storage variable */
+    EnumerableSet.AddressSet private _admins;
+    address private _lbPairBeacon;
+
+
+    constructor() {}
+
     /**
-     * @notice Constructor
+     * @notice Initializer function
      * @param feeRecipient The address of the fee recipient
      * @param flashLoanFee The value of the fee for flash loan
      */
-    constructor(address feeRecipient, address initialOwner, uint256 flashLoanFee) Ownable(initialOwner) {
+    function initialize(address feeRecipient, address initialOwner, uint256 flashLoanFee, address lbPairBeaconAddress) initializer external {
+        __Ownable_init(initialOwner);
+
         if (flashLoanFee > _MAX_FLASHLOAN_FEE) revert LBFactory__FlashLoanFeeAboveMax(flashLoanFee, _MAX_FLASHLOAN_FEE);
 
         _setFeeRecipient(feeRecipient);
 
         _flashLoanFee = flashLoanFee;
+        _lbPairBeacon = lbPairBeaconAddress;
         emit FlashLoanFeeSet(0, flashLoanFee);
     }
 
@@ -300,6 +312,34 @@ contract LBFactory is Ownable2Step, AccessControl, ILBFactory {
     }
 
     /**
+     * @notice Get All admins
+     * @return admin addresses
+     */
+    function getAllAdmins() external view returns (address[] memory) {
+        uint256 length = _admins.length();
+        address[] memory admins = new address[](length);
+        for (uint256 i = 0; i < length; i++) {
+            admins[i] = _admins.at(i);
+        }
+        return admins;
+    }
+
+    // Function to add an address to the set
+    function addAdmin(address adminAddr) public onlyOwner {
+        if(adminAddr == address(0)) revert LBFactory__AddressZero();
+        if(!_admins.add(adminAddr)) revert LBFactory__AdminDoesExists(adminAddr);
+
+        emit AdminAdded(msg.sender, adminAddr);
+    }
+
+    // Function to remove an address from the set
+    function removeAdmin(address adminAddr) public onlyOwner {
+        if(!_admins.remove(adminAddr)) revert LBFactory__AdminDoesNotExists(adminAddr);
+
+        emit AdminRemoved(msg.sender, adminAddr);
+    }
+
+    /**
      * @notice Set the LBPair implementation address
      * @dev Needs to be called by the owner
      * @param newLBPairImplementation The address of the implementation
@@ -361,13 +401,17 @@ contract LBFactory is Ownable2Step, AccessControl, ILBFactory {
 
             if (implementation == address(0)) revert LBFactory__ImplementationNotSet();
 
-            pair = ILBPair(
-                ImmutableClone.cloneDeterministic(
-                    implementation,
-                    abi.encodePacked(tokenX, tokenY, binStep),
-                    keccak256(abi.encode(tokenA, tokenB, binStep))
-                )
+            bytes memory data = abi.encodeWithSignature("initialize(uint16,uint16,uint16,uint16,uint24,uint16,uint24,uint24)",
+                preset.getBaseFactor(),
+                preset.getFilterPeriod(),
+                preset.getDecayPeriod(),
+                preset.getReductionFactor(),
+                preset.getVariableFeeControl(),
+                preset.getProtocolShare(),
+                preset.getMaxVolatilityAccumulator(),
+                activeId
             );
+            pair = ILBPair(address(new LBDexBeaconProxy(_lbPairBeacon, address(tokenX), address(tokenY), binStep, data)));
         }
 
         _lbPairsInfo[tokenA][tokenB][binStep] =
@@ -377,17 +421,6 @@ contract LBFactory is Ownable2Step, AccessControl, ILBFactory {
         _availableLBPairBinSteps[tokenA][tokenB].add(binStep);
 
         emit LBPairCreated(tokenX, tokenY, binStep, pair, _allLBPairs.length - 1);
-
-        pair.initialize(
-            preset.getBaseFactor(),
-            preset.getFilterPeriod(),
-            preset.getDecayPeriod(),
-            preset.getReductionFactor(),
-            preset.getVariableFeeControl(),
-            preset.getProtocolShare(),
-            preset.getMaxVolatilityAccumulator(),
-            activeId
-        );
     }
 
     /**

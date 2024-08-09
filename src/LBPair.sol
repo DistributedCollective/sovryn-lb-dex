@@ -131,7 +131,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @notice Returns the token X of the Liquidity Book Pair
      * @return tokenX The address of the token X
      */
-    function getTokenX() external pure override returns (IERC20 tokenX) {
+    function getTokenX() external view override returns (IERC20 tokenX) {
         return _tokenX();
     }
 
@@ -139,7 +139,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @notice Returns the token Y of the Liquidity Book Pair
      * @return tokenY The address of the token Y
      */
-    function getTokenY() external pure override returns (IERC20 tokenY) {
+    function getTokenY() external view override returns (IERC20 tokenY) {
         return _tokenY();
     }
 
@@ -149,7 +149,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * For example, a bin step of 1 means that the price of the next bin is 0.01% higher than the price of the previous bin.
      * @return binStep The bin step of the Liquidity Book Pair, in 10_000th
      */
-    function getBinStep() external pure override returns (uint16) {
+    function getBinStep() external view override returns (uint16) {
         return _binStep();
     }
 
@@ -345,7 +345,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @param id The id of the bin
      * @return price The price corresponding to this id
      */
-    function getPriceFromId(uint24 id) external pure override returns (uint256 price) {
+    function getPriceFromId(uint24 id) external view override returns (uint256 price) {
         price = id.getPriceFromId(_binStep());
     }
 
@@ -356,7 +356,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @param price The price of y per x as a 128.128-binary fixed-point number
      * @return id The id of the bin corresponding to this price
      */
-    function getIdFromPrice(uint256 price) external pure override returns (uint24 id) {
+    function getIdFromPrice(uint256 price) external view override returns (uint24 id) {
         id = price.getIdFromPrice(_binStep());
     }
 
@@ -900,24 +900,39 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @dev Returns the address of the token X
      * @return The address of the token X
      */
-    function _tokenX() internal pure returns (IERC20) {
-        return IERC20(_getArgAddress(0));
+    function _tokenX() internal view returns (IERC20) {
+        address tokenX_;
+        bytes32 slot = keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenX")) - 1));
+        assembly {
+            tokenX_ := sload(slot)
+        }
+
+        return IERC20(tokenX_);
     }
 
     /**
      * @dev Returns the address of the token Y
      * @return The address of the token Y
      */
-    function _tokenY() internal pure returns (IERC20) {
-        return IERC20(_getArgAddress(20));
+    function _tokenY() internal view returns (IERC20) {
+        address tokenY_;
+        bytes32 slot = keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenY")) - 1));
+        assembly {
+            tokenY_ := sload(slot)
+        }
+
+        return IERC20(tokenY_);
     }
 
     /**
      * @dev Returns the bin step of the pool, in basis points
-     * @return The bin step of the pool
+     * @return binStep_ The bin step of the pool
      */
-    function _binStep() internal pure returns (uint16) {
-        return _getArgUint16(40);
+    function _binStep() internal view returns (uint16 binStep_) {
+        bytes32 slot = keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.BinStep")) - 1));
+        assembly {
+            binStep_ := sload(slot)
+        }
     }
 
     /**
