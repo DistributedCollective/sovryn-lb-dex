@@ -77,7 +77,7 @@ contract LiquidityBinFactoryTest is TestHelper {
         LBFactory factory = new LBFactory();
         
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
 
         factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
@@ -109,7 +109,7 @@ contract LiquidityBinFactoryTest is TestHelper {
         LBFactory anotherFactory = new LBFactory();
         
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(anotherFactory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(anotherFactory));
 
         anotherFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
@@ -237,7 +237,7 @@ contract LiquidityBinFactoryTest is TestHelper {
         LBFactory newFactory = new LBFactory();
         
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(newFactory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(newFactory));
 
         newFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
@@ -883,5 +883,79 @@ contract LiquidityBinFactoryTest is TestHelper {
 
         assertTrue(factory.hasRole(DEFAULT_ADMIN_ROLE, BOB), "test_AccessControl::7");
         assertFalse(factory.hasRole(DEFAULT_ADMIN_ROLE, address(this)), "test_AccessControl::8");
+    }
+
+    function test_revert_AddAdmin() public {
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::1");
+        address newAdmin = makeAddr("new_admin");
+        vm.prank(ALICE);
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, ALICE));
+        factory.addAdmin(newAdmin);
+        vm.stopPrank();
+
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::2");
+
+        vm.prank(DEV);
+        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AddressZero.selector));
+        factory.addAdmin(address(0));
+        vm.stopPrank();
+
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::3");
+
+        vm.prank(DEV);
+        factory.addAdmin(ALICE);
+
+        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AdminDoesExists.selector, ALICE));
+        factory.addAdmin(ALICE);
+        assertEq(factory.getAllAdmins().length, 1, "test_AddAdmin::4");
+    }
+
+    function test_revert_RemoveAdmin() public {
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::1");
+        address newAdmin = makeAddr("new_admin");
+        vm.prank(ALICE);
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, ALICE));
+        factory.removeAdmin(newAdmin);
+        vm.stopPrank();
+
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::2");
+
+        vm.prank(DEV);
+        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AdminDoesNotExists.selector, ALICE));
+        factory.removeAdmin(ALICE);
+
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::3");
+    }
+
+    function test_AddAdmin() public {
+        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::1");
+        address newAdmin = makeAddr("new_admin");
+        assertEq(factory.isAdmin(newAdmin), false, "test_AddAdmin::2");
+
+        vm.prank(DEV);
+        factory.addAdmin(newAdmin);
+
+        assertEq(factory.getAllAdmins().length, 1, "test_AddAdmin::3");
+        assertEq(factory.isAdmin(newAdmin), true, "test_AddAdmin::4");
+    }
+
+    function test_RemoveAdmin() public {
+        assertEq(factory.getAllAdmins().length, 0, "test_RemoveAdmin::1");
+        address newAdmin1 = makeAddr("new_admin_1");
+        address newAdmin2 = makeAddr("new_admin_2");
+        vm.prank(DEV);
+        factory.addAdmin(newAdmin1);
+        factory.addAdmin(newAdmin2);
+        vm.stopPrank();
+
+        assertEq(factory.getAllAdmins().length, 2, "test_RemoveAdmin::2");
+        assertEq(factory.isAdmin(newAdmin1), true, "test_AddAdmin::3");
+
+        vm.prank(DEV);
+        factory.removeAdmin(newAdmin1);
+        vm.stopPrank();
+
+        assertEq(factory.getAllAdmins().length, 1, "test_RemoveAdmin::4");
+        assertEq(factory.isAdmin(newAdmin1), false, "test_AddAdmin::5");
     }
 }

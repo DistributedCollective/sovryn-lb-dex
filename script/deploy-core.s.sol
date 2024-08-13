@@ -49,7 +49,7 @@ contract CoreDeployer is Script {
             vm.broadcast(deployer);
             LBFactory factoryV2 = new LBFactory();
             LBPair lbPairImplementation = new LBPair(ILBFactory(address(factoryV2)));
-            LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), deployer);
+            LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), deployer, address(factoryV2));
             factoryV2.initialize(deployer, deployer, FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
             
             console.log("LBFactory deployed -->", address(factoryV2));

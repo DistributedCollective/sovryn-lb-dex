@@ -137,6 +137,14 @@ interface ILBFactory {
         view
         returns (LBPairInformation[] memory LBPairsBinStep);
 
+    function getAllAdmins() external view returns (address[] memory);
+
+    function addAdmin(address adminAddr) external;
+
+    function removeAdmin(address adminAddr) external;
+
+    function isAdmin(address adminAddr) external returns (bool);
+
     function setLBPairImplementation(address lbPairImplementation) external;
 
     function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep)

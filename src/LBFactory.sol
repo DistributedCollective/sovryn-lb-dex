@@ -324,7 +324,11 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
         return admins;
     }
 
-    // Function to add an address to the set
+    /**
+     * @notice Add address from the admin enumerable list
+     * @dev Needs to be called by the owner
+     * @param adminAddr admin address to be added
+     */
     function addAdmin(address adminAddr) public onlyOwner {
         if(adminAddr == address(0)) revert LBFactory__AddressZero();
         if(!_admins.add(adminAddr)) revert LBFactory__AdminDoesExists(adminAddr);
@@ -332,11 +336,24 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
         emit AdminAdded(msg.sender, adminAddr);
     }
 
-    // Function to remove an address from the set
+    /**
+     * @notice Remove address from the admin enumerable list
+     * @dev Needs to be called by the owner
+     * @param adminAddr admin address to be removed
+     */
     function removeAdmin(address adminAddr) public onlyOwner {
         if(!_admins.remove(adminAddr)) revert LBFactory__AdminDoesNotExists(adminAddr);
 
         emit AdminRemoved(msg.sender, adminAddr);
+    }
+
+    /**
+     * @notice Check if address is admin
+     * @param adminAddr admin address to be checked
+     * @return true if address is admin, false if otherwise
+     */
+    function isAdmin(address adminAddr) public view returns (bool) {
+        return _admins.contains(adminAddr);
     }
 
     /**

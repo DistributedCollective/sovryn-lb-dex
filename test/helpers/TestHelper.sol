@@ -116,7 +116,7 @@ abstract contract TestHelper is Test {
         // Create factory
         factory = new LBFactory();
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
         pairImplementation = new LBPair(factory);
 

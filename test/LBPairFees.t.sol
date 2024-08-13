@@ -561,7 +561,7 @@ contract LBPairFeesTest is TestHelper {
         vm.assume(baseFee + varFee > 1e17);
 
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         LBDexBeaconProxy lbDexBeaconProxy = new LBDexBeaconProxy(address(lbDexUpgradeableBeacon), address(wnative), address(usdc), binStep, "");
 
         pairWnative = LBPair(address(lbDexBeaconProxy));

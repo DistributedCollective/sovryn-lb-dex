@@ -25,7 +25,7 @@ contract LBPairImplementationTest is Test, TestHelper {
     function testFuzz_Getters(address tokenX, address tokenY, uint16 binStep) public {
         factory = new LBFactory();
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV);
+        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         ILBFactory(factory).initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
         LBDexBeaconProxy lbDexBeaconProxy = new LBDexBeaconProxy(address(lbDexUpgradeableBeacon), tokenX, tokenY, binStep, "");
