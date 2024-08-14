@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 import "./helpers/TestHelper.sol";
 
 import {LBFactory, LBFactory} from "src/LBFactory.sol";
-import {ILBRouter, IJoeFactory, ILBLegacyFactory, ILBLegacyRouter, IWNATIVE, LBRouter} from "src/LBRouter.sol";
+import {ILBRouter, ISovrynLBFactoryV1, ILBLegacyFactory, ILBLegacyRouter, IWNATIVE, LBRouter} from "src/LBRouter.sol";
 import {IERC20, LBPair} from "src/LBPair.sol";
 import {LBQuoter} from "src/LBQuoter.sol";
 

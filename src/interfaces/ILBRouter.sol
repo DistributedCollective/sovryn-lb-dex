@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-import {IJoeFactory} from "./IJoeFactory.sol";
+import {ISovrynLBFactoryV1} from "./ISovrynLBFactoryV1.sol";
 import {ILBFactory} from "./ILBFactory.sol";
 import {ILBLegacyFactory} from "./ILBLegacyFactory.sol";
 import {ILBLegacyRouter} from "./ILBLegacyRouter.sol";
@@ -14,7 +14,7 @@ import {IWNATIVE} from "./IWNATIVE.sol";
 
 /**
  * @title Liquidity Book Router Interface
- * @author Trader Joe
+ * @author Trader Sovryn LB
  * @notice Required interface of LBRouter contract
  */
 interface ILBRouter {
@@ -45,16 +45,12 @@ interface ILBRouter {
 
     /**
      * @dev This enum represents the version of the pair requested
-     * - V1: Joe V1 pair
-     * - V2: LB pair V2. Also called legacyPair
-     * - V2_1: LB pair V2.1
-     * - V2_2: LB pair V2.2 (current version)
+     * - V1: Sovryn LB V1 pair
+     * - V2: LB pair V2.2 (current version)
      */
     enum Version {
         V1,
-        V2,
-        V2_1,
-        V2_2
+        V2
     }
 
     /**
@@ -107,7 +103,7 @@ interface ILBRouter {
 
     function getFactory() external view returns (ILBFactory);
 
-    function getV1Factory() external view returns (IJoeFactory);
+    function getV1Factory() external view returns (ISovrynLBFactoryV1);
 
     function getWNATIVE() external view returns (IWNATIVE);
 

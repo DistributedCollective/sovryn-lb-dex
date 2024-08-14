@@ -5,13 +5,13 @@ pragma solidity ^0.8.10;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {ILBFactory} from "./ILBFactory.sol";
-import {IJoeFactory} from "./IJoeFactory.sol";
+import {ISovrynLBFactoryV1} from "./ISovrynLBFactoryV1.sol";
 import {ILBLegacyPair} from "./ILBLegacyPair.sol";
 import {ILBToken} from "./ILBToken.sol";
 import {IWNATIVE} from "./IWNATIVE.sol";
 
 /// @title Liquidity Book Router Interface
-/// @author Trader Joe
+/// @author Trader Sovryn LB
 /// @notice Required interface of LBRouter contract
 interface ILBLegacyRouter {
     struct LiquidityParameters {

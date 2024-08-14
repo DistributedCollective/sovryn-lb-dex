@@ -27,7 +27,7 @@ import {ILBHooks} from "./interfaces/ILBHooks.sol";
 
 /**
  * @title Liquidity Book Pair
- * @author Trader Joe
+ * @author Trader Sovryn LB
  * @notice The Liquidity Book Pair contract is the core contract of the Liquidity Book protocol
  */
 contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {

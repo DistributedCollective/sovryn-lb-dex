@@ -7,7 +7,7 @@ import {Encoded} from "./Encoded.sol";
 
 /**
  * @title Liquidity Book Liquidity Configurations Library
- * @author Trader Joe
+ * @author Trader Sovryn LB
  * @notice This library contains functions to encode and decode the config of a pool and interact with the encoded bytes32.
  */
 library LiquidityConfigurations {

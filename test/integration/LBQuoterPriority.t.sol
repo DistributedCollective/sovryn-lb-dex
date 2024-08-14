@@ -21,7 +21,7 @@ contract LiquidityBinQuoterPriorityTest is Test {
         vm.createSelectFork(vm.rpcUrl("avalanche"), 33313442);
 
         newQuoter = new LBQuoter(
-            AvalancheAddresses.JOE_V1_FACTORY,
+            AvalancheAddresses.SovrynLB_V1_FACTORY,
             factory,
             router
         );
@@ -45,7 +45,7 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         assertEq(newQuote.binSteps[0], oldQuote.binSteps[0], "test_QuoteFromAmountIn::5");
 
-        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2_2), "test_QuoteFromAmountIn::6");
+        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmountIn::6");
         assertEq(uint8(oldQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmountIn::7");
 
         assertEq(newQuote.amounts[0], oldQuote.amounts[0], "test_QuoteFromAmountIn::8");
@@ -78,7 +78,7 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         assertEq(newQuote.binSteps[0], oldQuote.binSteps[0], "test_QuoteFromAmountIn::17");
 
-        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2_2), "test_QuoteFromAmountIn::18");
+        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmountIn::18");
         assertEq(uint8(oldQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmountIn::19");
 
         assertEq(newQuote.amounts[0], oldQuote.amounts[0], "test_QuoteFromAmountIn::20");
@@ -116,7 +116,7 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         assertEq(newQuote.binSteps[0], oldQuote.binSteps[0], "test_QuoteFromAmounOut::5");
 
-        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2_2), "test_QuoteFromAmounOut::6");
+        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmounOut::6");
         assertEq(uint8(oldQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmounOut::7");
 
         assertEq(newQuote.amounts[0], oldQuote.amounts[0], "test_QuoteFromAmounOut::8");
@@ -149,7 +149,7 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         assertEq(newQuote.binSteps[0], oldQuote.binSteps[0], "test_QuoteFromAmounOut::17");
 
-        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2_2), "test_QuoteFromAmounOut::18");
+        assertEq(uint8(newQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmounOut::18");
         assertEq(uint8(oldQuote.versions[0]), uint8(ILBRouter.Version.V2), "test_QuoteFromAmounOut::19");
 
         assertEq(newQuote.amounts[0], oldQuote.amounts[0], "test_QuoteFromAmounOut::20");
