@@ -15,26 +15,35 @@ import "./helpers/TestHelper.sol";
 
 
 
+
 contract LBPairImplementationTest is Test, TestHelper {
     address implementation;
+    ERC20Mock tokenX = new ERC20Mock(18);
+    ERC20Mock tokenY = new ERC20Mock(18);
 
     function setUp() override public {
         super.setUp();
     }
 
-    function testFuzz_Getters(address tokenX, address tokenY, uint16 binStep) public {
+    function testFuzz_Getters(address _tokenX, address _tokenY, uint16 binStep) public {
+        assumeNotPrecompile(_tokenX);
+        assumeNotPrecompile(_tokenY);
+        vm.etch(_tokenX, address(tokenX).code);
+        vm.etch(_tokenY, address(tokenY).code);
         factory = new LBFactory();
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
         LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         ILBFactory(factory).initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
 
-        LBDexBeaconProxy lbDexBeaconProxy = new LBDexBeaconProxy(address(lbDexUpgradeableBeacon), tokenX, tokenY, binStep, "");
+        LBDexBeaconProxy lbDexBeaconProxy = new LBDexBeaconProxy(address(lbDexUpgradeableBeacon), address(tokenX), address(tokenY), binStep, "");
 
         ILBPair pair = ILBPair(address(lbDexBeaconProxy));
 
-        assertEq(address(pair.getTokenX()), tokenX, "testFuzz_Getters::1");
-        assertEq(address(pair.getTokenY()), tokenY, "testFuzz_Getters::2");
+        assertEq(address(pair.getTokenX()), address(tokenX), "testFuzz_Getters::1");
+        assertEq(address(pair.getTokenY()), address(tokenY), "testFuzz_Getters::2");
         assertEq(pair.getBinStep(), binStep, "testFuzz_Getters::3");
+        assertEq(pair.name(), string.concat("Liquidity Book Token ", tokenX.symbol(), " - ", tokenY.symbol()), "testFuzz_Getters::4");
+        assertEq(pair.symbol(), string.concat("LBT_", tokenX.symbol(), "-", tokenY.symbol()), "testFuzz_Getters::5");
     }
 
     function testFuzz_revert_InitializeImplementation() public {

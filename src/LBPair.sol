@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.20;
-
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20, IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 import {BinHelper} from "./libraries/BinHelper.sol";
 import {Clone} from "./libraries/Clone.sol";
@@ -1125,5 +1124,25 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
         if (supply == 0) _tree.add(id);
 
         _bins[id] = binReserves.add(amountsInToBin);
+    }
+
+    /**
+     * @notice Returns the name of the token.
+     * @return The name of the token.
+     */
+    function name() public view virtual override(ILBToken, LBToken) returns (string memory) {
+        string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
+        string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
+        return string.concat("Liquidity Book Token ", tokenXSymbol, " - ", tokenYSymbol);
+    }
+
+    /**
+     * @notice Returns the symbol of the token, usually a shorter version of the name.
+     * @return The symbol of the token.
+     */
+    function symbol() public view virtual override(ILBToken, LBToken) returns (string memory) {
+        string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
+        string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
+        return string.concat("LBT_", tokenXSymbol, "-", tokenYSymbol);
     }
 }

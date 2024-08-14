@@ -20,7 +20,7 @@ contract LBDexUpgradeableBeaconTest is TestHelper {
         vm.etch(DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS, address(pausedTarget).code);
     }
 
-    function test_Constructor() public {
+    function test_Constructor() public view {
         assertEq(lbDexUpgradeableBeacon.lbFactoryAddress(), address(factory), "test_Constructor:1");
         assertEq(lbDexUpgradeableBeacon.owner(), DEV, "test_Constructor:2");
         assertEq(lbDexUpgradeableBeacon.implementation(), address(lbPairImplementation), "test_Constructor:3");
