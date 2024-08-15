@@ -4,19 +4,27 @@ pragma solidity ^0.8.20;
 import "forge-std/Script.sol";
 import {PausedTarget} from "src/PausedTarget.sol"; // Adjust the import path according to your project structure
 
+/**
+ * @notice this a deployment script for Paused target contract.
+ * PausedTarget contract is a placeholder contract that is used as the beacon implementation when it's paused.
+ * Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead.
+ */
 contract DeployPausedTarget is Script {
     function run() external {
         // Define salt and initialize the contract creation code
         bytes32 salt = keccak256(abi.encodePacked("paused-target"));
-        bytes memory bytecode = abi.encodePacked(type(PausedTarget).creationCode);
+        bytes memory bytecode = type(PausedTarget).creationCode;
+        address deployer = vm.addr(vm.envUint("DEPLOYER_PRIVATE_KEY"));
 
         // Calculate deterministic address
-        address deterministicAddress = computeAddress(salt, keccak256(bytecode), address(this));
+        address deterministicAddress = computeAddress(salt, keccak256(bytecode), deployer);
         
         console.log("Deterministic PausedTarget address will be:", deterministicAddress);
 
         // Deploy the contract
+        vm.startPrank(deployer);
         address deployedAddress = deployCode(bytecode, salt);
+        vm.stopPrank();
         console.log("Contract deployed at:", deployedAddress);
 
         // Assert to ensure deployment happened at the deterministic address

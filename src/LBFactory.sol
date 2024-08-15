@@ -19,7 +19,7 @@ import {Hooks} from "./libraries/Hooks.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {ILBPair} from "./interfaces/ILBPair.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
-import {LBDexBeaconProxy} from "./LBDexBeaconProxy.sol";
+import {LBPairBeaconProxy} from "./LBPairBeaconProxy.sol";
 
 /**
  * @title Liquidity Book Factory
@@ -70,11 +70,13 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     mapping(IERC20 => mapping(IERC20 => EnumerableSet.UintSet)) private _availableLBPairBinSteps;
 
     /** Beacon management storage variable */
-    EnumerableSet.AddressSet private _admins;
+    address private _admin;
     address private _lbPairBeacon;
 
 
-    constructor() {}
+    constructor() {
+        _disableInitializers();
+    }
 
     /**
      * @notice Initializer function
@@ -312,48 +314,22 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     }
 
     /**
-     * @notice Get All admins
-     * @return admin addresses
+     * @notice Get admin
+     * @return admin address
      */
-    function getAllAdmins() external view returns (address[] memory) {
-        uint256 length = _admins.length();
-        address[] memory admins = new address[](length);
-        for (uint256 i = 0; i < length; i++) {
-            admins[i] = _admins.at(i);
-        }
-        return admins;
+    function getAdmin() external view returns (address) {
+        return _admin;
     }
 
     /**
-     * @notice Add address from the admin enumerable list
+     * @notice Set admin address
      * @dev Needs to be called by the owner
-     * @param adminAddr admin address to be added
+     * @param newAdminAddr admin address to be set
      */
-    function addAdmin(address adminAddr) public onlyOwner {
-        if(adminAddr == address(0)) revert LBFactory__AddressZero();
-        if(!_admins.add(adminAddr)) revert LBFactory__AdminDoesExists(adminAddr);
+    function setAdmin(address newAdminAddr) public onlyOwner {
+        emit AdminSet(msg.sender, _admin, newAdminAddr);
 
-        emit AdminAdded(msg.sender, adminAddr);
-    }
-
-    /**
-     * @notice Remove address from the admin enumerable list
-     * @dev Needs to be called by the owner
-     * @param adminAddr admin address to be removed
-     */
-    function removeAdmin(address adminAddr) public onlyOwner {
-        if(!_admins.remove(adminAddr)) revert LBFactory__AdminDoesNotExists(adminAddr);
-
-        emit AdminRemoved(msg.sender, adminAddr);
-    }
-
-    /**
-     * @notice Check if address is admin
-     * @param adminAddr admin address to be checked
-     * @return true if address is admin, false if otherwise
-     */
-    function isAdmin(address adminAddr) public view returns (bool) {
-        return _admins.contains(adminAddr);
+        _admin = newAdminAddr;
     }
 
     /**
@@ -428,7 +404,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
                 preset.getMaxVolatilityAccumulator(),
                 activeId
             );
-            pair = ILBPair(address(new LBDexBeaconProxy(_lbPairBeacon, address(tokenX), address(tokenY), binStep, data)));
+            pair = ILBPair(address(new LBPairBeaconProxy(_lbPairBeacon, address(tokenX), address(tokenY), binStep, data)));
         }
 
         _lbPairsInfo[tokenA][tokenB][binStep] =

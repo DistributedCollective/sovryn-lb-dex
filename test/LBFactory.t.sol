@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 import "src/libraries/ImmutableClone.sol";
 import "./mocks/MockHooks.sol";
-import {LBDexUpgradeableBeacon} from "src/LBDexUpgradeableBeacon.sol";
+import {LBPairBeaconProxy} from "src/LBPairBeaconProxy.sol";
 
 /**
  * Test scenarios:
@@ -74,18 +74,21 @@ contract LiquidityBinFactoryTest is TestHelper {
 
         vm.expectEmit(true, true, true, true);
         emit FlashLoanFeeSet(0, DEFAULT_FLASHLOAN_FEE);
-        LBFactory factory = new LBFactory();
+        LBFactory factoryImpl = new LBFactory();
+        LBFactory factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
         
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
+        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
 
-        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
 
         // Reverts if the flash loan fee is above the max fee
-        LBFactory newFactory = new LBFactory();
+        LBFactory newFactoryImpl = new LBFactory();
+        LBFactory newFactory = LBFactory(address(new TransparentUpgradeableProxy(address(newFactoryImpl), DEV, "")));
+
         uint256 maxFee = factory.getMaxFlashLoanFee();
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__FlashLoanFeeAboveMax.selector, maxFee + 1, maxFee));
-        newFactory.initialize(DEV, DEV, maxFee + 1, address(lbDexUpgradeableBeacon));
+        newFactory.initialize(DEV, DEV, maxFee + 1, address(lbPairUpgradeableBeacon));
     }
 
     function test_SetLBPairImplementation() public {
@@ -106,12 +109,13 @@ contract LiquidityBinFactoryTest is TestHelper {
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__SameImplementation.selector, newImplementation));
         factory.setLBPairImplementation(address(newImplementation));
 
-        LBFactory anotherFactory = new LBFactory();
+        LBFactory anotherFactoryImpl = new LBFactory();
+        LBFactory anotherFactory = LBFactory(address(new TransparentUpgradeableProxy(address(anotherFactoryImpl), DEV, "")));
         
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(anotherFactory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(anotherFactory));
+        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(anotherFactory));
 
-        anotherFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+        anotherFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
 
         anotherFactory.setPreset(1, 1, 1, 1, 1, 1, 1, 1, false);
         anotherFactory.addQuoteAsset(usdc);
@@ -234,12 +238,13 @@ contract LiquidityBinFactoryTest is TestHelper {
         factory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP);
 
         // Can't create pair if the implementation is not set
-        LBFactory newFactory = new LBFactory();
+        LBFactory newFactoryImpl = new LBFactory();
+        LBFactory newFactory = LBFactory(address(new TransparentUpgradeableProxy(address(newFactoryImpl), DEV, "")));
         
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(newFactory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(newFactory));
+        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(newFactory));
 
-        newFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+        newFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
 
         // Can't create a pair if the preset is not set
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__BinStepHasNoPreset.selector, DEFAULT_BIN_STEP));
@@ -885,77 +890,24 @@ contract LiquidityBinFactoryTest is TestHelper {
         assertFalse(factory.hasRole(DEFAULT_ADMIN_ROLE, address(this)), "test_AccessControl::8");
     }
 
-    function test_revert_AddAdmin() public {
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::1");
+    function test_revert_SetAdmin() public {
+        assertEq(factory.getAdmin(), address(0), "test_SetAdmin::1");
         address newAdmin = makeAddr("new_admin");
         vm.prank(ALICE);
         vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, ALICE));
-        factory.addAdmin(newAdmin);
+        factory.setAdmin(newAdmin);
         vm.stopPrank();
 
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::2");
-
-        vm.prank(DEV);
-        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AddressZero.selector));
-        factory.addAdmin(address(0));
-        vm.stopPrank();
-
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::3");
-
-        vm.prank(DEV);
-        factory.addAdmin(ALICE);
-
-        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AdminDoesExists.selector, ALICE));
-        factory.addAdmin(ALICE);
-        assertEq(factory.getAllAdmins().length, 1, "test_AddAdmin::4");
+        assertEq(factory.getAdmin(), address(0), "test_SetAdmin::2");
     }
 
-    function test_revert_RemoveAdmin() public {
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::1");
+    function test_SetAdmin() public {
+        assertEq(factory.getAdmin(), address(0), "test_SetAdmin::1");
         address newAdmin = makeAddr("new_admin");
-        vm.prank(ALICE);
-        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, ALICE));
-        factory.removeAdmin(newAdmin);
-        vm.stopPrank();
-
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::2");
 
         vm.prank(DEV);
-        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AdminDoesNotExists.selector, ALICE));
-        factory.removeAdmin(ALICE);
+        factory.setAdmin(newAdmin);
 
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::3");
-    }
-
-    function test_AddAdmin() public {
-        assertEq(factory.getAllAdmins().length, 0, "test_AddAdmin::1");
-        address newAdmin = makeAddr("new_admin");
-        assertEq(factory.isAdmin(newAdmin), false, "test_AddAdmin::2");
-
-        vm.prank(DEV);
-        factory.addAdmin(newAdmin);
-
-        assertEq(factory.getAllAdmins().length, 1, "test_AddAdmin::3");
-        assertEq(factory.isAdmin(newAdmin), true, "test_AddAdmin::4");
-    }
-
-    function test_RemoveAdmin() public {
-        assertEq(factory.getAllAdmins().length, 0, "test_RemoveAdmin::1");
-        address newAdmin1 = makeAddr("new_admin_1");
-        address newAdmin2 = makeAddr("new_admin_2");
-        vm.prank(DEV);
-        factory.addAdmin(newAdmin1);
-        factory.addAdmin(newAdmin2);
-        vm.stopPrank();
-
-        assertEq(factory.getAllAdmins().length, 2, "test_RemoveAdmin::2");
-        assertEq(factory.isAdmin(newAdmin1), true, "test_AddAdmin::3");
-
-        vm.prank(DEV);
-        factory.removeAdmin(newAdmin1);
-        vm.stopPrank();
-
-        assertEq(factory.getAllAdmins().length, 1, "test_RemoveAdmin::4");
-        assertEq(factory.isAdmin(newAdmin1), false, "test_AddAdmin::5");
+        assertEq(factory.getAdmin(), newAdmin, "test_SetAdmin::2");
     }
 }

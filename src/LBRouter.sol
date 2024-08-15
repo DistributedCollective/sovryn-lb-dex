@@ -58,6 +58,11 @@ contract LBRouter is Initializable, ILBRouter {
         _;
     }
 
+    /**
+     * @param factory2 Address of LB DEX V2.2 factory
+     * @param factoryV1 Address of LB DEX V1 factory
+     * @param wnative Address of WNATIVE
+     */
     constructor(
         ILBFactory factory2,
         ISovrynLBFactoryV1 factoryV1,
@@ -66,6 +71,8 @@ contract LBRouter is Initializable, ILBRouter {
         _factory2 = factory2;
         _factoryV1 = factoryV1;
         _wnative = wnative;
+
+        _disableInitializers();
     }
 
     /**

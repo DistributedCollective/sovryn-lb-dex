@@ -24,9 +24,10 @@ import "test/mocks/WNATIVE.sol";
 import "test/mocks/ERC20.sol";
 import "test/mocks/FlashBorrower.sol";
 import "test/mocks/ERC20TransferTax.sol";
-import {LBDexUpgradeableBeacon} from "src/LBDexUpgradeableBeacon.sol";
+import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 
 import {AvalancheAddresses} from "../integration/Addresses.sol";
+import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 
 abstract contract TestHelper is Test {
@@ -114,10 +115,11 @@ abstract contract TestHelper is Test {
         factoryV1 = ISovrynLBFactoryV1(AvalancheAddresses.SovrynLB_V1_FACTORY);
 
         // Create factory
-        factory = new LBFactory();
+        LBFactory factoryImpl = new LBFactory();
+        factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
-        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
+        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
         pairImplementation = new LBPair(factory);
 
         // Setup factory

@@ -35,8 +35,8 @@ interface ILBFactory {
     error LBFactory__SameHooksParameters(bytes32 hooksParameters);
     error LBFactory__InvalidHooksParameters();
     error LBFactory__CannotGrantDefaultAdminRole();
-    error LBFactory__AdminDoesExists(address admin);
-    error LBFactory__AdminDoesNotExists(address admin);
+    error LBFactory__AdminExists(address admin);
+    error LBFactory__AdminNotExists(address admin);
 
     /**
      * @dev Structure to store the LBPair information, such as:
@@ -83,9 +83,7 @@ interface ILBFactory {
 
     event QuoteAssetRemoved(IERC20 indexed quoteAsset);
 
-    event AdminAdded(address indexed sender, address indexed admin);
-
-    event AdminRemoved(address indexed sender, address indexed admin);
+    event AdminSet(address indexed sender, address indexed oldAdmin, address indexed newAdmin);
 
     function getMinBinStep() external pure returns (uint256);
 
@@ -137,13 +135,9 @@ interface ILBFactory {
         view
         returns (LBPairInformation[] memory LBPairsBinStep);
 
-    function getAllAdmins() external view returns (address[] memory);
+    function getAdmin() external view returns (address);
 
-    function addAdmin(address adminAddr) external;
-
-    function removeAdmin(address adminAddr) external;
-
-    function isAdmin(address adminAddr) external returns (bool);
+    function setAdmin(address adminAddr) external;
 
     function setLBPairImplementation(address lbPairImplementation) external;
 

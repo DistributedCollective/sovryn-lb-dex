@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.20;
-import {IERC20, IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {BinHelper} from "./libraries/BinHelper.sol";
 import {Clone} from "./libraries/Clone.sol";
@@ -901,7 +901,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      */
     function _tokenX() internal view returns (IERC20) {
         address tokenX_;
-        bytes32 slot = keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenX")) - 1));
+        bytes32 slot = 0x3441ab29b24daf7a3fd59500b0e08396ec08ec96f5cc2d0362924cdd45cfec31; //keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenX")) - 1));
         assembly {
             tokenX_ := sload(slot)
         }
@@ -915,7 +915,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      */
     function _tokenY() internal view returns (IERC20) {
         address tokenY_;
-        bytes32 slot = keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenY")) - 1));
+        bytes32 slot = 0x7e1935766b7c49e7482a018a5ee52ca183a2ddfcb6810787916934079aa58264; // keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenY")) - 1));
         assembly {
             tokenY_ := sload(slot)
         }
@@ -928,7 +928,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @return binStep_ The bin step of the pool
      */
     function _binStep() internal view returns (uint16 binStep_) {
-        bytes32 slot = keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.BinStep")) - 1));
+        bytes32 slot = 0xff057b3b4d4500dda208cde5d654db7aa2ec63ac10ab9f9956a1f56973842782; //keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.BinStep")) - 1));
         assembly {
             binStep_ := sload(slot)
         }
@@ -1124,25 +1124,5 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
         if (supply == 0) _tree.add(id);
 
         _bins[id] = binReserves.add(amountsInToBin);
-    }
-
-    /**
-     * @notice Returns the name of the token.
-     * @return The name of the token.
-     */
-    function name() public view virtual override(ILBToken, LBToken) returns (string memory) {
-        string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
-        string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
-        return string.concat("Liquidity Book Token ", tokenXSymbol, " - ", tokenYSymbol);
-    }
-
-    /**
-     * @notice Returns the symbol of the token, usually a shorter version of the name.
-     * @return The symbol of the token.
-     */
-    function symbol() public view virtual override(ILBToken, LBToken) returns (string memory) {
-        string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
-        string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
-        return string.concat("LBT_", tokenXSymbol, "-", tokenYSymbol);
     }
 }

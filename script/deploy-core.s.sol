@@ -10,7 +10,7 @@ import {IERC20, LBPair} from "src/LBPair.sol";
 import {LBQuoter} from "src/LBQuoter.sol";
 
 import {BipsConfig} from "./config/bips-config.sol";
-import {LBDexUpgradeableBeacon} from "src/LBDexUpgradeableBeacon.sol";
+import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 
 contract CoreDeployer is Script {
     using stdJson for string;
@@ -20,10 +20,13 @@ contract CoreDeployer is Script {
     struct Deployment {
         address factoryV1;
         address factoryV2;
-        address multisig;
-        address routerV1;
+        address newOwner;
         address routerV2;
         address wNative;
+        address lbPairImplementation;
+        address lbPairUpgradeableBeacon;
+        address quoter;
+        address[] quoteAssets;
     }
 
     string[] chains = ["bob_testnet"];
@@ -38,6 +41,12 @@ contract CoreDeployer is Script {
 
         console.log("Deployer address: %s", deployer);
 
+        address factoryV2;
+        address routerV2;
+        address lbPairUpgradeableBeacon;
+        address lbPairImplementation;
+        address quoter;
+
         for (uint256 i = 0; i < chains.length; i++) {
             bytes memory rawDeploymentData = json.parseRaw(string(abi.encodePacked(".", chains[i])));
             Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
@@ -46,44 +55,92 @@ contract CoreDeployer is Script {
 
             vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
 
-            vm.broadcast(deployer);
-            LBFactory factoryV2 = new LBFactory();
-            LBPair lbPairImplementation = new LBPair(ILBFactory(address(factoryV2)));
-            LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), deployer, address(factoryV2));
-            factoryV2.initialize(deployer, deployer, FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+            if(deployment.factoryV2 == address(0)) {
+                console.log("Deploying factory v2...");
+                vm.broadcast(deployer);
+                factoryV2 = address(new LBFactory());
+
+                console.log("LBFactory deployed -->", factoryV2);
+            } else {
+                factoryV2 = deployment.factoryV2;
+            }
+
+            deployment.factoryV2 = factoryV2;
+
+            if(deployment.lbPairImplementation == address(0)) {
+                console.log("Deploying lbPairImplementation...");
+                vm.broadcast(deployer);
+                lbPairImplementation = address(new LBPair(ILBFactory(factoryV2)));
+                console.log("lbPairImplementation deployed -->", lbPairImplementation);
+            } else {
+                lbPairImplementation = deployment.lbPairImplementation;
+            }
+
+            deployment.lbPairImplementation = lbPairImplementation;
+
             
-            console.log("LBFactory deployed -->", address(factoryV2));
+            if(deployment.lbPairUpgradeableBeacon == address(0)) {
+                console.log("Deploying lbPairUpgradeableBeacon...");
+                vm.broadcast(deployer);
+                lbPairUpgradeableBeacon = address(new LBPairUpgradeableBeacon(lbPairImplementation, deployer, factoryV2));
+                console.log("lbPairUpgradeableBeacon deployed -->", lbPairUpgradeableBeacon);
+            } else {
+                lbPairUpgradeableBeacon = deployment.lbPairUpgradeableBeacon;
+            }
 
-            vm.broadcast(deployer);
-            LBPair pairImplementation = new LBPair(factoryV2);
-            console.log("LBPair implementation deployed -->", address(pairImplementation));
+            deployment.lbPairUpgradeableBeacon = lbPairUpgradeableBeacon;
 
+            console.log("initializing lbFactory...");
             vm.broadcast(deployer);
-            LBRouter routerV2 = new LBRouter(factoryV2, ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative));
-            console.log("LBRouter deployed -->", address(routerV2));
+            LBFactory(factoryV2).initialize(deployer, deployer, FLASHLOAN_FEE, lbPairUpgradeableBeacon);
+            console.log("LBFactory initialized, owner --> ", LBFactory(factoryV2).owner());
+
+            if(deployment.routerV2 == address(0)) {
+                console.log("Deploying routerV2...");
+                vm.broadcast(deployer);
+                routerV2 = address(new LBRouter(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative)));
+                console.log("LBRouter deployed -->", address(routerV2));
+            } else {
+                routerV2 = deployment.routerV2;
+            }
+
+            deployment.routerV2 = routerV2;
+
 
             vm.startBroadcast(deployer);
-            LBQuoter quoter = new LBQuoter(
-                deployment.factoryV1,
-                address(factoryV2),
-                address(routerV2)
-            );
-            console.log("LBQuoter deployed -->", address(quoter));
+            if(deployment.quoter == address(0)) {
+                console.log("Deploying LBQuoter...");
+                quoter = address(new LBQuoter(
+                    deployment.factoryV1,
+                    factoryV2,
+                    routerV2
+                ));
+                console.log("LBQuoter deployed -->", address(quoter));
+            } else {
+                quoter = deployment.quoter;
+            }
 
-            factoryV2.setLBPairImplementation(address(pairImplementation));
+            deployment.quoter = quoter;
+
+
+            console.log("Setting LBPair implementation set on factoryV2\n");
+            LBFactory(factoryV2).setLBPairImplementation(lbPairImplementation);
             console.log("LBPair implementation set on factoryV2\n");
 
-            uint256 quoteAssets = ILBLegacyFactory(deployment.factoryV2).getNumberOfQuoteAssets();
-            for (uint256 j = 0; j < quoteAssets; j++) {
-                IERC20 quoteAsset = ILBLegacyFactory(deployment.factoryV2).getQuoteAsset(j);
-                factoryV2.addQuoteAsset(quoteAsset);
+            address[] memory quoteAssets = deployment.quoteAssets;
+            for (uint256 j = 0; j < quoteAssets.length; j++) {
+                IERC20 quoteAsset = IERC20(quoteAssets[j]);
+                if(LBFactory(factoryV2).isQuoteAsset(quoteAsset)) continue;
+
+                /** Add asset quote asset */
+                LBFactory(factoryV2).addQuoteAsset(quoteAsset);
                 console.log("Quote asset whitelisted -->", address(quoteAsset));
             }
 
             uint256[] memory presetList = BipsConfig.getPresetList();
             for (uint256 j; j < presetList.length; j++) {
                 BipsConfig.FactoryPreset memory preset = BipsConfig.getPreset(presetList[j]);
-                factoryV2.setPreset(
+                LBFactory(factoryV2).setPreset(
                     preset.binStep,
                     preset.baseFactor,
                     preset.filterPeriod,
@@ -96,8 +153,15 @@ contract CoreDeployer is Script {
                 );
             }
 
-            factoryV2.transferOwnership(deployment.multisig);
+            LBFactory(factoryV2).transferOwnership(deployment.newOwner);
             vm.stopBroadcast();
+
+            // Serialize the updated deployment struct back to JSON
+            bytes memory updatedDeployment = abi.encode(deployment);
+            json = json.serialize(string(abi.encodePacked(".", chains[i])), updatedDeployment);
+
+            // Write the updated JSON back to the file
+            vm.writeFile("script/config/deployments.json", json);
         }
     }
 

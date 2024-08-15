@@ -9,8 +9,8 @@ import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import "../src/LBPair.sol";
 import "../src/libraries/ImmutableClone.sol";
 import "../src/LBFactory.sol";
-import {LBDexUpgradeableBeacon} from "../src/LBDexUpgradeableBeacon.sol";
-import {LBDexBeaconProxy} from "../src/LBDexBeaconProxy.sol";
+import {LBPairBeaconProxy} from "../src/LBPairBeaconProxy.sol";
+import {LBPairBeaconProxy} from "../src/LBPairBeaconProxy.sol";
 import "./helpers/TestHelper.sol";
 
 
@@ -30,12 +30,13 @@ contract LBPairImplementationTest is Test, TestHelper {
         assumeNotPrecompile(_tokenY);
         vm.etch(_tokenX, address(tokenX).code);
         vm.etch(_tokenY, address(tokenY).code);
-        factory = new LBFactory();
+        LBFactory factoryImpl = new LBFactory();
+        LBFactory factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBDexUpgradeableBeacon lbDexUpgradeableBeacon = new LBDexUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
-        ILBFactory(factory).initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbDexUpgradeableBeacon));
+        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
+        ILBFactory(factory).initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
 
-        LBDexBeaconProxy lbDexBeaconProxy = new LBDexBeaconProxy(address(lbDexUpgradeableBeacon), address(tokenX), address(tokenY), binStep, "");
+        LBPairBeaconProxy lbDexBeaconProxy = new LBPairBeaconProxy(address(lbPairUpgradeableBeacon), address(tokenX), address(tokenY), binStep, "");
 
         ILBPair pair = ILBPair(address(lbDexBeaconProxy));
 
