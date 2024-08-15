@@ -73,9 +73,4 @@ contract LBPairBeaconProxy is BeaconProxy {
     function getLBPairBeacon() external view returns (address) {
         return _getBeacon();
     }
-
-    modifier onlyLBPairBeaconOwner {
-        require(msg.sender == IOwnable(_getBeacon()).owner(), "Only beacon owner");
-        _;
-    }
 }
