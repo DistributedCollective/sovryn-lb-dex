@@ -17,7 +17,7 @@ contract LBPairUpgradeableBeacon is BaseUpgradeableBeacon {
     ILBFactory private _lbFactoryAddress;
 
     // @notice this is a determenistic PausedTarget contract address that is used as the beacon implementation when it's paused. The contract will revert on any function call. It is used because we cant utilize non-contract (i.e. 0x0 or 0x1) as the implementation of the beacon.  
-    address public constant TARGET_PAUSED_CONTRACT_ADDRESS = 0xC347b61589e131d5a3fb7eA64c9548095cB434a0;
+    address public constant TARGET_PAUSED_CONTRACT_ADDRESS = 0x576a05E4080C23a653c3c2240DA4437e83dd50bF;
 
     modifier onlyAuthorized() {
         if(msg.sender != owner() && !IAccessControl(address(_lbFactoryAddress)).hasRole(_lbFactoryAddress.getPauserRole(), msg.sender)) revert Beacon__UnauthorizedCaller(msg.sender);

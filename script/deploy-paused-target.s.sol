@@ -28,7 +28,8 @@ contract DeployPausedTarget is Script {
         console.log("Contract deployed at:", deployedAddress);
 
         // Assert to ensure deployment happened at the deterministic address
-        require(deployedAddress == deterministicAddress, "Deployment failed at deterministic address");
+        require(deployedAddress == address(0x576a05E4080C23a653c3c2240DA4437e83dd50bF), "Deployment failed at deterministic address: 1");
+        require(deployedAddress == deterministicAddress, "Deployment failed at deterministic address: 2");
     }
 
     // Helper function to deploy using create2

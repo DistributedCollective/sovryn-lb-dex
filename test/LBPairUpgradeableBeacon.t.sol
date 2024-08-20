@@ -10,7 +10,7 @@ contract LBPairBeaconProxyTest is TestHelper {
     LBPair lbPairImplementation;
     LBPairUpgradeableBeacon lbPairUpgradeableBeacon;
     PausedTarget pausedTarget;
-    address DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS = 0xC347b61589e131d5a3fb7eA64c9548095cB434a0;
+    address DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS = 0x576a05E4080C23a653c3c2240DA4437e83dd50bF;
 
     function setUp() public override {
         super.setUp();
