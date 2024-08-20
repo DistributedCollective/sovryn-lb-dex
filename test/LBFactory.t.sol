@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "src/libraries/ImmutableClone.sol";
 import "./mocks/MockHooks.sol";
 import {LBPairBeaconProxy} from "src/LBPairBeaconProxy.sol";
+import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol";
 
 /**
  * Test scenarios:
@@ -891,10 +892,12 @@ contract LiquidityBinFactoryTest is TestHelper {
     }
 
     function test_revert_SetPauser() public {
+        bytes32 DEFAULT_ADMIN_ROLE = factory.DEFAULT_ADMIN_ROLE();
+        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
         address newAdmin = makeAddr("new_admin");
         assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
         vm.prank(ALICE);
-        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, ALICE));
+        vm.expectRevert(abi.encodeWithSelector(IAccessControl.AccessControlUnauthorizedAccount.selector, ALICE, DEFAULT_ADMIN_ROLE));
         factory.grantRole(PAUSER_ROLE, newAdmin);
         vm.stopPrank();
 
@@ -902,6 +905,7 @@ contract LiquidityBinFactoryTest is TestHelper {
     }
 
     function test_SetAdmin() public {
+        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
         address newAdmin = makeAddr("new_admin");
         assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
 

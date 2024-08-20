@@ -55,8 +55,6 @@ abstract contract TestHelper is Test {
     address payable immutable ALICE = payable(makeAddr("alice"));
     address payable immutable BOB = payable(makeAddr("bob"));
 
-    bytes32 PAUSER_ROLE = keccak256("PAUSER_ROLE");
-
     // Wrapped Native
     WNATIVE internal wnative;
 

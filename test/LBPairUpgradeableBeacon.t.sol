@@ -41,6 +41,7 @@ contract LBPairBeaconProxyTest is TestHelper {
     }
 
     function test_PauseByAdmin() public {
+        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
         /** Test Pause by Admin */
         factory.grantRole(PAUSER_ROLE, ALICE);
         vm.prank(ALICE);
@@ -68,6 +69,7 @@ contract LBPairBeaconProxyTest is TestHelper {
     }
 
     function test_UnpauseByAdmin() public {
+        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
         vm.prank(ALICE);
         vm.expectRevert(abi.encodeWithSelector(LBPairUpgradeableBeacon.Beacon__UnauthorizedCaller.selector, ALICE));
         lbPairUpgradeableBeacon.unpause();
