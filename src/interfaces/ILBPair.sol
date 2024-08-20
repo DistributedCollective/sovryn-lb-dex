@@ -91,8 +91,6 @@ interface ILBPair is ILBToken {
         uint24 activeId
     ) external;
 
-    function implementation() external view returns (address);
-
     function getFactory() external view returns (ILBFactory factory);
 
     function getTokenX() external view returns (IERC20 tokenX);

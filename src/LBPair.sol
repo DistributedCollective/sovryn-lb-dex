@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {BinHelper} from "./libraries/BinHelper.sol";
-import {Clone} from "./libraries/Clone.sol";
 import {Constants} from "./libraries/Constants.sol";
 import {FeeHelper} from "./libraries/FeeHelper.sol";
 import {LiquidityConfigurations} from "./libraries/math/LiquidityConfigurations.sol";
@@ -29,7 +28,7 @@ import {ILBHooks} from "./interfaces/ILBHooks.sol";
  * @author Trader Sovryn LB
  * @notice The Liquidity Book Pair contract is the core contract of the Liquidity Book protocol
  */
-contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
+contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
     using BinHelper for bytes32;
     using FeeHelper for uint128;
     using LiquidityConfigurations for bytes32;
@@ -56,7 +55,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
 
     uint256 private constant _MAX_TOTAL_FEE = 0.1e18; // 10%
 
-    address public immutable override implementation;
     ILBFactory private immutable _factory;
 
     bytes32 private _parameters;
@@ -77,7 +75,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      */
     constructor(ILBFactory factory_) {
         _factory = factory_;
-        implementation = address(this);
 
         _disableInitializers();
     }
