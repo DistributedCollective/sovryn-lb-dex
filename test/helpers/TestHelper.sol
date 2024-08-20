@@ -128,7 +128,8 @@ abstract contract TestHelper is Test {
         setDefaultFactoryPresets(DEFAULT_BIN_STEP);
 
         // Create router
-        router = new LBRouter(factory, factoryV1, IWNATIVE(address(wnative)));
+        LBRouter routerImpl = new LBRouter(factory, factoryV1, IWNATIVE(address(wnative)));
+        router = LBRouter(payable(address(new TransparentUpgradeableProxy(address(routerImpl), DEV, abi.encodeCall(LBRouter.initialize, ())))));
 
         // Create quoter
         quoter = new LBQuoter(

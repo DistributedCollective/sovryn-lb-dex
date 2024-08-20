@@ -11,6 +11,9 @@ import {LBQuoter} from "src/LBQuoter.sol";
 
 import {BipsConfig} from "./config/bips-config.sol";
 import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
+import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
+import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+
 
 contract CoreDeployer is Script {
     using stdJson for string;
@@ -58,7 +61,11 @@ contract CoreDeployer is Script {
             if(deployment.factoryV2 == address(0)) {
                 console.log("Deploying factory v2...");
                 vm.broadcast(deployer);
-                factoryV2 = address(new LBFactory());
+                factoryV2 = Upgrades.deployTransparentProxy(
+                    "LBFactory.sol",
+                    deployer,
+                    ""
+                );
 
                 console.log("LBFactory deployed -->", factoryV2);
             } else {
@@ -98,8 +105,9 @@ contract CoreDeployer is Script {
             if(deployment.routerV2 == address(0)) {
                 console.log("Deploying routerV2...");
                 vm.broadcast(deployer);
-                routerV2 = address(new LBRouter(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative)));
-                console.log("LBRouter deployed -->", address(routerV2));
+                LBRouter routerV2Impl = new LBRouter(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative));
+                routerV2 = payable(address(new TransparentUpgradeableProxy(address(routerV2Impl), deployer, abi.encodeCall(LBRouter.initialize, ()))));
+                console.log("LBRouter deployed -->", routerV2);
             } else {
                 routerV2 = deployment.routerV2;
             }

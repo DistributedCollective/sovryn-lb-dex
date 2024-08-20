@@ -75,6 +75,8 @@ contract LBRouter is Initializable, ILBRouter {
         _disableInitializers();
     }
 
+    function initialize() initializer external {}
+
     /**
      * @dev Receive function that only accept NATIVE from the WNATIVE contract
      */
