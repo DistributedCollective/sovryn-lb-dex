@@ -37,6 +37,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     using EnumerableMap for EnumerableMap.UintToUintMap;
 
     bytes32 public constant LB_HOOKS_MANAGER_ROLE = keccak256("LB_HOOKS_MANAGER_ROLE");
+    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
     uint256 private constant _OFFSET_IS_PRESET_OPEN = 255;
 
@@ -70,7 +71,6 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     mapping(IERC20 => mapping(IERC20 => EnumerableSet.UintSet)) private _availableLBPairBinSteps;
 
     /** Beacon management storage variable */
-    address private _admin;
     address private _lbPairBeacon;
 
 
@@ -313,23 +313,9 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
         }
     }
 
-    /**
-     * @notice Get admin
-     * @return admin address
-     */
-    function getAdmin() external view returns (address) {
-        return _admin;
-    }
-
-    /**
-     * @notice Set admin address
-     * @dev Needs to be called by the owner
-     * @param newAdminAddr admin address to be set
-     */
-    function setAdmin(address newAdminAddr) public onlyOwner {
-        emit AdminSet(msg.sender, _admin, newAdminAddr);
-
-        _admin = newAdminAddr;
+    // Getter function for the constant variable
+    function getPauserRole() external pure returns (bytes32) {
+        return PAUSER_ROLE;
     }
 
     /**

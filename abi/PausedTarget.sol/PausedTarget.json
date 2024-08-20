@@ -1,1 +1,274 @@
-{"abi":[{"type":"constructor","inputs":[],"stateMutability":"nonpayable"},{"type":"fallback","stateMutability":"payable"},{"type":"error","name":"ContractIsPaused","inputs":[]}],"bytecode":{"object":"0x6080604052348015600f57600080fd5b50604b80601d6000396000f3fe608060408190526306d39fcd60e41b8152600490fdfea264697066735822122037657adb7ca303df7c7889aea7b5adbec1e181c812fb1999116ef2eed94b20be64736f6c63430008140033","sourceMap":"299:152:66:-:0;;;357:16;;;;;;;;;;299:152;;;;;;","linkReferences":{}},"deployedBytecode":{"object":"0x608060408190526306d39fcd60e41b8152600490fdfea264697066735822122037657adb7ca303df7c7889aea7b5adbec1e181c812fb1999116ef2eed94b20be64736f6c63430008140033","sourceMap":"299:152:66:-:0;;;;;-1:-1:-1;;;424:18:66;;;;","linkReferences":{}},"methodIdentifiers":{},"rawMetadata":"{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"ContractIsPaused\",\"type\":\"error\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"This is a placeholder contract that is used as the beacon implementation when it's paused. Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/PausedTarget.sol\":\"PausedTarget\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"src/PausedTarget.sol\":{\"keccak256\":\"0x2ac836b6d9936167f7dc285af590ca0b60fbd78a0bdce6f9bed3ab335722c91d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8f3bd81b6663720bdcd7e3795d094cfb482424983d5bfac06f861e74f5eea694\",\"dweb:/ipfs/QmYLmHhintjkxJr2mgZSnPZeFaeMrRvc8WGzEpwhJq8KLR\"]}},\"version\":1}","metadata":{"compiler":{"version":"0.8.20+commit.a1b79de6"},"language":"Solidity","output":{"abi":[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"type":"error","name":"ContractIsPaused"},{"inputs":[],"stateMutability":"payable","type":"fallback"}],"devdoc":{"kind":"dev","methods":{},"version":1},"userdoc":{"kind":"user","methods":{},"version":1}},"settings":{"remappings":["@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/","@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/","ds-test/=lib/forge-std/lib/ds-test/src/","erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/","forge-std/=lib/forge-std/src/","openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/","openzeppelin-contracts/=lib/openzeppelin-contracts/"],"optimizer":{"enabled":true,"runs":800},"metadata":{"bytecodeHash":"ipfs"},"compilationTarget":{"src/PausedTarget.sol":"PausedTarget"},"evmVersion":"paris","libraries":{}},"sources":{"src/PausedTarget.sol":{"keccak256":"0x2ac836b6d9936167f7dc285af590ca0b60fbd78a0bdce6f9bed3ab335722c91d","urls":["bzz-raw://8f3bd81b6663720bdcd7e3795d094cfb482424983d5bfac06f861e74f5eea694","dweb:/ipfs/QmYLmHhintjkxJr2mgZSnPZeFaeMrRvc8WGzEpwhJq8KLR"],"license":"MIT"}},"version":1},"id":66}
+{
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "ContractIsPaused",
+      "type": "error"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    }
+  ],
+  "bytecode": {
+    "object": "0x6080604052348015600f57600080fd5b50604b80601d6000396000f3fe608060408190526306d39fcd60e41b8152600490fdfea264697066735822122037657adb7ca303df7c7889aea7b5adbec1e181c812fb1999116ef2eed94b20be64736f6c63430008140033",
+    "sourceMap": "299:152:69:-:0;;;357:16;;;;;;;;;;299:152;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x608060408190526306d39fcd60e41b8152600490fdfea264697066735822122037657adb7ca303df7c7889aea7b5adbec1e181c812fb1999116ef2eed94b20be64736f6c63430008140033",
+    "sourceMap": "299:152:69:-:0;;;;;-1:-1:-1;;;424:18:69;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"ContractIsPaused\",\"type\":\"error\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"This is a placeholder contract that is used as the beacon implementation when it's paused. Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/PausedTarget.sol\":\"PausedTarget\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"src/PausedTarget.sol\":{\"keccak256\":\"0x2ac836b6d9936167f7dc285af590ca0b60fbd78a0bdce6f9bed3ab335722c91d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8f3bd81b6663720bdcd7e3795d094cfb482424983d5bfac06f861e74f5eea694\",\"dweb:/ipfs/QmYLmHhintjkxJr2mgZSnPZeFaeMrRvc8WGzEpwhJq8KLR\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.20+commit.a1b79de6"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "ContractIsPaused"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "payable",
+          "type": "fallback"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "ds-test/=lib/forge-std/lib/ds-test/src/",
+        "erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+        "forge-std/=lib/forge-std/src/",
+        "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 800
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/PausedTarget.sol": "PausedTarget"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "src/PausedTarget.sol": {
+        "keccak256": "0x2ac836b6d9936167f7dc285af590ca0b60fbd78a0bdce6f9bed3ab335722c91d",
+        "urls": [
+          "bzz-raw://8f3bd81b6663720bdcd7e3795d094cfb482424983d5bfac06f861e74f5eea694",
+          "dweb:/ipfs/QmYLmHhintjkxJr2mgZSnPZeFaeMrRvc8WGzEpwhJq8KLR"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/PausedTarget.sol",
+    "id": 64356,
+    "exportedSymbols": {
+      "PausedTarget": [
+        64355
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "33:419:69",
+    "nodes": [
+      {
+        "id": 64340,
+        "nodeType": "PragmaDirective",
+        "src": "33:24:69",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".20"
+        ]
+      },
+      {
+        "id": 64355,
+        "nodeType": "ContractDefinition",
+        "src": "299:152:69",
+        "nodes": [
+          {
+            "id": 64343,
+            "nodeType": "ErrorDefinition",
+            "src": "327:25:69",
+            "nodes": [],
+            "errorSelector": "6d39fcd0",
+            "name": "ContractIsPaused",
+            "nameLocation": "333:16:69",
+            "parameters": {
+              "id": 64342,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "349:2:69"
+            }
+          },
+          {
+            "id": 64347,
+            "nodeType": "FunctionDefinition",
+            "src": "357:16:69",
+            "nodes": [],
+            "body": {
+              "id": 64346,
+              "nodeType": "Block",
+              "src": "371:2:69",
+              "nodes": [],
+              "statements": []
+            },
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 64344,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "368:2:69"
+            },
+            "returnParameters": {
+              "id": 64345,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "371:0:69"
+            },
+            "scope": 64355,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "id": 64354,
+            "nodeType": "FunctionDefinition",
+            "src": "379:70:69",
+            "nodes": [],
+            "body": {
+              "id": 64353,
+              "nodeType": "Block",
+              "src": "407:42:69",
+              "nodes": [],
+              "statements": [
+                {
+                  "errorCall": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 64350,
+                      "name": "ContractIsPaused",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 64343,
+                      "src": "424:16:69",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_error_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 64351,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "424:18:69",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 64352,
+                  "nodeType": "RevertStatement",
+                  "src": "417:25:69"
+                }
+              ]
+            },
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 64348,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "387:2:69"
+            },
+            "returnParameters": {
+              "id": 64349,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "407:0:69"
+            },
+            "scope": 64355,
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "PausedTarget",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 64341,
+          "nodeType": "StructuredDocumentation",
+          "src": "59:239:69",
+          "text": " @notice This is a placeholder contract that is used as the beacon implementation when it's paused.\n Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead."
+        },
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          64355
+        ],
+        "name": "PausedTarget",
+        "nameLocation": "308:12:69",
+        "scope": 64356,
+        "usedErrors": [
+          64343
+        ],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 69
+}

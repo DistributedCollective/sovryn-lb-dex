@@ -42,7 +42,7 @@ contract LBPairBeaconProxyTest is TestHelper {
 
     function test_PauseByAdmin() public {
         /** Test Pause by Admin */
-        factory.setAdmin(ALICE);
+        factory.grantRole(PAUSER_ROLE, ALICE);
         vm.prank(ALICE);
         lbPairUpgradeableBeacon.pause();
         assertEq(lbPairUpgradeableBeacon.pausedImplementation(), address(lbPairImplementation));
@@ -76,7 +76,7 @@ contract LBPairBeaconProxyTest is TestHelper {
         assertEq(lbPairUpgradeableBeacon.pausedImplementation(), address(lbPairImplementation));
         assertEq(lbPairUpgradeableBeacon.implementation(), DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS);
 
-        factory.setAdmin(ALICE);
+        factory.grantRole(PAUSER_ROLE, ALICE);
         vm.prank(ALICE);
         lbPairUpgradeableBeacon.unpause();
         assertEq(lbPairUpgradeableBeacon.pausedImplementation(), address(0));

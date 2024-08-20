@@ -5,6 +5,7 @@ pragma solidity 0.8.20;
 import "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
 import {BaseUpgradeableBeacon} from "./BaseUpgradeableBeacon.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
+import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol";
 
 contract LBPairUpgradeableBeacon is BaseUpgradeableBeacon {
     error Beacon__UnauthorizedCaller(address caller);
@@ -15,12 +16,11 @@ contract LBPairUpgradeableBeacon is BaseUpgradeableBeacon {
     address private _pausedImplementation;
     ILBFactory private _lbFactoryAddress;
 
-    // @notice this is the determenistic PausedTarget contract address that is deployed from deploy-paused-target.s.sol
-    // the deployment script using this "keccak256(abi.encodePacked("paused-target"))" as salt
+    // @notice this is a determenistic PausedTarget contract address that is used as the beacon implementation when it's paused. The contract will revert on any function call. It is used because we cant utilize non-contract (i.e. 0x0 or 0x1) as the implementation of the beacon.  
     address public constant TARGET_PAUSED_CONTRACT_ADDRESS = 0xC347b61589e131d5a3fb7eA64c9548095cB434a0;
 
     modifier onlyAuthorized() {
-        if(msg.sender != owner() && _lbFactoryAddress.getAdmin() != msg.sender) revert Beacon__UnauthorizedCaller(msg.sender);
+        if(msg.sender != owner() && !IAccessControl(address(_lbFactoryAddress)).hasRole(_lbFactoryAddress.getPauserRole(), msg.sender)) revert Beacon__UnauthorizedCaller(msg.sender);
         _;
     }
 
@@ -49,7 +49,7 @@ contract LBPairUpgradeableBeacon is BaseUpgradeableBeacon {
      * Will set the implementation to TARGET_PAUSED_CONTRACT_ADDRESS
      */
     function pause() external virtual onlyAuthorized whenNotPaused {
-        _pausedImplementation = BaseUpgradeableBeacon.implementation();
+        _pausedImplementation = implementation();
         _setImplementation(TARGET_PAUSED_CONTRACT_ADDRESS);
     }
 
@@ -66,26 +66,11 @@ contract LBPairUpgradeableBeacon is BaseUpgradeableBeacon {
     }
 
     /**
-     * @dev Upgrades the beacon to a new implementation.
-     *
-     * Emits an {Upgraded} event.
-     *
-     * Requirements:
-     *
-     * - msg.sender must be the owner of the contract.
-     * - `newImplementation` must be a contract.
-     */
-    function upgradeTo(address newImplementation) public override onlyOwner {
-        _setImplementation(newImplementation);
-        _pausedImplementation = address(0);
-    }
-
-    /**
      * @notice function to check if contract is in paused mode.
      * @return true if contract paused, otherwise will return false.
      */
     function isPaused() public view returns(bool){
-        return implementation() == address(TARGET_PAUSED_CONTRACT_ADDRESS);
+        return implementation() == address(TARGET_PAUSED_CONTRACT_ADDRESS) || _pausedImplementation != address(0);
     }
 
     /**

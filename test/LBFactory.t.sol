@@ -890,24 +890,24 @@ contract LiquidityBinFactoryTest is TestHelper {
         assertFalse(factory.hasRole(DEFAULT_ADMIN_ROLE, address(this)), "test_AccessControl::8");
     }
 
-    function test_revert_SetAdmin() public {
-        assertEq(factory.getAdmin(), address(0), "test_SetAdmin::1");
+    function test_revert_SetPauser() public {
         address newAdmin = makeAddr("new_admin");
+        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
         vm.prank(ALICE);
         vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, ALICE));
-        factory.setAdmin(newAdmin);
+        factory.grantRole(PAUSER_ROLE, newAdmin);
         vm.stopPrank();
 
-        assertEq(factory.getAdmin(), address(0), "test_SetAdmin::2");
+        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::2");
     }
 
     function test_SetAdmin() public {
-        assertEq(factory.getAdmin(), address(0), "test_SetAdmin::1");
         address newAdmin = makeAddr("new_admin");
+        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
 
         vm.prank(DEV);
-        factory.setAdmin(newAdmin);
+        factory.grantRole(PAUSER_ROLE, newAdmin);
 
-        assertEq(factory.getAdmin(), newAdmin, "test_SetAdmin::2");
+        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), true, "test_SetAdmin::2");
     }
 }

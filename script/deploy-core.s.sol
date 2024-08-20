@@ -156,6 +156,9 @@ contract CoreDeployer is Script {
             LBFactory(factoryV2).transferOwnership(deployment.newOwner);
             vm.stopBroadcast();
 
+            console.log("The new pendingOwner: ", LBFactory(factoryV2).pendingOwner());
+            console.log("Please accept the ownership of factory at: ", address(factoryV2));
+
             // Serialize the updated deployment struct back to JSON
             bytes memory updatedDeployment = abi.encode(deployment);
             json = json.serialize(string(abi.encodePacked(".", chains[i])), updatedDeployment);
