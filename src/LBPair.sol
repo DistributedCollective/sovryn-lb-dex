@@ -22,6 +22,7 @@ import {TreeMath} from "./libraries/math/TreeMath.sol";
 import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 import {Hooks} from "./libraries/Hooks.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
+import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 /**
  * @title Liquidity Book Pair
@@ -69,6 +70,9 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
     bytes32 private _hooksParameters;
 
+    string private _tokenName;
+    string private _tokenSymbol;
+
     /**
      * @dev Constructor for the Liquidity Book Pair contract that sets the Liquidity Book Factory
      * @param factory_ The Liquidity Book Factory
@@ -113,6 +117,28 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
             protocolShare,
             maxVolatilityAccumulator
         );
+
+        string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
+        string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
+
+        _tokenName = string.concat("Liquidity Book Token ", tokenXSymbol, " - ", tokenYSymbol);
+        _tokenSymbol = string.concat("LBT_", tokenXSymbol, "-", tokenYSymbol);
+    }
+
+    /**
+     * @notice Returns the name of the token.
+     * @return tokenName_ The name of the token.
+     */
+    function name() public override(ILBToken, LBToken) view returns (string memory) {
+        return _tokenName;
+    }
+
+    /**
+     * @notice Returns the symbol of the token, usually a shorter version of the name.
+     * @return tokenSymbol_ The symbol of the token.
+     */
+    function symbol() public override(ILBToken, LBToken) view returns (string memory) {
+        return _tokenSymbol;
     }
 
     /**

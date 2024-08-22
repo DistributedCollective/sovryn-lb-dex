@@ -40,6 +40,9 @@ contract LBPairImplementationTest is Test, TestHelper {
 
         ILBPair pair = ILBPair(address(lbDexBeaconProxy));
 
+        vm.prank(address(factory));
+        pair.initialize(1, 1, 1, 1, 1, 1, 1, 1);
+
         assertEq(address(pair.getTokenX()), address(tokenX), "testFuzz_Getters::1");
         assertEq(address(pair.getTokenY()), address(tokenY), "testFuzz_Getters::2");
         assertEq(pair.getBinStep(), binStep, "testFuzz_Getters::3");
