@@ -14,7 +14,12 @@ contract DeployPausedTarget is Script {
         // Define salt and initialize the contract creation code
         bytes32 salt = keccak256(abi.encodePacked("paused-target"));
         bytes memory bytecode = type(PausedTarget).creationCode;
-        address deployer = vm.addr(vm.envUint("DEPLOYER_PRIVATE_KEY"));
+        address deployer = tx.origin;
+        uint256 envPK = vm.envOr("DEPLOYER_PRIVATE_KEY", uint256(0)); 
+        if(envPK != 0 && vm.envBool("USE_ENV_PK")) {
+            // CLI command would look like USE_ENV_PK=true forge script ...
+            deployer = vm.addr(envPK);
+        }
 
         // Calculate deterministic address
         address deterministicAddress = computeAddress(salt, keccak256(bytecode), deployer);

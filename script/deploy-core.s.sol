@@ -19,6 +19,7 @@ contract CoreDeployer is Script {
     using stdJson for string;
 
     uint256 private constant FLASHLOAN_FEE = 5e12;
+    address deployer;
 
     struct Deployment {
         address factoryV1;
@@ -40,7 +41,12 @@ contract CoreDeployer is Script {
 
     function run() public {
         string memory json = vm.readFile("script/config/deployments.json");
-        address deployer = vm.rememberKey(vm.envUint("DEPLOYER_PRIVATE_KEY"));
+        deployer = tx.origin;
+        uint256 envPK = vm.envOr("DEPLOYER_PRIVATE_KEY", uint256(0)); 
+        if(envPK != 0 && vm.envBool("USE_ENV_PK")) {
+            // CLI command would look like USE_ENV_PK=true forge script ...
+            deployer = vm.addr(envPK);
+        }
 
         console.log("Deployer address: %s", deployer);
 
