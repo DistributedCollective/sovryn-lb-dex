@@ -18,7 +18,7 @@ import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transpa
 contract CoreDeployer is Script {
     using stdJson for string;
 
-    uint256 private constant FLASHLOAN_FEE = 5e12;
+    uint256 private constant FLASHLOAN_FEE = 0.05e16; //0.05%
     address deployer;
 
     struct Deployment {
