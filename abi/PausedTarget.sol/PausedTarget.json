@@ -99,17 +99,17 @@
   },
   "ast": {
     "absolutePath": "src/PausedTarget.sol",
-    "id": 67501,
+    "id": 67643,
     "exportedSymbols": {
       "PausedTarget": [
-        67500
+        67642
       ]
     },
     "nodeType": "SourceUnit",
     "src": "33:419:87",
     "nodes": [
       {
-        "id": 67485,
+        "id": 67627,
         "nodeType": "PragmaDirective",
         "src": "33:24:87",
         "nodes": [],
@@ -121,12 +121,12 @@
         ]
       },
       {
-        "id": 67500,
+        "id": 67642,
         "nodeType": "ContractDefinition",
         "src": "299:152:87",
         "nodes": [
           {
-            "id": 67488,
+            "id": 67630,
             "nodeType": "ErrorDefinition",
             "src": "327:25:87",
             "nodes": [],
@@ -134,19 +134,19 @@
             "name": "ContractIsPaused",
             "nameLocation": "333:16:87",
             "parameters": {
-              "id": 67487,
+              "id": 67629,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "349:2:87"
             }
           },
           {
-            "id": 67492,
+            "id": 67634,
             "nodeType": "FunctionDefinition",
             "src": "357:16:87",
             "nodes": [],
             "body": {
-              "id": 67491,
+              "id": 67633,
               "nodeType": "Block",
               "src": "371:2:87",
               "nodes": [],
@@ -158,29 +158,29 @@
             "name": "",
             "nameLocation": "-1:-1:-1",
             "parameters": {
-              "id": 67489,
+              "id": 67631,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "368:2:87"
             },
             "returnParameters": {
-              "id": 67490,
+              "id": 67632,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "371:0:87"
             },
-            "scope": 67500,
+            "scope": 67642,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
-            "id": 67499,
+            "id": 67641,
             "nodeType": "FunctionDefinition",
             "src": "379:70:87",
             "nodes": [],
             "body": {
-              "id": 67498,
+              "id": 67640,
               "nodeType": "Block",
               "src": "407:42:87",
               "nodes": [],
@@ -190,18 +190,18 @@
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 67495,
+                      "id": 67637,
                       "name": "ContractIsPaused",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 67488,
+                      "referencedDeclaration": 67630,
                       "src": "424:16:87",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_error_pure$__$returns$__$",
                         "typeString": "function () pure"
                       }
                     },
-                    "id": 67496,
+                    "id": 67638,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -217,7 +217,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 67497,
+                  "id": 67639,
                   "nodeType": "RevertStatement",
                   "src": "417:25:87"
                 }
@@ -229,18 +229,18 @@
             "name": "",
             "nameLocation": "-1:-1:-1",
             "parameters": {
-              "id": 67493,
+              "id": 67635,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "387:2:87"
             },
             "returnParameters": {
-              "id": 67494,
+              "id": 67636,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "407:0:87"
             },
-            "scope": 67500,
+            "scope": 67642,
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "external"
@@ -252,20 +252,20 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 67486,
+          "id": 67628,
           "nodeType": "StructuredDocumentation",
           "src": "59:239:87",
           "text": " @notice This is a placeholder contract that is used as the beacon implementation when it's paused.\n Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead."
         },
         "fullyImplemented": true,
         "linearizedBaseContracts": [
-          67500
+          67642
         ],
         "name": "PausedTarget",
         "nameLocation": "308:12:87",
-        "scope": 67501,
+        "scope": 67643,
         "usedErrors": [
-          67488
+          67630
         ],
         "usedEvents": []
       }

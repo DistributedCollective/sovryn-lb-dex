@@ -10,7 +10,9 @@ import {PausedTarget} from "src/PausedTarget.sol"; // Adjust the import path acc
  * Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead.
  */
 contract DeployPausedTarget is Script {
+    error Create2FailedDeployment();
     string[] chains = ["bob_testnet"];
+    address FOUNDRY_DETERMINISTIC_DEPLOYER = 0x4e59b44847b379578588920cA78FbF26c0B4956C;
 
     function run() external {
         address deployedAddress;
@@ -27,7 +29,7 @@ contract DeployPausedTarget is Script {
         console.log("deployer: ", deployer);
 
         // Calculate deterministic address
-        address deterministicAddress = computeAddress(salt, keccak256(bytecode), deployer);
+        address deterministicAddress = computeAddress(salt, keccak256(bytecode), FOUNDRY_DETERMINISTIC_DEPLOYER);
         
         console.log("Deterministic PausedTarget address will be:", deterministicAddress);
 
@@ -36,7 +38,12 @@ contract DeployPausedTarget is Script {
             vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
             console.log("\nDeploying PausedTarget on %s", chains[i]);
             vm.startBroadcast(deployer);
-            deployedAddress = deployCode(bytecode, salt);
+            try new PausedTarget{salt: salt}() returns (PausedTarget pausedTarget) {
+                deployedAddress = address(pausedTarget);
+            } catch {
+                console.log("ERROR!!! Contract has been deployed, please check on-chain contract at: ", deterministicAddress);
+                revert Create2FailedDeployment();
+            }
             vm.stopBroadcast();
             console.log("Contract deployed at:", deployedAddress);
         }

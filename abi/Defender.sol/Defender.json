@@ -196,35 +196,35 @@
   },
   "ast": {
     "absolutePath": "lib/openzeppelin-foundry-upgrades/src/Defender.sol",
-    "id": 51441,
+    "id": 51450,
     "exportedSymbols": {
       "ApprovalProcessResponse": [
-        51440
+        51449
       ],
       "Core": [
-        53213
+        53222
       ],
       "Defender": [
-        51428
+        51437
       ],
       "DefenderDeploy": [
-        54692
+        54701
       ],
       "DefenderOptions": [
-        51478
+        51487
       ],
       "Options": [
-        51459
+        51468
       ],
       "ProposeUpgradeResponse": [
-        51433
+        51442
       ]
     },
     "nodeType": "SourceUnit",
     "src": "32:8435:65",
     "nodes": [
       {
-        "id": 51272,
+        "id": 51281,
         "nodeType": "PragmaDirective",
         "src": "32:23:65",
         "nodes": [],
@@ -236,23 +236,23 @@
         ]
       },
       {
-        "id": 51275,
+        "id": 51284,
         "nodeType": "ImportDirective",
         "src": "57:55:65",
         "nodes": [],
         "absolutePath": "lib/openzeppelin-foundry-upgrades/src/Options.sol",
         "file": "./Options.sol",
         "nameLocation": "-1:-1:-1",
-        "scope": 51441,
-        "sourceUnit": 51489,
+        "scope": 51450,
+        "sourceUnit": 51498,
         "symbolAliases": [
           {
             "foreign": {
-              "id": 51273,
+              "id": 51282,
               "name": "Options",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 51459,
+              "referencedDeclaration": 51468,
               "src": "65:7:65",
               "typeDescriptions": {}
             },
@@ -260,11 +260,11 @@
           },
           {
             "foreign": {
-              "id": 51274,
+              "id": 51283,
               "name": "DefenderOptions",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 51478,
+              "referencedDeclaration": 51487,
               "src": "74:15:65",
               "typeDescriptions": {}
             },
@@ -274,23 +274,23 @@
         "unitAlias": ""
       },
       {
-        "id": 51277,
+        "id": 51286,
         "nodeType": "ImportDirective",
         "src": "113:41:65",
         "nodes": [],
         "absolutePath": "lib/openzeppelin-foundry-upgrades/src/internal/Core.sol",
         "file": "./internal/Core.sol",
         "nameLocation": "-1:-1:-1",
-        "scope": 51441,
-        "sourceUnit": 53214,
+        "scope": 51450,
+        "sourceUnit": 53223,
         "symbolAliases": [
           {
             "foreign": {
-              "id": 51276,
+              "id": 51285,
               "name": "Core",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 53213,
+              "referencedDeclaration": 53222,
               "src": "121:4:65",
               "typeDescriptions": {}
             },
@@ -300,23 +300,23 @@
         "unitAlias": ""
       },
       {
-        "id": 51279,
+        "id": 51288,
         "nodeType": "ImportDirective",
         "src": "155:61:65",
         "nodes": [],
         "absolutePath": "lib/openzeppelin-foundry-upgrades/src/internal/DefenderDeploy.sol",
         "file": "./internal/DefenderDeploy.sol",
         "nameLocation": "-1:-1:-1",
-        "scope": 51441,
-        "sourceUnit": 54693,
+        "scope": 51450,
+        "sourceUnit": 54702,
         "symbolAliases": [
           {
             "foreign": {
-              "id": 51278,
+              "id": 51287,
               "name": "DefenderDeploy",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 54692,
+              "referencedDeclaration": 54701,
               "src": "163:14:65",
               "typeDescriptions": {}
             },
@@ -326,17 +326,17 @@
         "unitAlias": ""
       },
       {
-        "id": 51428,
+        "id": 51437,
         "nodeType": "ContractDefinition",
         "src": "314:7975:65",
         "nodes": [
           {
-            "id": 51294,
+            "id": 51303,
             "nodeType": "FunctionDefinition",
             "src": "1094:135:65",
             "nodes": [],
             "body": {
-              "id": 51293,
+              "id": 51302,
               "nodeType": "Block",
               "src": "1173:56:65",
               "nodes": [],
@@ -345,11 +345,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 51289,
+                        "id": 51298,
                         "name": "contractName",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51283,
+                        "referencedDeclaration": 51292,
                         "src": "1205:12:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -358,7 +358,7 @@
                       },
                       {
                         "hexValue": "",
-                        "id": 51290,
+                        "id": 51299,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -384,23 +384,23 @@
                           "typeString": "literal_string \"\""
                         }
                       ],
-                      "id": 51288,
+                      "id": 51297,
                       "name": "deployContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        51294,
-                        51312,
-                        51333,
-                        51354
+                        51303,
+                        51321,
+                        51342,
+                        51363
                       ],
-                      "referencedDeclaration": 51333,
+                      "referencedDeclaration": 51342,
                       "src": "1190:14:65",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$returns$_t_address_$",
                         "typeString": "function (string memory,bytes memory) returns (address)"
                       }
                     },
-                    "id": 51291,
+                    "id": 51300,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -416,15 +416,15 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 51287,
-                  "id": 51292,
+                  "functionReturnParameters": 51296,
+                  "id": 51301,
                   "nodeType": "Return",
                   "src": "1183:39:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51281,
+              "id": 51290,
               "nodeType": "StructuredDocumentation",
               "src": "337:752:65",
               "text": " @dev Deploys a contract to the current network using OpenZeppelin Defender.\n WARNING: Do not use this function directly if you are deploying an upgradeable contract. This function does not validate whether the contract is upgrade safe.\n NOTE: If using an EOA or Safe to deploy, go to https://defender.openzeppelin.com/v2/#/deploy[Defender deploy] to submit the pending deployment while the script is running.\n The script waits for the deployment to complete before it continues.\n @param contractName Name of the contract to deploy, e.g. \"MyContract.sol\" or \"MyContract.sol:MyContract\" or artifact path relative to the project root directory\n @return Address of the deployed contract"
@@ -435,17 +435,17 @@
             "name": "deployContract",
             "nameLocation": "1103:14:65",
             "parameters": {
-              "id": 51284,
+              "id": 51293,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51283,
+                  "id": 51292,
                   "mutability": "mutable",
                   "name": "contractName",
                   "nameLocation": "1132:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51294,
+                  "scope": 51303,
                   "src": "1118:26:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -454,7 +454,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 51282,
+                    "id": 51291,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1118:6:65",
@@ -469,17 +469,17 @@
               "src": "1117:28:65"
             },
             "returnParameters": {
-              "id": 51287,
+              "id": 51296,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51286,
+                  "id": 51295,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51294,
+                  "scope": 51303,
                   "src": "1164:7:65",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -488,7 +488,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 51285,
+                    "id": 51294,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1164:7:65",
@@ -503,18 +503,18 @@
               ],
               "src": "1163:9:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
-            "id": 51312,
+            "id": 51321,
             "nodeType": "FunctionDefinition",
             "src": "2149:208:65",
             "nodes": [],
             "body": {
-              "id": 51311,
+              "id": 51320,
               "nodeType": "Block",
               "src": "2287:70:65",
               "nodes": [],
@@ -523,11 +523,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 51306,
+                        "id": 51315,
                         "name": "contractName",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51297,
+                        "referencedDeclaration": 51306,
                         "src": "2319:12:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -536,7 +536,7 @@
                       },
                       {
                         "hexValue": "",
-                        "id": 51307,
+                        "id": 51316,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -551,14 +551,14 @@
                         "value": ""
                       },
                       {
-                        "id": 51308,
+                        "id": 51317,
                         "name": "defenderOpts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51300,
+                        "referencedDeclaration": 51309,
                         "src": "2337:12:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       }
@@ -574,27 +574,27 @@
                           "typeString": "literal_string \"\""
                         },
                         {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       ],
-                      "id": 51305,
+                      "id": 51314,
                       "name": "deployContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        51294,
-                        51312,
-                        51333,
-                        51354
+                        51303,
+                        51321,
+                        51342,
+                        51363
                       ],
-                      "referencedDeclaration": 51354,
+                      "referencedDeclaration": 51363,
                       "src": "2304:14:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$_t_struct$_DefenderOptions_$51478_memory_ptr_$returns$_t_address_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$_t_struct$_DefenderOptions_$51487_memory_ptr_$returns$_t_address_$",
                         "typeString": "function (string memory,bytes memory,struct DefenderOptions memory) returns (address)"
                       }
                     },
-                    "id": 51309,
+                    "id": 51318,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -610,15 +610,15 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 51304,
-                  "id": 51310,
+                  "functionReturnParameters": 51313,
+                  "id": 51319,
                   "nodeType": "Return",
                   "src": "2297:53:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51295,
+              "id": 51304,
               "nodeType": "StructuredDocumentation",
               "src": "1235:909:65",
               "text": " @dev Deploys a contract to the current network using OpenZeppelin Defender.\n WARNING: Do not use this function directly if you are deploying an upgradeable contract. This function does not validate whether the contract is upgrade safe.\n NOTE: If using an EOA or Safe to deploy, go to https://defender.openzeppelin.com/v2/#/deploy[Defender deploy] to submit the pending deployment while the script is running.\n The script waits for the deployment to complete before it continues.\n @param contractName Name of the contract to deploy, e.g. \"MyContract.sol\" or \"MyContract.sol:MyContract\" or artifact path relative to the project root directory\n @param defenderOpts Defender deployment options. Note that the `useDefenderDeploy` option is always treated as `true` when called from this function.\n @return Address of the deployed contract"
@@ -629,17 +629,17 @@
             "name": "deployContract",
             "nameLocation": "2158:14:65",
             "parameters": {
-              "id": 51301,
+              "id": 51310,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51297,
+                  "id": 51306,
                   "mutability": "mutable",
                   "name": "contractName",
                   "nameLocation": "2196:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51312,
+                  "scope": 51321,
                   "src": "2182:26:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -648,7 +648,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 51296,
+                    "id": 51305,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "2182:6:65",
@@ -661,36 +661,36 @@
                 },
                 {
                   "constant": false,
-                  "id": 51300,
+                  "id": 51309,
                   "mutability": "mutable",
                   "name": "defenderOpts",
                   "nameLocation": "2241:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51312,
+                  "scope": 51321,
                   "src": "2218:35:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                    "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                     "typeString": "struct DefenderOptions"
                   },
                   "typeName": {
-                    "id": 51299,
+                    "id": 51308,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 51298,
+                      "id": 51307,
                       "name": "DefenderOptions",
                       "nameLocations": [
                         "2218:15:65"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 51478,
+                      "referencedDeclaration": 51487,
                       "src": "2218:15:65"
                     },
-                    "referencedDeclaration": 51478,
+                    "referencedDeclaration": 51487,
                     "src": "2218:15:65",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_DefenderOptions_$51478_storage_ptr",
+                      "typeIdentifier": "t_struct$_DefenderOptions_$51487_storage_ptr",
                       "typeString": "struct DefenderOptions"
                     }
                   },
@@ -700,17 +700,17 @@
               "src": "2172:87:65"
             },
             "returnParameters": {
-              "id": 51304,
+              "id": 51313,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51303,
+                  "id": 51312,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51312,
+                  "scope": 51321,
                   "src": "2278:7:65",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -719,7 +719,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 51302,
+                    "id": 51311,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2278:7:65",
@@ -734,66 +734,66 @@
               ],
               "src": "2277:9:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
-            "id": 51333,
+            "id": 51342,
             "nodeType": "FunctionDefinition",
             "src": "3207:237:65",
             "nodes": [],
             "body": {
-              "id": 51332,
+              "id": 51341,
               "nodeType": "Block",
               "src": "3316:128:65",
               "nodes": [],
               "statements": [
                 {
                   "assignments": [
-                    51324
+                    51333
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 51324,
+                      "id": 51333,
                       "mutability": "mutable",
                       "name": "defenderOpts",
                       "nameLocation": "3349:12:65",
                       "nodeType": "VariableDeclaration",
-                      "scope": 51332,
+                      "scope": 51341,
                       "src": "3326:35:65",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                        "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                         "typeString": "struct DefenderOptions"
                       },
                       "typeName": {
-                        "id": 51323,
+                        "id": 51332,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 51322,
+                          "id": 51331,
                           "name": "DefenderOptions",
                           "nameLocations": [
                             "3326:15:65"
                           ],
                           "nodeType": "IdentifierPath",
-                          "referencedDeclaration": 51478,
+                          "referencedDeclaration": 51487,
                           "src": "3326:15:65"
                         },
-                        "referencedDeclaration": 51478,
+                        "referencedDeclaration": 51487,
                         "src": "3326:15:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_storage_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_storage_ptr",
                           "typeString": "struct DefenderOptions"
                         }
                       },
                       "visibility": "internal"
                     }
                   ],
-                  "id": 51325,
+                  "id": 51334,
                   "nodeType": "VariableDeclarationStatement",
                   "src": "3326:35:65"
                 },
@@ -801,11 +801,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 51327,
+                        "id": 51336,
                         "name": "contractName",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51315,
+                        "referencedDeclaration": 51324,
                         "src": "3393:12:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -813,11 +813,11 @@
                         }
                       },
                       {
-                        "id": 51328,
+                        "id": 51337,
                         "name": "constructorData",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51317,
+                        "referencedDeclaration": 51326,
                         "src": "3407:15:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -825,14 +825,14 @@
                         }
                       },
                       {
-                        "id": 51329,
+                        "id": 51338,
                         "name": "defenderOpts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51324,
+                        "referencedDeclaration": 51333,
                         "src": "3424:12:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       }
@@ -848,27 +848,27 @@
                           "typeString": "bytes memory"
                         },
                         {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       ],
-                      "id": 51326,
+                      "id": 51335,
                       "name": "deployContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        51294,
-                        51312,
-                        51333,
-                        51354
+                        51303,
+                        51321,
+                        51342,
+                        51363
                       ],
-                      "referencedDeclaration": 51354,
+                      "referencedDeclaration": 51363,
                       "src": "3378:14:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$_t_struct$_DefenderOptions_$51478_memory_ptr_$returns$_t_address_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$_t_struct$_DefenderOptions_$51487_memory_ptr_$returns$_t_address_$",
                         "typeString": "function (string memory,bytes memory,struct DefenderOptions memory) returns (address)"
                       }
                     },
-                    "id": 51330,
+                    "id": 51339,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -884,15 +884,15 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 51321,
-                  "id": 51331,
+                  "functionReturnParameters": 51330,
+                  "id": 51340,
                   "nodeType": "Return",
                   "src": "3371:66:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51313,
+              "id": 51322,
               "nodeType": "StructuredDocumentation",
               "src": "2363:839:65",
               "text": " @dev Deploys a contract with constructor arguments to the current network using OpenZeppelin Defender.\n WARNING: Do not use this function directly if you are deploying an upgradeable contract. This function does not validate whether the contract is upgrade safe.\n NOTE: If using an EOA or Safe to deploy, go to https://defender.openzeppelin.com/v2/#/deploy[Defender deploy] to submit the pending deployment while the script is running.\n The script waits for the deployment to complete before it continues.\n @param contractName Name of the contract to deploy, e.g. \"MyContract.sol\" or \"MyContract.sol:MyContract\" or artifact path relative to the project root directory\n @param constructorData Encoded constructor arguments\n @return Address of the deployed contract"
@@ -903,17 +903,17 @@
             "name": "deployContract",
             "nameLocation": "3216:14:65",
             "parameters": {
-              "id": 51318,
+              "id": 51327,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51315,
+                  "id": 51324,
                   "mutability": "mutable",
                   "name": "contractName",
                   "nameLocation": "3245:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51333,
+                  "scope": 51342,
                   "src": "3231:26:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -922,7 +922,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 51314,
+                    "id": 51323,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3231:6:65",
@@ -935,12 +935,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 51317,
+                  "id": 51326,
                   "mutability": "mutable",
                   "name": "constructorData",
                   "nameLocation": "3272:15:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51333,
+                  "scope": 51342,
                   "src": "3259:28:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -949,7 +949,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 51316,
+                    "id": 51325,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3259:5:65",
@@ -964,17 +964,17 @@
               "src": "3230:58:65"
             },
             "returnParameters": {
-              "id": 51321,
+              "id": 51330,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51320,
+                  "id": 51329,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51333,
+                  "scope": 51342,
                   "src": "3307:7:65",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -983,7 +983,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 51319,
+                    "id": 51328,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "3307:7:65",
@@ -998,18 +998,18 @@
               ],
               "src": "3306:9:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
-            "id": 51354,
+            "id": 51363,
             "nodeType": "FunctionDefinition",
             "src": "4451:266:65",
             "nodes": [],
             "body": {
-              "id": 51353,
+              "id": 51362,
               "nodeType": "Block",
               "src": "4627:90:65",
               "nodes": [],
@@ -1018,11 +1018,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 51348,
+                        "id": 51357,
                         "name": "contractName",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51336,
+                        "referencedDeclaration": 51345,
                         "src": "4666:12:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1030,11 +1030,11 @@
                         }
                       },
                       {
-                        "id": 51349,
+                        "id": 51358,
                         "name": "constructorData",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51338,
+                        "referencedDeclaration": 51347,
                         "src": "4680:15:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -1042,14 +1042,14 @@
                         }
                       },
                       {
-                        "id": 51350,
+                        "id": 51359,
                         "name": "defenderOpts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51341,
+                        "referencedDeclaration": 51350,
                         "src": "4697:12:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       }
@@ -1065,23 +1065,23 @@
                           "typeString": "bytes memory"
                         },
                         {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       ],
                       "expression": {
-                        "id": 51346,
+                        "id": 51355,
                         "name": "DefenderDeploy",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 54692,
+                        "referencedDeclaration": 54701,
                         "src": "4644:14:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54692_$",
+                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54701_$",
                           "typeString": "type(library DefenderDeploy)"
                         }
                       },
-                      "id": 51347,
+                      "id": 51356,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1089,14 +1089,14 @@
                       "memberLocation": "4659:6:65",
                       "memberName": "deploy",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 53345,
+                      "referencedDeclaration": 53354,
                       "src": "4644:21:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$_t_struct$_DefenderOptions_$51478_memory_ptr_$returns$_t_address_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_bytes_memory_ptr_$_t_struct$_DefenderOptions_$51487_memory_ptr_$returns$_t_address_$",
                         "typeString": "function (string memory,bytes memory,struct DefenderOptions memory) returns (address)"
                       }
                     },
-                    "id": 51351,
+                    "id": 51360,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1112,15 +1112,15 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 51345,
-                  "id": 51352,
+                  "functionReturnParameters": 51354,
+                  "id": 51361,
                   "nodeType": "Return",
                   "src": "4637:73:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51334,
+              "id": 51343,
               "nodeType": "StructuredDocumentation",
               "src": "3450:996:65",
               "text": " @dev Deploys a contract with constructor arguments to the current network using OpenZeppelin Defender.\n WARNING: Do not use this function directly if you are deploying an upgradeable contract. This function does not validate whether the contract is upgrade safe.\n NOTE: If using an EOA or Safe to deploy, go to https://defender.openzeppelin.com/v2/#/deploy[Defender deploy] to submit the pending deployment while the script is running.\n The script waits for the deployment to complete before it continues.\n @param contractName Name of the contract to deploy, e.g. \"MyContract.sol\" or \"MyContract.sol:MyContract\" or artifact path relative to the project root directory\n @param constructorData Encoded constructor arguments\n @param defenderOpts Defender deployment options. Note that the `useDefenderDeploy` option is always treated as `true` when called from this function.\n @return Address of the deployed contract"
@@ -1131,17 +1131,17 @@
             "name": "deployContract",
             "nameLocation": "4460:14:65",
             "parameters": {
-              "id": 51342,
+              "id": 51351,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51336,
+                  "id": 51345,
                   "mutability": "mutable",
                   "name": "contractName",
                   "nameLocation": "4498:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51354,
+                  "scope": 51363,
                   "src": "4484:26:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1150,7 +1150,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 51335,
+                    "id": 51344,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "4484:6:65",
@@ -1163,12 +1163,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 51338,
+                  "id": 51347,
                   "mutability": "mutable",
                   "name": "constructorData",
                   "nameLocation": "4533:15:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51354,
+                  "scope": 51363,
                   "src": "4520:28:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1177,7 +1177,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 51337,
+                    "id": 51346,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "4520:5:65",
@@ -1190,36 +1190,36 @@
                 },
                 {
                   "constant": false,
-                  "id": 51341,
+                  "id": 51350,
                   "mutability": "mutable",
                   "name": "defenderOpts",
                   "nameLocation": "4581:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51354,
+                  "scope": 51363,
                   "src": "4558:35:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                    "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                     "typeString": "struct DefenderOptions"
                   },
                   "typeName": {
-                    "id": 51340,
+                    "id": 51349,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 51339,
+                      "id": 51348,
                       "name": "DefenderOptions",
                       "nameLocations": [
                         "4558:15:65"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 51478,
+                      "referencedDeclaration": 51487,
                       "src": "4558:15:65"
                     },
-                    "referencedDeclaration": 51478,
+                    "referencedDeclaration": 51487,
                     "src": "4558:15:65",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_DefenderOptions_$51478_storage_ptr",
+                      "typeIdentifier": "t_struct$_DefenderOptions_$51487_storage_ptr",
                       "typeString": "struct DefenderOptions"
                     }
                   },
@@ -1229,17 +1229,17 @@
               "src": "4474:125:65"
             },
             "returnParameters": {
-              "id": 51345,
+              "id": 51354,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51344,
+                  "id": 51353,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51354,
+                  "scope": 51363,
                   "src": "4618:7:65",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1248,7 +1248,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 51343,
+                    "id": 51352,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "4618:7:65",
@@ -1263,25 +1263,25 @@
               ],
               "src": "4617:9:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
-            "id": 51401,
+            "id": 51410,
             "nodeType": "FunctionDefinition",
             "src": "6533:667:65",
             "nodes": [],
             "body": {
-              "id": 51400,
+              "id": 51409,
               "nodeType": "Block",
               "src": "6724:476:65",
               "nodes": [],
               "statements": [
                 {
                   "expression": {
-                    "id": 51374,
+                    "id": 51383,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1289,18 +1289,18 @@
                     "leftHandSide": {
                       "expression": {
                         "expression": {
-                          "id": 51368,
+                          "id": 51377,
                           "name": "opts",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 51362,
+                          "referencedDeclaration": 51371,
                           "src": "6734:4:65",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Options_$51459_memory_ptr",
+                            "typeIdentifier": "t_struct$_Options_$51468_memory_ptr",
                             "typeString": "struct Options memory"
                           }
                         },
-                        "id": 51371,
+                        "id": 51380,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -1308,14 +1308,14 @@
                         "memberLocation": "6739:8:65",
                         "memberName": "defender",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 51458,
+                        "referencedDeclaration": 51467,
                         "src": "6734:13:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_DefenderOptions_$51478_memory_ptr",
+                          "typeIdentifier": "t_struct$_DefenderOptions_$51487_memory_ptr",
                           "typeString": "struct DefenderOptions memory"
                         }
                       },
-                      "id": 51372,
+                      "id": 51381,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -1323,7 +1323,7 @@
                       "memberLocation": "6748:17:65",
                       "memberName": "useDefenderDeploy",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 51462,
+                      "referencedDeclaration": 51471,
                       "src": "6734:31:65",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -1334,7 +1334,7 @@
                     "operator": "=",
                     "rightHandSide": {
                       "hexValue": "74727565",
-                      "id": 51373,
+                      "id": 51382,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -1354,23 +1354,23 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 51375,
+                  "id": 51384,
                   "nodeType": "ExpressionStatement",
                   "src": "6734:38:65"
                 },
                 {
                   "assignments": [
-                    51377
+                    51386
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 51377,
+                      "id": 51386,
                       "mutability": "mutable",
                       "name": "proxyAdminAddress",
                       "nameLocation": "6790:17:65",
                       "nodeType": "VariableDeclaration",
-                      "scope": 51400,
+                      "scope": 51409,
                       "src": "6782:25:65",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1379,7 +1379,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 51376,
+                        "id": 51385,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "6782:7:65",
@@ -1392,15 +1392,15 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 51382,
+                  "id": 51391,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 51380,
+                        "id": 51389,
                         "name": "proxyAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51357,
+                        "referencedDeclaration": 51366,
                         "src": "6831:12:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1416,18 +1416,18 @@
                         }
                       ],
                       "expression": {
-                        "id": 51378,
+                        "id": 51387,
                         "name": "Core",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 53213,
+                        "referencedDeclaration": 53222,
                         "src": "6810:4:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_Core_$53213_$",
+                          "typeIdentifier": "t_type$_t_contract$_Core_$53222_$",
                           "typeString": "type(library Core)"
                         }
                       },
-                      "id": 51379,
+                      "id": 51388,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1435,14 +1435,14 @@
                       "memberLocation": "6815:15:65",
                       "memberName": "getAdminAddress",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 52643,
+                      "referencedDeclaration": 52652,
                       "src": "6810:20:65",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_address_$",
                         "typeString": "function (address) view returns (address)"
                       }
                     },
-                    "id": 51381,
+                    "id": 51390,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1463,17 +1463,17 @@
                 },
                 {
                   "assignments": [
-                    51384
+                    51393
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 51384,
+                      "id": 51393,
                       "mutability": "mutable",
                       "name": "newImplementationAddress",
                       "nameLocation": "6862:24:65",
                       "nodeType": "VariableDeclaration",
-                      "scope": 51400,
+                      "scope": 51409,
                       "src": "6854:32:65",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1482,7 +1482,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 51383,
+                        "id": 51392,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "6854:7:65",
@@ -1495,15 +1495,15 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 51390,
+                  "id": 51399,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 51387,
+                        "id": 51396,
                         "name": "newImplementationContractName",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51359,
+                        "referencedDeclaration": 51368,
                         "src": "6909:29:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1511,14 +1511,14 @@
                         }
                       },
                       {
-                        "id": 51388,
+                        "id": 51397,
                         "name": "opts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51362,
+                        "referencedDeclaration": 51371,
                         "src": "6940:4:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Options_$51459_memory_ptr",
+                          "typeIdentifier": "t_struct$_Options_$51468_memory_ptr",
                           "typeString": "struct Options memory"
                         }
                       }
@@ -1530,23 +1530,23 @@
                           "typeString": "string memory"
                         },
                         {
-                          "typeIdentifier": "t_struct$_Options_$51459_memory_ptr",
+                          "typeIdentifier": "t_struct$_Options_$51468_memory_ptr",
                           "typeString": "struct Options memory"
                         }
                       ],
                       "expression": {
-                        "id": 51385,
+                        "id": 51394,
                         "name": "Core",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 53213,
+                        "referencedDeclaration": 53222,
                         "src": "6889:4:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_Core_$53213_$",
+                          "typeIdentifier": "t_type$_t_contract$_Core_$53222_$",
                           "typeString": "type(library Core)"
                         }
                       },
-                      "id": 51386,
+                      "id": 51395,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1554,14 +1554,14 @@
                       "memberLocation": "6894:14:65",
                       "memberName": "prepareUpgrade",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 52607,
+                      "referencedDeclaration": 52616,
                       "src": "6889:19:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_struct$_Options_$51459_memory_ptr_$returns$_t_address_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_struct$_Options_$51468_memory_ptr_$returns$_t_address_$",
                         "typeString": "function (string memory,struct Options memory) returns (address)"
                       }
                     },
-                    "id": 51389,
+                    "id": 51398,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1584,11 +1584,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 51393,
+                        "id": 51402,
                         "name": "proxyAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51357,
+                        "referencedDeclaration": 51366,
                         "src": "7021:12:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1596,11 +1596,11 @@
                         }
                       },
                       {
-                        "id": 51394,
+                        "id": 51403,
                         "name": "proxyAdminAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51377,
+                        "referencedDeclaration": 51386,
                         "src": "7051:17:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1608,11 +1608,11 @@
                         }
                       },
                       {
-                        "id": 51395,
+                        "id": 51404,
                         "name": "newImplementationAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51384,
+                        "referencedDeclaration": 51393,
                         "src": "7086:24:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1620,11 +1620,11 @@
                         }
                       },
                       {
-                        "id": 51396,
+                        "id": 51405,
                         "name": "newImplementationContractName",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51359,
+                        "referencedDeclaration": 51368,
                         "src": "7128:29:65",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1632,14 +1632,14 @@
                         }
                       },
                       {
-                        "id": 51397,
+                        "id": 51406,
                         "name": "opts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 51362,
+                        "referencedDeclaration": 51371,
                         "src": "7175:4:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Options_$51459_memory_ptr",
+                          "typeIdentifier": "t_struct$_Options_$51468_memory_ptr",
                           "typeString": "struct Options memory"
                         }
                       }
@@ -1663,23 +1663,23 @@
                           "typeString": "string memory"
                         },
                         {
-                          "typeIdentifier": "t_struct$_Options_$51459_memory_ptr",
+                          "typeIdentifier": "t_struct$_Options_$51468_memory_ptr",
                           "typeString": "struct Options memory"
                         }
                       ],
                       "expression": {
-                        "id": 51391,
+                        "id": 51400,
                         "name": "DefenderDeploy",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 54692,
+                        "referencedDeclaration": 54701,
                         "src": "6974:14:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54692_$",
+                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54701_$",
                           "typeString": "type(library DefenderDeploy)"
                         }
                       },
-                      "id": 51392,
+                      "id": 51401,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1687,14 +1687,14 @@
                       "memberLocation": "6989:14:65",
                       "memberName": "proposeUpgrade",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 54113,
+                      "referencedDeclaration": 54122,
                       "src": "6974:29:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$_t_struct$_Options_$51459_memory_ptr_$returns$_t_struct$_ProposeUpgradeResponse_$51433_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_address_$_t_string_memory_ptr_$_t_struct$_Options_$51468_memory_ptr_$returns$_t_struct$_ProposeUpgradeResponse_$51442_memory_ptr_$",
                         "typeString": "function (address,address,address,string memory,struct Options memory) returns (struct ProposeUpgradeResponse memory)"
                       }
                     },
-                    "id": 51398,
+                    "id": 51407,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1706,19 +1706,19 @@
                     "src": "6974:219:65",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_ProposeUpgradeResponse_$51433_memory_ptr",
+                      "typeIdentifier": "t_struct$_ProposeUpgradeResponse_$51442_memory_ptr",
                       "typeString": "struct ProposeUpgradeResponse memory"
                     }
                   },
-                  "functionReturnParameters": 51367,
-                  "id": 51399,
+                  "functionReturnParameters": 51376,
+                  "id": 51408,
                   "nodeType": "Return",
                   "src": "6955:238:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51355,
+              "id": 51364,
               "nodeType": "StructuredDocumentation",
               "src": "4723:1805:65",
               "text": " @dev Proposes an upgrade to an upgradeable proxy using OpenZeppelin Defender.\n This function validates a new implementation contract in comparison with a reference contract, deploys the new implementation contract using Defender,\n and proposes an upgrade to the new implementation contract using an upgrade approval process on Defender.\n Supported for UUPS or Transparent proxies. Not currently supported for beacon proxies or beacons.\n For beacons, use `Upgrades.prepareUpgrade` along with a transaction proposal on Defender to upgrade the beacon to the deployed implementation.\n Requires that either the `referenceContract` option is set, or the contract has a `@custom:oz-upgrades-from <reference>` annotation.\n WARNING: Ensure that the reference contract is the same as the current implementation contract that the proxy is pointing to.\n This function does not validate that the reference contract is the current implementation.\n NOTE: If using an EOA or Safe to deploy, go to https://defender.openzeppelin.com/v2/#/deploy[Defender deploy] to submit the pending deployment of the new implementation contract while the script is running.\n The script waits for the deployment to complete before it continues.\n @param proxyAddress The proxy address\n @param newImplementationContractName Name of the new implementation contract to upgrade to, e.g. \"MyContract.sol\" or \"MyContract.sol:MyContract\" or artifact path relative to the project root directory\n @param opts Common options. Note that the `defender.useDefenderDeploy` option is always treated as `true` when called from this function.\n @return Struct containing the proposal ID and URL for the upgrade proposal"
@@ -1729,17 +1729,17 @@
             "name": "proposeUpgrade",
             "nameLocation": "6542:14:65",
             "parameters": {
-              "id": 51363,
+              "id": 51372,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51357,
+                  "id": 51366,
                   "mutability": "mutable",
                   "name": "proxyAddress",
                   "nameLocation": "6574:12:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51401,
+                  "scope": 51410,
                   "src": "6566:20:65",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1748,7 +1748,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 51356,
+                    "id": 51365,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "6566:7:65",
@@ -1762,12 +1762,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 51359,
+                  "id": 51368,
                   "mutability": "mutable",
                   "name": "newImplementationContractName",
                   "nameLocation": "6610:29:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51401,
+                  "scope": 51410,
                   "src": "6596:43:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1776,7 +1776,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 51358,
+                    "id": 51367,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "6596:6:65",
@@ -1789,36 +1789,36 @@
                 },
                 {
                   "constant": false,
-                  "id": 51362,
+                  "id": 51371,
                   "mutability": "mutable",
                   "name": "opts",
                   "nameLocation": "6664:4:65",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51401,
+                  "scope": 51410,
                   "src": "6649:19:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Options_$51459_memory_ptr",
+                    "typeIdentifier": "t_struct$_Options_$51468_memory_ptr",
                     "typeString": "struct Options"
                   },
                   "typeName": {
-                    "id": 51361,
+                    "id": 51370,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 51360,
+                      "id": 51369,
                       "name": "Options",
                       "nameLocations": [
                         "6649:7:65"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 51459,
+                      "referencedDeclaration": 51468,
                       "src": "6649:7:65"
                     },
-                    "referencedDeclaration": 51459,
+                    "referencedDeclaration": 51468,
                     "src": "6649:7:65",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Options_$51459_storage_ptr",
+                      "typeIdentifier": "t_struct$_Options_$51468_storage_ptr",
                       "typeString": "struct Options"
                     }
                   },
@@ -1828,41 +1828,41 @@
               "src": "6556:118:65"
             },
             "returnParameters": {
-              "id": 51367,
+              "id": 51376,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51366,
+                  "id": 51375,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51401,
+                  "scope": 51410,
                   "src": "6693:29:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_ProposeUpgradeResponse_$51433_memory_ptr",
+                    "typeIdentifier": "t_struct$_ProposeUpgradeResponse_$51442_memory_ptr",
                     "typeString": "struct ProposeUpgradeResponse"
                   },
                   "typeName": {
-                    "id": 51365,
+                    "id": 51374,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 51364,
+                      "id": 51373,
                       "name": "ProposeUpgradeResponse",
                       "nameLocations": [
                         "6693:22:65"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 51433,
+                      "referencedDeclaration": 51442,
                       "src": "6693:22:65"
                     },
-                    "referencedDeclaration": 51433,
+                    "referencedDeclaration": 51442,
                     "src": "6693:22:65",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_ProposeUpgradeResponse_$51433_storage_ptr",
+                      "typeIdentifier": "t_struct$_ProposeUpgradeResponse_$51442_storage_ptr",
                       "typeString": "struct ProposeUpgradeResponse"
                     }
                   },
@@ -1871,18 +1871,18 @@
               ],
               "src": "6692:31:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
-            "id": 51414,
+            "id": 51423,
             "nodeType": "FunctionDefinition",
             "src": "7497:171:65",
             "nodes": [],
             "body": {
-              "id": 51413,
+              "id": 51422,
               "nodeType": "Block",
               "src": "7583:85:65",
               "nodes": [],
@@ -1892,7 +1892,7 @@
                     "arguments": [
                       {
                         "hexValue": "6765744465706c6f79417070726f76616c50726f63657373",
-                        "id": 51410,
+                        "id": 51419,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1915,18 +1915,18 @@
                         }
                       ],
                       "expression": {
-                        "id": 51408,
+                        "id": 51417,
                         "name": "DefenderDeploy",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 54692,
+                        "referencedDeclaration": 54701,
                         "src": "7600:14:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54692_$",
+                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54701_$",
                           "typeString": "type(library DefenderDeploy)"
                         }
                       },
-                      "id": 51409,
+                      "id": 51418,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1934,14 +1934,14 @@
                       "memberLocation": "7615:18:65",
                       "memberName": "getApprovalProcess",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 54518,
+                      "referencedDeclaration": 54527,
                       "src": "7600:33:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$returns$_t_struct$_ApprovalProcessResponse_$51440_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$returns$_t_struct$_ApprovalProcessResponse_$51449_memory_ptr_$",
                         "typeString": "function (string memory) returns (struct ApprovalProcessResponse memory)"
                       }
                     },
-                    "id": 51411,
+                    "id": 51420,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1953,19 +1953,19 @@
                     "src": "7600:61:65",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51440_memory_ptr",
+                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51449_memory_ptr",
                       "typeString": "struct ApprovalProcessResponse memory"
                     }
                   },
-                  "functionReturnParameters": 51407,
-                  "id": 51412,
+                  "functionReturnParameters": 51416,
+                  "id": 51421,
                   "nodeType": "Return",
                   "src": "7593:68:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51402,
+              "id": 51411,
               "nodeType": "StructuredDocumentation",
               "src": "7206:286:65",
               "text": " @dev Gets the default deploy approval process configured for your deployment environment on OpenZeppelin Defender.\n @return Struct with the default deploy approval process ID and the associated address, such as a Relayer, EOA, or multisig wallet address."
@@ -1976,47 +1976,47 @@
             "name": "getDeployApprovalProcess",
             "nameLocation": "7506:24:65",
             "parameters": {
-              "id": 51403,
+              "id": 51412,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "7530:2:65"
             },
             "returnParameters": {
-              "id": 51407,
+              "id": 51416,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51406,
+                  "id": 51415,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51414,
+                  "scope": 51423,
                   "src": "7551:30:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51440_memory_ptr",
+                    "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51449_memory_ptr",
                     "typeString": "struct ApprovalProcessResponse"
                   },
                   "typeName": {
-                    "id": 51405,
+                    "id": 51414,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 51404,
+                      "id": 51413,
                       "name": "ApprovalProcessResponse",
                       "nameLocations": [
                         "7551:23:65"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 51440,
+                      "referencedDeclaration": 51449,
                       "src": "7551:23:65"
                     },
-                    "referencedDeclaration": 51440,
+                    "referencedDeclaration": 51449,
                     "src": "7551:23:65",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51440_storage_ptr",
+                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51449_storage_ptr",
                       "typeString": "struct ApprovalProcessResponse"
                     }
                   },
@@ -2025,18 +2025,18 @@
               ],
               "src": "7550:32:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
-            "id": 51427,
+            "id": 51436,
             "nodeType": "FunctionDefinition",
             "src": "8114:173:65",
             "nodes": [],
             "body": {
-              "id": 51426,
+              "id": 51435,
               "nodeType": "Block",
               "src": "8201:86:65",
               "nodes": [],
@@ -2046,7 +2046,7 @@
                     "arguments": [
                       {
                         "hexValue": "67657455706772616465417070726f76616c50726f63657373",
-                        "id": 51423,
+                        "id": 51432,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2069,18 +2069,18 @@
                         }
                       ],
                       "expression": {
-                        "id": 51421,
+                        "id": 51430,
                         "name": "DefenderDeploy",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 54692,
+                        "referencedDeclaration": 54701,
                         "src": "8218:14:65",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54692_$",
+                          "typeIdentifier": "t_type$_t_contract$_DefenderDeploy_$54701_$",
                           "typeString": "type(library DefenderDeploy)"
                         }
                       },
-                      "id": 51422,
+                      "id": 51431,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2088,14 +2088,14 @@
                       "memberLocation": "8233:18:65",
                       "memberName": "getApprovalProcess",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 54518,
+                      "referencedDeclaration": 54527,
                       "src": "8218:33:65",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$returns$_t_struct$_ApprovalProcessResponse_$51440_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$returns$_t_struct$_ApprovalProcessResponse_$51449_memory_ptr_$",
                         "typeString": "function (string memory) returns (struct ApprovalProcessResponse memory)"
                       }
                     },
-                    "id": 51424,
+                    "id": 51433,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2107,19 +2107,19 @@
                     "src": "8218:62:65",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51440_memory_ptr",
+                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51449_memory_ptr",
                       "typeString": "struct ApprovalProcessResponse memory"
                     }
                   },
-                  "functionReturnParameters": 51420,
-                  "id": 51425,
+                  "functionReturnParameters": 51429,
+                  "id": 51434,
                   "nodeType": "Return",
                   "src": "8211:69:65"
                 }
               ]
             },
             "documentation": {
-              "id": 51415,
+              "id": 51424,
               "nodeType": "StructuredDocumentation",
               "src": "7674:435:65",
               "text": " @dev Gets the default upgrade approval process configured for your deployment environment on OpenZeppelin Defender.\n For example, this is useful for determining the default multisig wallet that you can use in your scripts to assign as the owner of your proxy.\n @return Struct with the default upgrade approval process ID and the associated address, such as a multisig or governor contract address."
@@ -2130,47 +2130,47 @@
             "name": "getUpgradeApprovalProcess",
             "nameLocation": "8123:25:65",
             "parameters": {
-              "id": 51416,
+              "id": 51425,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "8148:2:65"
             },
             "returnParameters": {
-              "id": 51420,
+              "id": 51429,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51419,
+                  "id": 51428,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 51427,
+                  "scope": 51436,
                   "src": "8169:30:65",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51440_memory_ptr",
+                    "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51449_memory_ptr",
                     "typeString": "struct ApprovalProcessResponse"
                   },
                   "typeName": {
-                    "id": 51418,
+                    "id": 51427,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 51417,
+                      "id": 51426,
                       "name": "ApprovalProcessResponse",
                       "nameLocations": [
                         "8169:23:65"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 51440,
+                      "referencedDeclaration": 51449,
                       "src": "8169:23:65"
                     },
-                    "referencedDeclaration": 51440,
+                    "referencedDeclaration": 51449,
                     "src": "8169:23:65",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51440_storage_ptr",
+                      "typeIdentifier": "t_struct$_ApprovalProcessResponse_$51449_storage_ptr",
                       "typeString": "struct ApprovalProcessResponse"
                     }
                   },
@@ -2179,7 +2179,7 @@
               ],
               "src": "8168:32:65"
             },
-            "scope": 51428,
+            "scope": 51437,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
@@ -2191,23 +2191,23 @@
         "contractDependencies": [],
         "contractKind": "library",
         "documentation": {
-          "id": 51280,
+          "id": 51289,
           "nodeType": "StructuredDocumentation",
           "src": "218:95:65",
           "text": " @dev Library for interacting with OpenZeppelin Defender from Forge scripts or tests."
         },
         "fullyImplemented": true,
         "linearizedBaseContracts": [
-          51428
+          51437
         ],
         "name": "Defender",
         "nameLocation": "322:8:65",
-        "scope": 51441,
+        "scope": 51450,
         "usedErrors": [],
         "usedEvents": []
       },
       {
-        "id": 51433,
+        "id": 51442,
         "nodeType": "StructDefinition",
         "src": "8291:72:65",
         "nodes": [],
@@ -2215,12 +2215,12 @@
         "members": [
           {
             "constant": false,
-            "id": 51430,
+            "id": 51439,
             "mutability": "mutable",
             "name": "proposalId",
             "nameLocation": "8334:10:65",
             "nodeType": "VariableDeclaration",
-            "scope": 51433,
+            "scope": 51442,
             "src": "8327:17:65",
             "stateVariable": false,
             "storageLocation": "default",
@@ -2229,7 +2229,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 51429,
+              "id": 51438,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "8327:6:65",
@@ -2242,12 +2242,12 @@
           },
           {
             "constant": false,
-            "id": 51432,
+            "id": 51441,
             "mutability": "mutable",
             "name": "url",
             "nameLocation": "8357:3:65",
             "nodeType": "VariableDeclaration",
-            "scope": 51433,
+            "scope": 51442,
             "src": "8350:10:65",
             "stateVariable": false,
             "storageLocation": "default",
@@ -2256,7 +2256,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 51431,
+              "id": 51440,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "8350:6:65",
@@ -2270,11 +2270,11 @@
         ],
         "name": "ProposeUpgradeResponse",
         "nameLocation": "8298:22:65",
-        "scope": 51441,
+        "scope": 51450,
         "visibility": "public"
       },
       {
-        "id": 51440,
+        "id": 51449,
         "nodeType": "StructDefinition",
         "src": "8365:101:65",
         "nodes": [],
@@ -2282,12 +2282,12 @@
         "members": [
           {
             "constant": false,
-            "id": 51435,
+            "id": 51444,
             "mutability": "mutable",
             "name": "approvalProcessId",
             "nameLocation": "8409:17:65",
             "nodeType": "VariableDeclaration",
-            "scope": 51440,
+            "scope": 51449,
             "src": "8402:24:65",
             "stateVariable": false,
             "storageLocation": "default",
@@ -2296,7 +2296,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 51434,
+              "id": 51443,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "8402:6:65",
@@ -2309,12 +2309,12 @@
           },
           {
             "constant": false,
-            "id": 51437,
+            "id": 51446,
             "mutability": "mutable",
             "name": "via",
             "nameLocation": "8440:3:65",
             "nodeType": "VariableDeclaration",
-            "scope": 51440,
+            "scope": 51449,
             "src": "8432:11:65",
             "stateVariable": false,
             "storageLocation": "default",
@@ -2323,7 +2323,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 51436,
+              "id": 51445,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "8432:7:65",
@@ -2337,12 +2337,12 @@
           },
           {
             "constant": false,
-            "id": 51439,
+            "id": 51448,
             "mutability": "mutable",
             "name": "viaType",
             "nameLocation": "8456:7:65",
             "nodeType": "VariableDeclaration",
-            "scope": 51440,
+            "scope": 51449,
             "src": "8449:14:65",
             "stateVariable": false,
             "storageLocation": "default",
@@ -2351,7 +2351,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 51438,
+              "id": 51447,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "8449:6:65",
@@ -2365,7 +2365,7 @@
         ],
         "name": "ApprovalProcessResponse",
         "nameLocation": "8372:23:65",
-        "scope": 51441,
+        "scope": 51450,
         "visibility": "public"
       }
     ],
