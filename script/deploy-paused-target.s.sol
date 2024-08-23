@@ -10,7 +10,10 @@ import {PausedTarget} from "src/PausedTarget.sol"; // Adjust the import path acc
  * Since we can't use the non-contract (e.g: 0x0, 0x1) as the implementation of the beacon, so we will use this contract instead.
  */
 contract DeployPausedTarget is Script {
+    string[] chains = ["bob_testnet"];
+
     function run() external {
+        address deployedAddress;
         // Define salt and initialize the contract creation code
         bytes32 salt = keccak256(abi.encodePacked("paused-target"));
         bytes memory bytecode = type(PausedTarget).creationCode;
@@ -21,19 +24,25 @@ contract DeployPausedTarget is Script {
             deployer = vm.addr(envPK);
         }
 
+        console.log("deployer: ", deployer);
+
         // Calculate deterministic address
         address deterministicAddress = computeAddress(salt, keccak256(bytecode), deployer);
         
         console.log("Deterministic PausedTarget address will be:", deterministicAddress);
 
         // Deploy the contract
-        vm.startPrank(deployer);
-        address deployedAddress = deployCode(bytecode, salt);
-        vm.stopPrank();
-        console.log("Contract deployed at:", deployedAddress);
+        for (uint256 i = 0; i < chains.length; i++) {
+            vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
+            console.log("\nDeploying PausedTarget on %s", chains[i]);
+            vm.startBroadcast(deployer);
+            deployedAddress = deployCode(bytecode, salt);
+            vm.stopBroadcast();
+            console.log("Contract deployed at:", deployedAddress);
+        }
 
         // Assert to ensure deployment happened at the deterministic address
-        require(deployedAddress == address(0x576a05E4080C23a653c3c2240DA4437e83dd50bF), "Deployment failed at deterministic address: 1");
+        require(deployedAddress == address(0xE919920aE49d3027566025548f12cDaB4E52b595), "Deployment failed at deterministic address: 1");
         require(deployedAddress == deterministicAddress, "Deployment failed at deterministic address: 2");
     }
 
