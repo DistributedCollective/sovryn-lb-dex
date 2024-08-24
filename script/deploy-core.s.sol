@@ -24,7 +24,7 @@ contract CoreDeployer is Script {
     struct Deployment {
         address factoryV1;
         address factoryV2;
-        address newOwner;
+        address owner;
         address routerV2;
         address wNative;
         address lbPairImplementation;
@@ -56,6 +56,7 @@ contract CoreDeployer is Script {
         address lbPairImplementation;
         address quoter;
 
+        vm.startBroadcast(deployer);
         for (uint256 i = 0; i < chains.length; i++) {
             bytes memory rawDeploymentData = json.parseRaw(string(abi.encodePacked(".", chains[i])));
             Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
@@ -66,7 +67,6 @@ contract CoreDeployer is Script {
 
             if(deployment.factoryV2 == address(0)) {
                 console.log("Deploying factory v2...");
-                vm.broadcast(deployer);
                 factoryV2 = Upgrades.deployTransparentProxy(
                     "LBFactory.sol",
                     deployer,
@@ -82,7 +82,6 @@ contract CoreDeployer is Script {
 
             if(deployment.lbPairImplementation == address(0)) {
                 console.log("Deploying lbPairImplementation...");
-                vm.broadcast(deployer);
                 lbPairImplementation = address(new LBPair(ILBFactory(factoryV2)));
                 console.log("lbPairImplementation deployed -->", lbPairImplementation);
             } else {
@@ -94,7 +93,6 @@ contract CoreDeployer is Script {
             
             if(deployment.lbPairUpgradeableBeacon == address(0)) {
                 console.log("Deploying lbPairUpgradeableBeacon...");
-                vm.broadcast(deployer);
                 lbPairUpgradeableBeacon = address(new LBPairUpgradeableBeacon(lbPairImplementation, deployer, factoryV2));
                 console.log("lbPairUpgradeableBeacon deployed -->", lbPairUpgradeableBeacon);
             } else {
@@ -104,13 +102,11 @@ contract CoreDeployer is Script {
             deployment.lbPairUpgradeableBeacon = lbPairUpgradeableBeacon;
 
             console.log("initializing lbFactory...");
-            vm.broadcast(deployer);
             LBFactory(factoryV2).initialize(deployer, deployer, FLASHLOAN_FEE, lbPairUpgradeableBeacon);
             console.log("LBFactory initialized, owner --> ", LBFactory(factoryV2).owner());
 
             if(deployment.routerV2 == address(0)) {
                 console.log("Deploying routerV2...");
-                vm.broadcast(deployer);
                 LBRouter routerV2Impl = new LBRouter(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative));
                 routerV2 = payable(address(new TransparentUpgradeableProxy(address(routerV2Impl), deployer, abi.encodeCall(LBRouter.initialize, ()))));
                 console.log("LBRouter deployed -->", routerV2);
@@ -121,7 +117,6 @@ contract CoreDeployer is Script {
             deployment.routerV2 = routerV2;
 
 
-            vm.startBroadcast(deployer);
             if(deployment.quoter == address(0)) {
                 console.log("Deploying LBQuoter...");
                 quoter = address(new LBQuoter(
@@ -167,8 +162,7 @@ contract CoreDeployer is Script {
                 );
             }
 
-            LBFactory(factoryV2).transferOwnership(deployment.newOwner);
-            vm.stopBroadcast();
+            LBFactory(factoryV2).transferOwnership(deployment.owner);
 
             console.log("The new pendingOwner: ", LBFactory(factoryV2).pendingOwner());
             console.log("Please accept the ownership of factory at: ", address(factoryV2));
@@ -180,6 +174,7 @@ contract CoreDeployer is Script {
             // Write the updated JSON back to the file
             vm.writeFile("script/config/deployments.json", json);
         }
+        vm.stopBroadcast();
     }
 
     function _overwriteDefaultArbitrumRPC() private {
