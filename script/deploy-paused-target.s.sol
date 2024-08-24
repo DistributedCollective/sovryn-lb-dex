@@ -12,6 +12,8 @@ import {PausedTarget} from "src/PausedTarget.sol"; // Adjust the import path acc
 contract DeployPausedTarget is Script {
     error Create2FailedDeployment();
     string[] chains = ["bob_testnet"];
+
+    // this is the forge deterministic deployer https://book.getfoundry.sh/tutorials/create2-tutorial
     address FOUNDRY_DETERMINISTIC_DEPLOYER = 0x4e59b44847b379578588920cA78FbF26c0B4956C;
 
     function run() external {
@@ -49,6 +51,7 @@ contract DeployPausedTarget is Script {
     }
 
     // Helper function to deploy using create2
+    // In this case, the create2 will deploy the bytecode by interacting with the forge deterministic deployer contract 0x4e59b44847b379578588920cA78FbF26c0B4956C
     function deployCode(bytes memory code, bytes32 salt) internal returns (address) {
         address addr;
         assembly {
