@@ -6,7 +6,6 @@ import {Encoded} from "./Encoded.sol";
 
 /**
  * @title Liquidity Book Sample Math Library
- * @author Trader Sovryn LB
  * @notice This library contains functions to encode and decode a sample into a single bytes32
  * and interact with the encoded bytes32
  * The sample is encoded as follows:

@@ -1,1 +1,418 @@
-{"abi":[{"type":"function","name":"upgrade","inputs":[{"name":"","type":"address","internalType":"address"},{"name":"","type":"address","internalType":"address"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"upgradeAndCall","inputs":[{"name":"","type":"address","internalType":"address"},{"name":"","type":"address","internalType":"address"},{"name":"","type":"bytes","internalType":"bytes"}],"outputs":[],"stateMutability":"payable"}],"bytecode":{"object":"0x","sourceMap":"","linkReferences":{}},"deployedBytecode":{"object":"0x","sourceMap":"","linkReferences":{}},"methodIdentifiers":{"upgrade(address,address)":"99a88ec4","upgradeAndCall(address,address,bytes)":"9623609d"},"rawMetadata":"{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"upgrade\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"upgradeAndCall\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"upgrade(address,address)\":{\"notice\":\"Upgrades a proxy to a new implementation without calling a function on the new implementation.\"},\"upgradeAndCall(address,address,bytes)\":{\"notice\":\"Upgrades a proxy to a new implementation and calls a function on the new implementation. If UPGRADE_INTERFACE_VERSION is \\\"5.0.0\\\", bytes can be empty if no function should be called on the new implementation.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol\":\"IProxyAdmin\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/\",\":solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/\"]},\"sources\":{\"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol\":{\"keccak256\":\"0xf5e514595089f8959da130507086e7388602a71ce60575d141e7d892dfbddbfc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9b41366e2823ccc8cb42304496d761b3df80946d17384634a61afd7139495c91\",\"dweb:/ipfs/QmZE2nRMxax1NPj63ifemKdScGJzKNWi7BCGudjFLsUz1y\"]}},\"version\":1}","metadata":{"compiler":{"version":"0.8.20+commit.a1b79de6"},"language":"Solidity","output":{"abi":[{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"stateMutability":"nonpayable","type":"function","name":"upgrade"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"payable","type":"function","name":"upgradeAndCall"}],"devdoc":{"kind":"dev","methods":{},"version":1},"userdoc":{"kind":"user","methods":{"upgrade(address,address)":{"notice":"Upgrades a proxy to a new implementation without calling a function on the new implementation."},"upgradeAndCall(address,address,bytes)":{"notice":"Upgrades a proxy to a new implementation and calls a function on the new implementation. If UPGRADE_INTERFACE_VERSION is \"5.0.0\", bytes can be empty if no function should be called on the new implementation."}},"version":1}},"settings":{"remappings":["@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/","@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/","ds-test/=lib/forge-std/lib/ds-test/src/","erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/","forge-std/=lib/forge-std/src/","openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/","openzeppelin-contracts/=lib/openzeppelin-contracts/","openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/","solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/"],"optimizer":{"enabled":true,"runs":800},"metadata":{"bytecodeHash":"ipfs"},"compilationTarget":{"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol":"IProxyAdmin"},"evmVersion":"paris","libraries":{}},"sources":{"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol":{"keccak256":"0xf5e514595089f8959da130507086e7388602a71ce60575d141e7d892dfbddbfc","urls":["bzz-raw://9b41366e2823ccc8cb42304496d761b3df80946d17384634a61afd7139495c91","dweb:/ipfs/QmZE2nRMxax1NPj63ifemKdScGJzKNWi7BCGudjFLsUz1y"],"license":"MIT"}},"version":1},"ast":{"absolutePath":"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol","id":55456,"exportedSymbols":{"IProxyAdmin":[55455]},"nodeType":"SourceUnit","src":"32:535:71","nodes":[{"id":55436,"nodeType":"PragmaDirective","src":"32:23:71","nodes":[],"literals":["solidity","^","0.8",".0"]},{"id":55455,"nodeType":"ContractDefinition","src":"57:509:71","nodes":[{"id":55444,"nodeType":"FunctionDefinition","src":"203:44:71","nodes":[],"documentation":{"id":55437,"nodeType":"StructuredDocumentation","src":"85:113:71","text":" Upgrades a proxy to a new implementation without calling a function on the new implementation."},"functionSelector":"99a88ec4","implemented":false,"kind":"function","modifiers":[],"name":"upgrade","nameLocation":"212:7:71","parameters":{"id":55442,"nodeType":"ParameterList","parameters":[{"constant":false,"id":55439,"mutability":"mutable","name":"","nameLocation":"-1:-1:-1","nodeType":"VariableDeclaration","scope":55444,"src":"220:7:71","stateVariable":false,"storageLocation":"default","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"},"typeName":{"id":55438,"name":"address","nodeType":"ElementaryTypeName","src":"220:7:71","stateMutability":"nonpayable","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"}},"visibility":"internal"},{"constant":false,"id":55441,"mutability":"mutable","name":"","nameLocation":"-1:-1:-1","nodeType":"VariableDeclaration","scope":55444,"src":"229:7:71","stateVariable":false,"storageLocation":"default","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"},"typeName":{"id":55440,"name":"address","nodeType":"ElementaryTypeName","src":"229:7:71","stateMutability":"nonpayable","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"}},"visibility":"internal"}],"src":"219:18:71"},"returnParameters":{"id":55443,"nodeType":"ParameterList","parameters":[],"src":"246:0:71"},"scope":55455,"stateMutability":"nonpayable","virtual":false,"visibility":"external"},{"id":55454,"nodeType":"FunctionDefinition","src":"491:73:71","nodes":[],"documentation":{"id":55445,"nodeType":"StructuredDocumentation","src":"253:233:71","text":" Upgrades a proxy to a new implementation and calls a function on the new implementation.\n If UPGRADE_INTERFACE_VERSION is \"5.0.0\", bytes can be empty if no function should be called on the new implementation."},"functionSelector":"9623609d","implemented":false,"kind":"function","modifiers":[],"name":"upgradeAndCall","nameLocation":"500:14:71","parameters":{"id":55452,"nodeType":"ParameterList","parameters":[{"constant":false,"id":55447,"mutability":"mutable","name":"","nameLocation":"-1:-1:-1","nodeType":"VariableDeclaration","scope":55454,"src":"515:7:71","stateVariable":false,"storageLocation":"default","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"},"typeName":{"id":55446,"name":"address","nodeType":"ElementaryTypeName","src":"515:7:71","stateMutability":"nonpayable","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"}},"visibility":"internal"},{"constant":false,"id":55449,"mutability":"mutable","name":"","nameLocation":"-1:-1:-1","nodeType":"VariableDeclaration","scope":55454,"src":"524:7:71","stateVariable":false,"storageLocation":"default","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"},"typeName":{"id":55448,"name":"address","nodeType":"ElementaryTypeName","src":"524:7:71","stateMutability":"nonpayable","typeDescriptions":{"typeIdentifier":"t_address","typeString":"address"}},"visibility":"internal"},{"constant":false,"id":55451,"mutability":"mutable","name":"","nameLocation":"-1:-1:-1","nodeType":"VariableDeclaration","scope":55454,"src":"533:12:71","stateVariable":false,"storageLocation":"memory","typeDescriptions":{"typeIdentifier":"t_bytes_memory_ptr","typeString":"bytes"},"typeName":{"id":55450,"name":"bytes","nodeType":"ElementaryTypeName","src":"533:5:71","typeDescriptions":{"typeIdentifier":"t_bytes_storage_ptr","typeString":"bytes"}},"visibility":"internal"}],"src":"514:32:71"},"returnParameters":{"id":55453,"nodeType":"ParameterList","parameters":[],"src":"563:0:71"},"scope":55455,"stateMutability":"payable","virtual":false,"visibility":"external"}],"abstract":false,"baseContracts":[],"canonicalName":"IProxyAdmin","contractDependencies":[],"contractKind":"interface","fullyImplemented":false,"linearizedBaseContracts":[55455],"name":"IProxyAdmin","nameLocation":"67:11:71","scope":55456,"usedErrors":[],"usedEvents":[]}],"license":"MIT"},"id":71}
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "upgrade",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "name": "upgradeAndCall",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "upgrade(address,address)": "99a88ec4",
+    "upgradeAndCall(address,address,bytes)": "9623609d"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"upgrade\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"upgradeAndCall\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"upgrade(address,address)\":{\"notice\":\"Upgrades a proxy to a new implementation without calling a function on the new implementation.\"},\"upgradeAndCall(address,address,bytes)\":{\"notice\":\"Upgrades a proxy to a new implementation and calls a function on the new implementation. If UPGRADE_INTERFACE_VERSION is \\\"5.0.0\\\", bytes can be empty if no function should be called on the new implementation.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol\":\"IProxyAdmin\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/\",\":solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/\"]},\"sources\":{\"lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol\":{\"keccak256\":\"0xf5e514595089f8959da130507086e7388602a71ce60575d141e7d892dfbddbfc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9b41366e2823ccc8cb42304496d761b3df80946d17384634a61afd7139495c91\",\"dweb:/ipfs/QmZE2nRMxax1NPj63ifemKdScGJzKNWi7BCGudjFLsUz1y\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.20+commit.a1b79de6"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "upgrade"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "function",
+          "name": "upgradeAndCall"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "upgrade(address,address)": {
+            "notice": "Upgrades a proxy to a new implementation without calling a function on the new implementation."
+          },
+          "upgradeAndCall(address,address,bytes)": {
+            "notice": "Upgrades a proxy to a new implementation and calls a function on the new implementation. If UPGRADE_INTERFACE_VERSION is \"5.0.0\", bytes can be empty if no function should be called on the new implementation."
+          }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "ds-test/=lib/forge-std/lib/ds-test/src/",
+        "erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+        "forge-std/=lib/forge-std/src/",
+        "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        "openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/",
+        "solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 800
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol": "IProxyAdmin"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol": {
+        "keccak256": "0xf5e514595089f8959da130507086e7388602a71ce60575d141e7d892dfbddbfc",
+        "urls": [
+          "bzz-raw://9b41366e2823ccc8cb42304496d761b3df80946d17384634a61afd7139495c91",
+          "dweb:/ipfs/QmZE2nRMxax1NPj63ifemKdScGJzKNWi7BCGudjFLsUz1y"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "lib/openzeppelin-foundry-upgrades/src/internal/interfaces/IProxyAdmin.sol",
+    "id": 55495,
+    "exportedSymbols": {
+      "IProxyAdmin": [
+        55494
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:535:72",
+    "nodes": [
+      {
+        "id": 55475,
+        "nodeType": "PragmaDirective",
+        "src": "32:23:72",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ]
+      },
+      {
+        "id": 55494,
+        "nodeType": "ContractDefinition",
+        "src": "57:509:72",
+        "nodes": [
+          {
+            "id": 55483,
+            "nodeType": "FunctionDefinition",
+            "src": "203:44:72",
+            "nodes": [],
+            "documentation": {
+              "id": 55476,
+              "nodeType": "StructuredDocumentation",
+              "src": "85:113:72",
+              "text": " Upgrades a proxy to a new implementation without calling a function on the new implementation."
+            },
+            "functionSelector": "99a88ec4",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "upgrade",
+            "nameLocation": "212:7:72",
+            "parameters": {
+              "id": 55481,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 55478,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 55483,
+                  "src": "220:7:72",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 55477,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "220:7:72",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 55480,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 55483,
+                  "src": "229:7:72",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 55479,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "229:7:72",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "219:18:72"
+            },
+            "returnParameters": {
+              "id": 55482,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "246:0:72"
+            },
+            "scope": 55494,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 55493,
+            "nodeType": "FunctionDefinition",
+            "src": "491:73:72",
+            "nodes": [],
+            "documentation": {
+              "id": 55484,
+              "nodeType": "StructuredDocumentation",
+              "src": "253:233:72",
+              "text": " Upgrades a proxy to a new implementation and calls a function on the new implementation.\n If UPGRADE_INTERFACE_VERSION is \"5.0.0\", bytes can be empty if no function should be called on the new implementation."
+            },
+            "functionSelector": "9623609d",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "upgradeAndCall",
+            "nameLocation": "500:14:72",
+            "parameters": {
+              "id": 55491,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 55486,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 55493,
+                  "src": "515:7:72",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 55485,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "515:7:72",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 55488,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 55493,
+                  "src": "524:7:72",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 55487,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "524:7:72",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 55490,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 55493,
+                  "src": "533:12:72",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 55489,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "533:5:72",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "514:32:72"
+            },
+            "returnParameters": {
+              "id": 55492,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "563:0:72"
+            },
+            "scope": 55494,
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IProxyAdmin",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          55494
+        ],
+        "name": "IProxyAdmin",
+        "nameLocation": "67:11:72",
+        "scope": 55495,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 72
+}

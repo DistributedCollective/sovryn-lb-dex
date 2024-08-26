@@ -6,7 +6,6 @@ import {Constants} from "../Constants.sol";
 
 /**
  * @title Liquidity Book Packed Uint128 Math Library
- * @author Trader Sovryn LB
  * @notice This library contains functions to encode and decode two uint128 into a single bytes32
  * and interact with the encoded bytes32.
  */

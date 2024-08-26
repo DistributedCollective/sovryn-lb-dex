@@ -14,7 +14,6 @@ import {IWNATIVE} from "./IWNATIVE.sol";
 
 /**
  * @title Liquidity Book Router Interface
- * @author Trader Sovryn LB
  * @notice Required interface of LBRouter contract
  */
 interface ILBRouter {

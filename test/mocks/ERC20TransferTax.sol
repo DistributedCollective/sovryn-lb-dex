@@ -5,7 +5,6 @@ pragma solidity ^0.8.20;
 import {ERC20Mock} from "./ERC20.sol";
 
 /// @title ERC20MockTransferTax
-/// @author Trader Sovryn LB
 /// @dev ONLY FOR TESTS
 contract ERC20TransferTaxMock is ERC20Mock {
     /// @dev Constructor

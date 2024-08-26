@@ -5,7 +5,6 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 
 /// @title Liquidity Book V2 Token Interface
-/// @author Trader Sovryn LB
 /// @notice Required interface of LBToken contract
 interface ILBLegacyToken is IERC165 {
     event TransferSingle(address indexed sender, address indexed from, address indexed to, uint256 id, uint256 amount);
