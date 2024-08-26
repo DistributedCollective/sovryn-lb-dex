@@ -12,7 +12,7 @@ import {LBQuoter} from "src/LBQuoter.sol";
 import {BipsConfig} from "./config/bips-config.sol";
 import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
-import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import { TxOverrides, DefenderOptions, Options } from "openzeppelin-foundry-upgrades/Options.sol";
 
 
 contract CoreDeployer is Script {
@@ -106,9 +106,36 @@ contract CoreDeployer is Script {
             console.log("LBFactory initialized, owner --> ", LBFactory(factoryV2).owner());
 
             if(deployment.routerV2 == address(0)) {
+                Options memory opts = Options({
+                    referenceContract: "",
+                    constructorData: abi.encode(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative)),
+                    unsafeAllow: "",
+                    unsafeAllowRenames: false,
+                    unsafeSkipStorageCheck: false,
+                    unsafeSkipAllChecks: false,
+                    defender: DefenderOptions({
+                        useDefenderDeploy: false,
+                        skipVerifySourceCode: false,
+                        relayerId: "",
+                        salt: bytes32(""),
+                        upgradeApprovalProcessId: "",
+                        licenseType: "",
+                        skipLicenseType: false,
+                        txOverrides: TxOverrides({
+                            gasLimit: 0,
+                            gasPrice: 0,
+                            maxFeePerGas: 0,
+                            maxPriorityFeePerGas: 0
+                        })
+                    })
+                });
                 console.log("Deploying routerV2...");
-                LBRouter routerV2Impl = new LBRouter(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative));
-                routerV2 = payable(address(new TransparentUpgradeableProxy(address(routerV2Impl), deployer, abi.encodeCall(LBRouter.initialize, ()))));
+                routerV2 = Upgrades.deployTransparentProxy(
+                    "LBRouter.sol",
+                    deployment.owner,
+                    "",
+                    opts
+                );
                 console.log("LBRouter deployed -->", routerV2);
             } else {
                 routerV2 = deployment.routerV2;
