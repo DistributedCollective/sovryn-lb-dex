@@ -6,7 +6,6 @@ import {ILBToken} from "./interfaces/ILBToken.sol";
 
 /**
  * @title Liquidity Book Token
- * @author Trader Sovryn LB
  * @notice The LBToken is an implementation of a multi-token.
  * It allows to create multi-ERC20 represented by their ids.
  * Its implementation is really similar to the ERC1155 standard the main difference

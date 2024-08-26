@@ -26,7 +26,6 @@ import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IER
 
 /**
  * @title Liquidity Book Pair
- * @author Trader Sovryn LB
  * @notice The Liquidity Book Pair contract is the core contract of the Liquidity Book protocol
  */
 contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {

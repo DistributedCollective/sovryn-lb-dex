@@ -9,7 +9,6 @@ import {ILBPair} from "./ILBPair.sol";
 
 /**
  * @title Liquidity Book Factory Interface
- * @author Trader Sovryn LB
  * @notice Required interface of LBFactory contract
  */
 interface ILBFactory {
@@ -30,7 +29,6 @@ interface ILBFactory {
     error LBFactory__SameFlashLoanFee(uint256 flashLoanFee);
     error LBFactory__LBPairSafetyCheckFailed(address LBPairImplementation);
     error LBFactory__SameImplementation(address LBPairImplementation);
-    error LBFactory__ImplementationNotSet();
     error LBFactory__SameHooksImplementation(address hooksImplementation);
     error LBFactory__SameHooksParameters(bytes32 hooksParameters);
     error LBFactory__InvalidHooksParameters();
@@ -89,7 +87,7 @@ interface ILBFactory {
 
     function getFlashLoanFee() external view returns (uint256);
 
-    function getLBPairImplementation() external view returns (address);
+    function getLBPairBeacon() external view returns (address);
 
     function getNumberOfLBPairs() external view returns (uint256);
 
@@ -132,8 +130,6 @@ interface ILBFactory {
         returns (LBPairInformation[] memory LBPairsBinStep);
 
     function getPauserRole() external pure returns (bytes32);
-
-    function setLBPairImplementation(address lbPairImplementation) external;
 
     function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep)
         external

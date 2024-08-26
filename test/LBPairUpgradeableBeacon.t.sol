@@ -8,7 +8,6 @@ import {PausedTarget} from "src/PausedTarget.sol";
 
 contract LBPairBeaconProxyTest is TestHelper {
     LBPair lbPairImplementation;
-    LBPairUpgradeableBeacon lbPairUpgradeableBeacon;
     PausedTarget pausedTarget;
     address DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS = 0xE919920aE49d3027566025548f12cDaB4E52b595;
 
@@ -41,9 +40,9 @@ contract LBPairBeaconProxyTest is TestHelper {
     }
 
     function test_PauseByAdmin() public {
-        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
+        bytes32 LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE = factory.LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE();
         /** Test Pause by Admin */
-        factory.grantRole(PAUSER_ROLE, ALICE);
+        factory.grantRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, ALICE);
         vm.prank(ALICE);
         lbPairUpgradeableBeacon.pause();
         assertEq(lbPairUpgradeableBeacon.pausedImplementation(), address(lbPairImplementation));
@@ -69,7 +68,7 @@ contract LBPairBeaconProxyTest is TestHelper {
     }
 
     function test_UnpauseByAdmin() public {
-        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
+        bytes32 LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE = factory.LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE();
         vm.prank(ALICE);
         vm.expectRevert(abi.encodeWithSelector(LBPairUpgradeableBeacon.Beacon__UnauthorizedCaller.selector, ALICE));
         lbPairUpgradeableBeacon.unpause();
@@ -78,7 +77,7 @@ contract LBPairBeaconProxyTest is TestHelper {
         assertEq(lbPairUpgradeableBeacon.pausedImplementation(), address(lbPairImplementation));
         assertEq(lbPairUpgradeableBeacon.implementation(), DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS);
 
-        factory.grantRole(PAUSER_ROLE, ALICE);
+        factory.grantRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, ALICE);
         vm.prank(ALICE);
         lbPairUpgradeableBeacon.unpause();
         assertEq(lbPairUpgradeableBeacon.pausedImplementation(), address(0));

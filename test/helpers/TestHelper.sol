@@ -79,6 +79,7 @@ abstract contract TestHelper is Test {
     LBPair internal pairWnative;
     LBQuoter internal quoter;
     LBPair internal pairImplementation;
+    LBPairUpgradeableBeacon internal lbPairUpgradeableBeacon;
 
     // Forked contracts
     ISovrynLBRouter02 internal routerV1;
@@ -118,12 +119,11 @@ abstract contract TestHelper is Test {
         LBFactory factoryImpl = new LBFactory();
         factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
         LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
-        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
+        lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
         pairImplementation = new LBPair(factory);
 
         // Setup factory
-        factory.setLBPairImplementation(address(pairImplementation));
         addAllAssetsToQuoteWhitelist();
         setDefaultFactoryPresets(DEFAULT_BIN_STEP);
 

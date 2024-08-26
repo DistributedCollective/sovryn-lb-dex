@@ -36,7 +36,7 @@ contract CoreDeployer is Script {
     string[] chains = ["bob_testnet"];
 
     function setUp() public {
-        _overwriteDefaultArbitrumRPC();
+        // _overwriteDefaultArbitrumRPC();
     }
 
     function run() public {
@@ -69,7 +69,7 @@ contract CoreDeployer is Script {
                 console.log("Deploying factory v2...");
                 factoryV2 = Upgrades.deployTransparentProxy(
                     "LBFactory.sol",
-                    deployer,
+                    deployment.owner,
                     ""
                 );
 
@@ -131,11 +131,6 @@ contract CoreDeployer is Script {
 
             deployment.quoter = quoter;
 
-
-            console.log("Setting LBPair implementation set on factoryV2\n");
-            LBFactory(factoryV2).setLBPairImplementation(lbPairImplementation);
-            console.log("LBPair implementation set on factoryV2\n");
-
             address[] memory quoteAssets = deployment.quoteAssets;
             for (uint256 j = 0; j < quoteAssets.length; j++) {
                 IERC20 quoteAsset = IERC20(quoteAssets[j]);
@@ -177,14 +172,14 @@ contract CoreDeployer is Script {
         vm.stopBroadcast();
     }
 
-    function _overwriteDefaultArbitrumRPC() private {
-        StdChains.setChain(
-            "arbitrum_one_goerli",
-            StdChains.ChainData({
-                name: "Arbitrum One Goerli",
-                chainId: 421613,
-                rpcUrl: vm.envString("ARBITRUM_TESTNET_RPC_URL")
-            })
-        );
-    }
+    // function _overwriteDefaultArbitrumRPC() private {
+    //     StdChains.setChain(
+    //         "arbitrum_one_goerli",
+    //         StdChains.ChainData({
+    //             name: "Arbitrum One Goerli",
+    //             chainId: 421613,
+    //             rpcUrl: vm.envString("ARBITRUM_TESTNET_RPC_URL")
+    //         })
+    //     );
+    // }
 }

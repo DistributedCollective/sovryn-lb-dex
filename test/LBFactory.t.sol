@@ -68,7 +68,7 @@ contract LiquidityBinFactoryTest is TestHelper {
         assertEq(factory.getFeeRecipient(), DEV, "test_Constructor::1");
         assertEq(factory.getFlashLoanFee(), DEFAULT_FLASHLOAN_FEE, "test_Constructor::2");
 
-        assertEq(factory.getLBPairImplementation(), address(pairImplementation), "test_Constructor::3");
+        assertEq(factory.getLBPairBeacon(), address(lbPairUpgradeableBeacon), "test_Constructor::3");
         assertEq(factory.getMinBinStep(), 1, "test_Constructor::4");
         assertEq(factory.getFeeRecipient(), DEV, "test_Constructor::5");
         assertEq(factory.getMaxFlashLoanFee(), 0.1e18, "test_Constructor::6");
@@ -90,50 +90,6 @@ contract LiquidityBinFactoryTest is TestHelper {
         uint256 maxFee = factory.getMaxFlashLoanFee();
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__FlashLoanFeeAboveMax.selector, maxFee + 1, maxFee));
         newFactory.initialize(DEV, DEV, maxFee + 1, address(lbPairUpgradeableBeacon));
-    }
-
-    function test_SetLBPairImplementation() public {
-        ILBPair newImplementation = new LBPair(factory);
-
-        // Check if the implementation is set
-        vm.expectEmit(true, true, true, true);
-        emit LBPairImplementationSet(pairImplementation, newImplementation);
-        factory.setLBPairImplementation(address(newImplementation));
-        assertEq(factory.getLBPairImplementation(), address(newImplementation), "test_SetLBPairImplementation::1");
-    }
-
-    function test_revert_SetLBPairImplementation() public {
-        ILBPair newImplementation = new LBPair(factory);
-        factory.setLBPairImplementation(address(newImplementation));
-
-        // Reverts if the implementation is the same
-        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__SameImplementation.selector, newImplementation));
-        factory.setLBPairImplementation(address(newImplementation));
-
-        LBFactory anotherFactoryImpl = new LBFactory();
-        LBFactory anotherFactory = LBFactory(address(new TransparentUpgradeableProxy(address(anotherFactoryImpl), DEV, "")));
-        
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(anotherFactory)));
-        LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(anotherFactory));
-
-        anotherFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
-
-        anotherFactory.setPreset(1, 1, 1, 1, 1, 1, 1, 1, false);
-        anotherFactory.addQuoteAsset(usdc);
-
-        // Reverts if there is no implementation set
-        vm.expectRevert(ILBFactory.LBFactory__ImplementationNotSet.selector);
-        anotherFactory.createLBPair(weth, usdc, ID_ONE, 1);
-
-        ILBPair newImplementationForAnotherFactory = new LBPair(anotherFactory);
-
-        // Reverts if the implementation is not linked to the factory
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                ILBFactory.LBFactory__LBPairSafetyCheckFailed.selector, newImplementationForAnotherFactory
-            )
-        );
-        factory.setLBPairImplementation(address(newImplementationForAnotherFactory));
     }
 
     function test_CreateLBPair() public {
@@ -276,11 +232,6 @@ contract LiquidityBinFactoryTest is TestHelper {
         vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__AddressZero.selector));
         newFactory.createLBPair(IERC20(address(0)), usdc, ID_ONE, DEFAULT_BIN_STEP);
 
-        // Can't create a pair if the implementation is not set
-        vm.expectRevert(abi.encodeWithSelector(ILBFactory.LBFactory__ImplementationNotSet.selector));
-        newFactory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP);
-
-        newFactory.setLBPairImplementation(address(new LBPair(newFactory)));
         // Can't create the same pair twice (a revision should be created instead)
         newFactory.createLBPair(usdt, usdc, ID_ONE, DEFAULT_BIN_STEP);
         vm.expectRevert(
@@ -893,25 +844,25 @@ contract LiquidityBinFactoryTest is TestHelper {
 
     function test_revert_SetPauser() public {
         bytes32 DEFAULT_ADMIN_ROLE = factory.DEFAULT_ADMIN_ROLE();
-        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
+        bytes32 LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE = factory.LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE();
         address newAdmin = makeAddr("new_admin");
-        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
+        assertEq(factory.hasRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
         vm.prank(ALICE);
         vm.expectRevert(abi.encodeWithSelector(IAccessControl.AccessControlUnauthorizedAccount.selector, ALICE, DEFAULT_ADMIN_ROLE));
-        factory.grantRole(PAUSER_ROLE, newAdmin);
+        factory.grantRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, newAdmin);
         vm.stopPrank();
 
-        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::2");
+        assertEq(factory.hasRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, newAdmin), false, "test_SetAdmin::2");
     }
 
     function test_SetAdmin() public {
-        bytes32 PAUSER_ROLE = factory.PAUSER_ROLE();
+        bytes32 LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE = factory.LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE();
         address newAdmin = makeAddr("new_admin");
-        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
+        assertEq(factory.hasRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, newAdmin), false, "test_SetAdmin::1");
 
         vm.prank(DEV);
-        factory.grantRole(PAUSER_ROLE, newAdmin);
+        factory.grantRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, newAdmin);
 
-        assertEq(factory.hasRole(PAUSER_ROLE, newAdmin), true, "test_SetAdmin::2");
+        assertEq(factory.hasRole(LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE, newAdmin), true, "test_SetAdmin::2");
     }
 }

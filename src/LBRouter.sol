@@ -28,7 +28,6 @@ import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.s
 
 /**
  * @title Liquidity Book Router
- * @author Trader Sovryn LB
  * @notice Main contract to interact with to swap and manage liquidity on Sovryn LB V2 exchange.
  */
 contract LBRouter is Initializable, ILBRouter {

@@ -23,7 +23,6 @@ import {LBPairBeaconProxy} from "./LBPairBeaconProxy.sol";
 
 /**
  * @title Liquidity Book Factory
- * @author Trader Sovryn LB
  * @notice Contract used to deploy and register new LBPairs.
  * Enables setting fee parameters, flashloan fees and LBPair implementation.
  * Unless the `isOpen` is `true`, only the owner of the factory can create pairs.
@@ -37,7 +36,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     using EnumerableMap for EnumerableMap.UintToUintMap;
 
     bytes32 public constant LB_HOOKS_MANAGER_ROLE = keccak256("LB_HOOKS_MANAGER_ROLE");
-    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+    bytes32 public constant LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE = keccak256("LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE");
 
     uint256 private constant _OFFSET_IS_PRESET_OPEN = 255;
 
@@ -48,7 +47,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     address private _feeRecipient;
     uint256 private _flashLoanFee;
 
-    address private _lbPairImplementation;
+    address private _lbPairBeacon;
 
     ILBPair[] private _allLBPairs;
 
@@ -69,9 +68,6 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
      * Always query one of the 2 tokens of the pair to assert the order of the 2 tokens
      */
     mapping(IERC20 => mapping(IERC20 => EnumerableSet.UintSet)) private _availableLBPairBinSteps;
-
-    /** Beacon management storage variable */
-    address private _lbPairBeacon;
 
 
     constructor() {
@@ -128,11 +124,11 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     }
 
     /**
-     * @notice Get the address of the LBPair implementation
-     * @return lbPairImplementation The address of the LBPair implementation
+     * @notice Get the address of the LBPair beacon
+     * @return lbPairBeacon The address of the LBPair beacon
      */
-    function getLBPairImplementation() external view override returns (address lbPairImplementation) {
-        return _lbPairImplementation;
+    function getLBPairBeacon() external view override returns (address lbPairBeacon) {
+        return _lbPairBeacon;
     }
 
     /**
@@ -315,27 +311,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
 
     // Getter function for the constant variable
     function getPauserRole() external pure returns (bytes32) {
-        return PAUSER_ROLE;
-    }
-
-    /**
-     * @notice Set the LBPair implementation address
-     * @dev Needs to be called by the owner
-     * @param newLBPairImplementation The address of the implementation
-     */
-    function setLBPairImplementation(address newLBPairImplementation) external override onlyOwner {
-        if (ILBPair(newLBPairImplementation).getFactory() != this) {
-            revert LBFactory__LBPairSafetyCheckFailed(newLBPairImplementation);
-        }
-
-        address oldLBPairImplementation = _lbPairImplementation;
-        if (oldLBPairImplementation == newLBPairImplementation) {
-            revert LBFactory__SameImplementation(newLBPairImplementation);
-        }
-
-        _lbPairImplementation = newLBPairImplementation;
-
-        emit LBPairImplementationSet(oldLBPairImplementation, newLBPairImplementation);
+        return LB_PAIR_BEACON_IMPLEMENTATION_PAUSER_ROLE;
     }
 
     /**
@@ -376,10 +352,6 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
         }
 
         {
-            address implementation = _lbPairImplementation;
-
-            if (implementation == address(0)) revert LBFactory__ImplementationNotSet();
-
             bytes memory data = abi.encodeWithSignature("initialize(uint16,uint16,uint16,uint16,uint24,uint16,uint24,uint24)",
                 preset.getBaseFactor(),
                 preset.getFilterPeriod(),
