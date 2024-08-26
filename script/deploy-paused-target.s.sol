@@ -20,7 +20,7 @@ contract DeployPausedTarget is Script {
         address deployedAddress;
         // Define salt and initialize the contract creation code
         bytes32 salt = keccak256(abi.encodePacked("paused-target"));
-        // bytecode of PausedTarget.sol, generated in this commit https://github.com/DistributedCollective/sovryn-lb-dex/pull/3/commits/fbae24c77ad1c718199ae1be28320356566255cb
+        // bytecode of PausedTarget.sol was generated in this commit https://github.com/DistributedCollective/sovryn-lb-dex/blob/fbae24c77ad1c718199ae1be28320356566255cb/src/PausedTarget.sol
         bytes memory bytecode = hex"6080604052348015600f57600080fd5b50604b80601d6000396000f3fe608060408190526306d39fcd60e41b8152600490fdfea26469706673582212201f2d0401c2780882e56c24aaf4f090433956219f7bfec85a6b4e62fd104c8d8b64736f6c63430008140033"; // type(PausedTarget).creationCode;
         address deployer = tx.origin;
         uint256 envPK = vm.envOr("DEPLOYER_PRIVATE_KEY", uint256(0)); 

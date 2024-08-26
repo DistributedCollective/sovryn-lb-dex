@@ -12,7 +12,7 @@ import {LBQuoter} from "src/LBQuoter.sol";
 import {BipsConfig} from "./config/bips-config.sol";
 import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
-import { TxOverrides, DefenderOptions, Options } from "openzeppelin-foundry-upgrades/Options.sol";
+import { Options } from "openzeppelin-foundry-upgrades/Options.sol";
 
 
 contract CoreDeployer is Script {
@@ -106,29 +106,8 @@ contract CoreDeployer is Script {
             console.log("LBFactory initialized, owner --> ", LBFactory(factoryV2).owner());
 
             if(deployment.routerV2 == address(0)) {
-                Options memory opts = Options({
-                    referenceContract: "",
-                    constructorData: abi.encode(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative)),
-                    unsafeAllow: "",
-                    unsafeAllowRenames: false,
-                    unsafeSkipStorageCheck: false,
-                    unsafeSkipAllChecks: false,
-                    defender: DefenderOptions({
-                        useDefenderDeploy: false,
-                        skipVerifySourceCode: false,
-                        relayerId: "",
-                        salt: bytes32(""),
-                        upgradeApprovalProcessId: "",
-                        licenseType: "",
-                        skipLicenseType: false,
-                        txOverrides: TxOverrides({
-                            gasLimit: 0,
-                            gasPrice: 0,
-                            maxFeePerGas: 0,
-                            maxPriorityFeePerGas: 0
-                        })
-                    })
-                });
+                Options memory opts;
+                opts.constructorData = abi.encode(LBFactory(factoryV2), ISovrynLBFactoryV1(deployment.factoryV1), IWNATIVE(deployment.wNative));
                 console.log("Deploying routerV2...");
                 routerV2 = Upgrades.deployTransparentProxy(
                     "LBRouter.sol",
