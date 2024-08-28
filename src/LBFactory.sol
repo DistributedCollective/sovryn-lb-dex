@@ -47,7 +47,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     address private _feeRecipient;
     uint256 private _flashLoanFee;
 
-    address private _lbPairBeacon;
+    address private  _lbPairBeacon;
 
     ILBPair[] private _allLBPairs;
 

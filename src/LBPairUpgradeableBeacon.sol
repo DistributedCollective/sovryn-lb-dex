@@ -35,10 +35,6 @@ contract LBPairUpgradeableBeacon is BaseUpgradeableBeacon {
     }
 
     constructor (address _implementation, address _owner, address _factoryAddress) BaseUpgradeableBeacon(_implementation, _owner) {
-        if(_owner != address(0)) {
-            _transferOwnership(_owner);
-        }
-
         _lbFactoryAddress = ILBFactory(_factoryAddress);
     }
 

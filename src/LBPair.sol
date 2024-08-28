@@ -23,6 +23,7 @@ import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 import {Hooks} from "./libraries/Hooks.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {StringUtils} from "./libraries/StringUtils.sol";
 
 /**
  * @title Liquidity Book Pair
@@ -119,9 +120,10 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
         string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
         string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
+        string memory binStep = StringUtils.uint16ToString(_binStep());
 
-        _tokenName = string.concat("Liquidity Book Token ", tokenXSymbol, " - ", tokenYSymbol);
-        _tokenSymbol = string.concat("LBT_", tokenXSymbol, "-", tokenYSymbol);
+        _tokenName = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
+        _tokenSymbol = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
     }
 
     /**
