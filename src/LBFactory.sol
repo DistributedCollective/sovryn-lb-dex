@@ -362,7 +362,25 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
                 preset.getMaxVolatilityAccumulator(),
                 activeId
             );
-            pair = ILBPair(address(new LBPairBeaconProxy(_lbPairBeacon, address(tokenX), address(tokenY), binStep, data)));
+
+            bytes32 salt = keccak256(abi.encodePacked(tokenA, tokenB, binStep));
+
+            bytes memory bytecode = abi.encodePacked(
+                type(LBPairBeaconProxy).creationCode,
+                abi.encode(_lbPairBeacon, tokenX, tokenY, binStep, data)
+            );
+
+             // Deterministic deployment
+            address pairAddress;
+            assembly {
+                pairAddress := create2(0, add(bytecode, 0x20), mload(bytecode), salt)
+                if iszero(extcodesize(pairAddress)) {
+                    revert(0, 0)
+                }
+            }
+
+            // Set the pair address
+            pair = ILBPair(pairAddress);
         }
 
         _lbPairsInfo[tokenA][tokenB][binStep] =

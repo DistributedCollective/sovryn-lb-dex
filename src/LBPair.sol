@@ -104,9 +104,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
         uint16 protocolShare,
         uint24 maxVolatilityAccumulator,
         uint24 activeId
-    ) external override onlyFactory initializer {
-        __ReentrancyGuard_init();
-
+    ) external override nonReentrant onlyFactory initializer {
         _setStaticFeeParameters(
             _parameters.setActiveId(activeId).updateIdReference(),
             baseFactor,
@@ -124,6 +122,8 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
         _tokenName = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
         _tokenSymbol = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
+
+        __ReentrancyGuard_init();
     }
 
     /**
