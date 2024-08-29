@@ -43,11 +43,13 @@ contract LBPairImplementationTest is Test, TestHelper {
         vm.prank(address(factory));
         pair.initialize(1, 1, 1, 1, 1, 1, 1, 1);
 
+        string memory binStepStr = StringUtils.uint16ToString(binStep);
+
         assertEq(address(pair.getTokenX()), address(tokenX), "testFuzz_Getters::1");
         assertEq(address(pair.getTokenY()), address(tokenY), "testFuzz_Getters::2");
         assertEq(pair.getBinStep(), binStep, "testFuzz_Getters::3");
-        assertEq(pair.name(), string.concat("Liquidity Book Token ", tokenX.symbol(), " - ", tokenY.symbol()), "testFuzz_Getters::4");
-        assertEq(pair.symbol(), string.concat("LBT_", tokenX.symbol(), "-", tokenY.symbol()), "testFuzz_Getters::5");
+        assertEq(pair.name(), string.concat("Liquidity Book Token ", tokenX.symbol(), "/", tokenY.symbol(), "/", binStepStr), "testFuzz_Getters::4");
+        assertEq(pair.symbol(), string.concat("LBT_", tokenX.symbol(), "/", tokenY.symbol(), "/", binStepStr), "testFuzz_Getters::5");
     }
 
     function testFuzz_revert_InitializeImplementation() public {
