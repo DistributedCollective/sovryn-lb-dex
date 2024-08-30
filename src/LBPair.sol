@@ -122,8 +122,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
         _tokenName = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
         _tokenSymbol = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
-
-        __ReentrancyGuard_init();
     }
 
     /**
