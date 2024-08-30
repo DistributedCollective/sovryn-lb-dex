@@ -34,7 +34,8 @@ contract LBPairImplementationTest is Test, TestHelper {
         vm.etch(_tokenY, address(tokenY).code);
         LBFactory factoryImpl = new LBFactory();
         LBFactory factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBPairExt lbPairExt = new LBPairExt(ILBFactory(address(factory)));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)), ILBPairExt(address(lbPairExt)));
         LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         ILBFactory(factory).initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
 
@@ -59,9 +60,10 @@ contract LBPairImplementationTest is Test, TestHelper {
         assumeNotPrecompile(_tokenY);
         vm.etch(_tokenX, address(tokenXReentrant).code);
         vm.etch(_tokenY, address(tokenYReentrant).code);
+        LBPairExt lbPairExt = new LBPairExt(ILBFactory(address(factory)));
         LBFactory factoryImpl = new LBFactory();
         LBFactory factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)), ILBPairExt(address(lbPairExt)));
         LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         ILBFactory(factory).initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
 
@@ -83,10 +85,11 @@ contract LBPairImplementationTest is Test, TestHelper {
     }
 
     function testFuzz_revert_InitializeImplementation() public {
+        LBPairExt lbPairExt = new LBPairExt(ILBFactory(address(factory)));
         factory = LBFactory(makeAddr("factory"));
-        implementation = address(new LBPair(ILBFactory(factory)));
+        implementation = address(new LBPair(ILBFactory(factory), ILBPairExt(address(lbPairExt))));
 
-        vm.expectRevert(ILBPair.LBPair__OnlyFactory.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__OnlyFactory.selector);
         LBPair(implementation).initialize(1, 1, 1, 1, 1, 1, 1, 1);
 
         vm.expectRevert(Initializable.InvalidInitialization.selector);

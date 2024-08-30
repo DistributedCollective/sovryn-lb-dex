@@ -9,7 +9,9 @@ import {ILBFactory} from "./ILBFactory.sol";
 import {ILBFlashLoanCallback} from "./ILBFlashLoanCallback.sol";
 import {ILBToken} from "./ILBToken.sol";
 
-interface ILBPair is ILBToken {
+import {ILBPairExt} from "./ILBPairExt.sol";
+
+interface ILBPairErrors {
     error LBPair__ZeroBorrowAmount();
     error LBPair__AddressZero();
     error LBPair__EmptyMarketConfigs();
@@ -28,13 +30,9 @@ interface ILBPair is ILBToken {
     error LBPair__ZeroShares(uint24 id);
     error LBPair__MaxTotalFeeExceeded();
     error LBPair__InvalidHooks();
+}
 
-    struct MintArrays {
-        uint256[] ids;
-        bytes32[] amounts;
-        uint256[] liquidityMinted;
-    }
-
+interface ILBPairEvents {
     event DepositedToBins(address indexed sender, address indexed to, uint256[] ids, bytes32[] amounts);
 
     event WithdrawnFromBins(address indexed sender, address indexed to, uint256[] ids, bytes32[] amounts);
@@ -79,7 +77,17 @@ interface ILBPair is ILBToken {
     event OracleLengthIncreased(address indexed sender, uint16 oracleLength);
 
     event ForcedDecay(address indexed sender, uint24 idReference, uint24 volatilityReference);
+}
 
+interface ILBPairStructs {
+    struct MintArrays {
+        uint256[] ids;
+        bytes32[] amounts;
+        uint256[] liquidityMinted;
+    }
+}
+
+interface ILBPair is ILBToken, ILBPairErrors, ILBPairEvents, ILBPairStructs {
     function initialize(
         uint16 baseFactor,
         uint16 filterPeriod,
@@ -92,6 +100,8 @@ interface ILBPair is ILBToken {
     ) external;
 
     function getFactory() external view returns (ILBFactory factory);
+    
+    function getLBPairExt() external view returns (ILBPairExt lbPairExt);
 
     function getTokenX() external view returns (IERC20 tokenX);
 

@@ -226,7 +226,7 @@ contract LBPairInitialStateTest is TestHelper {
     }
 
     function test_revert_SetStaticFeeParameters() external {
-        vm.expectRevert(ILBPair.LBPair__InvalidStaticFeeParameters.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InvalidStaticFeeParameters.selector);
         vm.prank(address(factory));
         pairWnative.setStaticFeeParameters(0, 0, 0, 0, 0, 0, 0);
     }
