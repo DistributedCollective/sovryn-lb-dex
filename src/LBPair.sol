@@ -476,7 +476,12 @@ contract LBPair is LBPairBase, ILBPair {
      */
     function swap(bool swapForY, address to) external override returns (bytes32 amountsOut) {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
 
         amountsOut = abi.decode(returndata, (bytes32));
     }
@@ -491,7 +496,12 @@ contract LBPair is LBPairBase, ILBPair {
      */
     function flashLoan(ILBFlashLoanCallback receiver, bytes32 amounts, bytes calldata data) external override {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
     }
 
     /**
@@ -517,7 +527,12 @@ contract LBPair is LBPairBase, ILBPair {
         returns (bytes32 amountsReceived, bytes32 amountsLeft, uint256[] memory liquidityMinted)
     {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
 
         (amountsReceived, amountsLeft, liquidityMinted) = abi.decode(returndata, (bytes32, bytes32, uint256[]));
     }
@@ -538,7 +553,12 @@ contract LBPair is LBPairBase, ILBPair {
         returns (bytes32[] memory amounts)
     {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
 
         amounts = abi.decode(returndata, (bytes32[]));
     }
@@ -555,7 +575,12 @@ contract LBPair is LBPairBase, ILBPair {
         returns (bytes32 collectedProtocolFees)
     {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
 
         collectedProtocolFees = abi.decode(returndata, (bytes32));
     }
@@ -566,7 +591,12 @@ contract LBPair is LBPairBase, ILBPair {
      */
     function increaseOracleLength(uint16 newLength) external override nonReentrant {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
     }
 
     /**
@@ -590,12 +620,18 @@ contract LBPair is LBPairBase, ILBPair {
         uint24 maxVolatilityAccumulator
     ) external override nonReentrant onlyFactory {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
     }
 
     /**
      * @notice Sets the hooks parameter of the pool
      * @dev Can only be called by the factory
+     * @dev We keep this function implementation in this contract because this required the actual LBPair address check
      * @param hooksParameters The hooks parameter
      * @param onHooksSetData The data to be passed to the onHooksSet function of the hooks contract
      */
@@ -622,7 +658,12 @@ contract LBPair is LBPairBase, ILBPair {
      */
     function forceDecay() external override nonReentrant onlyFactory {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
     }
 
     /**
@@ -637,6 +678,11 @@ contract LBPair is LBPairBase, ILBPair {
         override(LBToken, ILBToken)
     {
         (bool success, bytes memory returndata) = address(_lbPairExt).delegatecall(msg.data);
-        require(success, string(returndata));
+        if (!success) {
+            if (returndata.length == 0) revert();
+            assembly {
+                revert(add(32, returndata), mload(returndata))
+            }
+        }
     }
 }

@@ -416,8 +416,7 @@ contract LBPairHooksTest is TestHelper {
 
         hooks.setBefore(address(pairWnative), abi.encodeWithSelector(ILBPair.swap.selector, true, ALICE));
 
-        // vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
-        vm.expectRevert();
+        vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
         vm.prank(ALICE);
         pairWnative.swap(true, ALICE);
 
@@ -441,8 +440,7 @@ contract LBPairHooksTest is TestHelper {
             )
         );
 
-        // vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
-        vm.expectRevert();
+        vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
         vm.prank(ALICE);
         pairWnative.flashLoan(
             ILBFlashLoanCallback(address(this)), PackedUint128Math.encode(amount, amount), new bytes(0)
@@ -483,8 +481,7 @@ contract LBPairHooksTest is TestHelper {
             address(pairWnative), abi.encodeWithSelector(ILBPair.mint.selector, ALICE, liquidityConfigs, ALICE)
         );
 
-        // vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
-        vm.expectRevert();
+        vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
         vm.prank(ALICE);
         pairWnative.mint(ALICE, liquidityConfigs, ALICE);
 
@@ -527,8 +524,7 @@ contract LBPairHooksTest is TestHelper {
             address(pairWnative), abi.encodeWithSelector(ILBPair.burn.selector, DEV, ALICE, ids, amountsToBurn)
         );
 
-        // vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
-        vm.expectRevert();
+        vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
         vm.prank(DEV);
         pairWnative.burn(DEV, ALICE, ids, amountsToBurn);
 
@@ -567,8 +563,7 @@ contract LBPairHooksTest is TestHelper {
             address(pairWnative), abi.encodeWithSelector(ILBToken.batchTransferFrom.selector, DEV, ALICE, ids, amounts)
         );
 
-        // vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
-        vm.expectRevert();
+        vm.expectRevert(ReentrancyGuardUpgradeable.ReentrancyGuardReentrantCall.selector);
         vm.prank(DEV);
         pairWnative.batchTransferFrom(DEV, ALICE, ids, amounts);
 
