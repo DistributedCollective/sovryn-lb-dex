@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3
 pragma solidity 0.8.20;
 
-import "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
+import {BeaconProxy, ERC1967Utils} from "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
+import {StorageSlot} from "@openzeppelin/contracts/utils/StorageSlot.sol";
+import {LBPairUnstructuredStorage} from "./LBPairUnstructuredStorage.sol";
 
 
 interface IOwnable {
@@ -12,24 +14,28 @@ interface IOwnable {
  * @dev this is the Proxy contract of the LBPair.
  * @dev this contract instantiates LBPair contract via OZ Beacon Proxy (LBPairUpgradeableBeacon in this case).
  */
-contract LBPairBeaconProxy is BeaconProxy {
+contract LBPairBeaconProxy is BeaconProxy, LBPairUnstructuredStorage {
     receive() external payable {}
 
-    bytes32 public constant slotTokenX = 0x3441ab29b24daf7a3fd59500b0e08396ec08ec96f5cc2d0362924cdd45cfec31; // keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenX")) - 1));
-    bytes32 public constant slotTokenY = 0x7e1935766b7c49e7482a018a5ee52ca183a2ddfcb6810787916934079aa58264; // keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenY")) - 1));
-    bytes32 public constant slotBinStep = 0xff057b3b4d4500dda208cde5d654db7aa2ec63ac10ab9f9956a1f56973842782; //keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.BinStep")) - 1))
-
     constructor(address _beaconAddress, address _tokenX, address _tokenY, uint16 _binStep, bytes memory _data) payable BeaconProxy(_beaconAddress, "") {
-        assembly {
-            // Slot for _tokenX
-            sstore(slotTokenX, _tokenX)
+        (bool successSymbolX, bytes memory symbolXData) = _tokenX.staticcall(abi.encodeWithSignature("symbol()"));
+        string memory tokenXSymbol = abi.decode(symbolXData, (string));
 
-            // Slot for _tokenY
-            sstore(slotTokenY, _tokenY)
+        (bool successSymbolY, bytes memory symbolYData) = _tokenY.staticcall(abi.encodeWithSignature("symbol()"));
+        string memory tokenYSymbol = abi.decode(symbolYData, (string));
 
-            // Slot for _binStep
-            sstore(slotBinStep, _binStep)
-        }
+        require(successSymbolX && successSymbolY , "LBPairBeaconProxy: Failed to get token symbols");
+        require(
+            keccak256(bytes(tokenXSymbol)) != keccak256(bytes("")) &&
+            keccak256(bytes(tokenYSymbol)) != keccak256(bytes("")),
+            "LBPairBeaconProxy: Invalid token symbols"
+        );
+
+        StorageSlot.getAddressSlot(_SLOT_TOKEN_X).value = _tokenX;
+        StorageSlot.getAddressSlot(_SLOT_TOKEN_Y).value = _tokenY;
+        StorageSlot.getUint256Slot(_SLOT_BIN_STEP).value = _binStep;
+        StorageSlot.getStringSlot(_SLOT_PAIR_SYMBOL).value = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol);
+        StorageSlot.getStringSlot(_SLOT_PAIR_NAME).value = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol);
 
         ERC1967Utils.upgradeBeaconToAndCall(_beaconAddress, _data);
     }

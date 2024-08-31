@@ -22,14 +22,14 @@ import {TreeMath} from "./libraries/math/TreeMath.sol";
 import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 import {Hooks} from "./libraries/Hooks.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
-import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-import {StringUtils} from "./libraries/StringUtils.sol";
+import {LBPairUnstructuredStorage} from "./LBPairUnstructuredStorage.sol";
+import {StorageSlot} from "@openzeppelin/contracts/utils/StorageSlot.sol";
 
 /**
  * @title Liquidity Book Pair
  * @notice The Liquidity Book Pair contract is the core contract of the Liquidity Book protocol
  */
-contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
+contract LBPair is LBToken, ReentrancyGuardUpgradeable, LBPairUnstructuredStorage, ILBPair {
     using BinHelper for bytes32;
     using FeeHelper for uint128;
     using LiquidityConfigurations for bytes32;
@@ -70,9 +70,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
     bytes32 private _hooksParameters;
 
-    string private _tokenName;
-    string private _tokenSymbol;
-
     /**
      * @dev Constructor for the Liquidity Book Pair contract that sets the Liquidity Book Factory
      * @param factory_ The Liquidity Book Factory
@@ -85,7 +82,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
     /**
      * @notice Initialize the Liquidity Book Pair fee parameters and active id
-     * @dev Can only be called by the Liquidity Book Factory
      * @param baseFactor The base factor for the static fee
      * @param filterPeriod The filter period for the static fee
      * @param decayPeriod The decay period for the static fee
@@ -104,7 +100,9 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
         uint16 protocolShare,
         uint24 maxVolatilityAccumulator,
         uint24 activeId
-    ) external override nonReentrant onlyFactory initializer {
+    ) external override onlyFactory initializer {
+        __ReentrancyGuard_init();
+
         _setStaticFeeParameters(
             _parameters.setActiveId(activeId).updateIdReference(),
             baseFactor,
@@ -115,29 +113,22 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
             protocolShare,
             maxVolatilityAccumulator
         );
-
-        string memory tokenXSymbol = IERC20Metadata(address(_tokenX())).symbol();
-        string memory tokenYSymbol = IERC20Metadata(address(_tokenY())).symbol();
-        string memory binStep = StringUtils.uint16ToString(_binStep());
-
-        _tokenName = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
-        _tokenSymbol = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol, "/", binStep);
     }
 
     /**
-     * @notice Returns the name of the token.
-     * @return tokenName_ The name of the token.
+     * @notice Returns the name of the pair token.
+     * @return The name of the pair token.
      */
     function name() public override(ILBToken, LBToken) view returns (string memory) {
-        return _tokenName;
+        return StorageSlot.getStringSlot(_SLOT_PAIR_NAME).value;
     }
 
     /**
-     * @notice Returns the symbol of the token, usually a shorter version of the name.
-     * @return tokenSymbol_ The symbol of the token.
+     * @notice Returns the symbol of the pair token, usually a shorter version of the name.
+     * @return The symbol of the pair token.
      */
     function symbol() public override(ILBToken, LBToken) view returns (string memory) {
-        return _tokenSymbol;
+         return StorageSlot.getStringSlot(_SLOT_PAIR_SYMBOL).value;
     }
 
     /**
@@ -828,7 +819,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
     /**
      * @notice Sets the static fee parameters of the pool
-     * @dev Can only be called by the factory
      * @param baseFactor The base factor of the static fee
      * @param filterPeriod The filter period of the static fee
      * @param decayPeriod The decay period of the static fee
@@ -860,7 +850,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
     /**
      * @notice Sets the hooks parameter of the pool
-     * @dev Can only be called by the factory
      * @param hooksParameters The hooks parameter
      * @param onHooksSetData The data to be passed to the onHooksSet function of the hooks contract
      */
@@ -883,7 +872,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
 
     /**
      * @notice Forces the decay of the volatility reference variables
-     * @dev Can only be called by the factory
      */
     function forceDecay() external override nonReentrant onlyFactory {
         bytes32 parameters = _parameters;
@@ -922,13 +910,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
      * @return The address of the token X
      */
     function _tokenX() internal view returns (IERC20) {
-        address tokenX_;
-        bytes32 slot = 0x3441ab29b24daf7a3fd59500b0e08396ec08ec96f5cc2d0362924cdd45cfec31; //keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenX")) - 1));
-        assembly {
-            tokenX_ := sload(slot)
-        }
-
-        return IERC20(tokenX_);
+        return IERC20(StorageSlot.getAddressSlot(_SLOT_TOKEN_X).value);
     }
 
     /**
@@ -936,24 +918,15 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, ILBPair {
      * @return The address of the token Y
      */
     function _tokenY() internal view returns (IERC20) {
-        address tokenY_;
-        bytes32 slot = 0x7e1935766b7c49e7482a018a5ee52ca183a2ddfcb6810787916934079aa58264; // keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.TokenY")) - 1));
-        assembly {
-            tokenY_ := sload(slot)
-        }
-
-        return IERC20(tokenY_);
+        return IERC20(StorageSlot.getAddressSlot(_SLOT_TOKEN_Y).value);
     }
 
     /**
      * @dev Returns the bin step of the pool, in basis points
-     * @return binStep_ The bin step of the pool
+     * @return binStep The bin step of the pool
      */
-    function _binStep() internal view returns (uint16 binStep_) {
-        bytes32 slot = 0xff057b3b4d4500dda208cde5d654db7aa2ec63ac10ab9f9956a1f56973842782; //keccak256(abi.encode(uint256(keccak256("sovrynlbdex.pair.storage.BinStep")) - 1));
-        assembly {
-            binStep_ := sload(slot)
-        }
+    function _binStep() internal view returns (uint16) {
+        return uint16(StorageSlot.getUint256Slot(_SLOT_BIN_STEP).value);
     }
 
     /**
