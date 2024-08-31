@@ -4,6 +4,7 @@ pragma solidity 0.8.20;
 import {BeaconProxy, ERC1967Utils} from "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
 import {StorageSlot} from "@openzeppelin/contracts/utils/StorageSlot.sol";
 import {LBPairUnstructuredStorage} from "./LBPairUnstructuredStorage.sol";
+import {StringUtils} from "./libraries/StringUtils.sol";
 
 
 interface IOwnable {
@@ -15,6 +16,8 @@ interface IOwnable {
  * @dev this contract instantiates LBPair contract via OZ Beacon Proxy (LBPairUpgradeableBeacon in this case).
  */
 contract LBPairBeaconProxy is BeaconProxy, LBPairUnstructuredStorage {
+
+    using StringUtils for uint16; 
     receive() external payable {}
 
     constructor(address _beaconAddress, address _tokenX, address _tokenY, uint16 _binStep, bytes memory _data) payable BeaconProxy(_beaconAddress, "") {
@@ -34,8 +37,9 @@ contract LBPairBeaconProxy is BeaconProxy, LBPairUnstructuredStorage {
         StorageSlot.getAddressSlot(_SLOT_TOKEN_X).value = _tokenX;
         StorageSlot.getAddressSlot(_SLOT_TOKEN_Y).value = _tokenY;
         StorageSlot.getUint256Slot(_SLOT_BIN_STEP).value = _binStep;
-        StorageSlot.getStringSlot(_SLOT_PAIR_SYMBOL).value = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol);
-        StorageSlot.getStringSlot(_SLOT_PAIR_NAME).value = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol);
+        string memory binStepStr = _binStep.uint16ToString();
+        StorageSlot.getStringSlot(_SLOT_PAIR_SYMBOL).value = string.concat("LBT_", tokenXSymbol, "/", tokenYSymbol, "/", binStepStr);
+        StorageSlot.getStringSlot(_SLOT_PAIR_NAME).value = string.concat("Liquidity Book Token ", tokenXSymbol, "/", tokenYSymbol,"/", binStepStr);
 
         ERC1967Utils.upgradeBeaconToAndCall(_beaconAddress, _data);
     }

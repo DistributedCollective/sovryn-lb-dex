@@ -119,7 +119,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, LBPairUnstructuredStorag
      * @notice Returns the name of the pair token.
      * @return The name of the pair token.
      */
-    function name() public override(ILBToken, LBToken) view returns (string memory) {
+    function name() external override(ILBToken, LBToken) view returns (string memory) {
         return StorageSlot.getStringSlot(_SLOT_PAIR_NAME).value;
     }
 
@@ -127,7 +127,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, LBPairUnstructuredStorag
      * @notice Returns the symbol of the pair token, usually a shorter version of the name.
      * @return The symbol of the pair token.
      */
-    function symbol() public override(ILBToken, LBToken) view returns (string memory) {
+    function symbol() external override(ILBToken, LBToken) view returns (string memory) {
          return StorageSlot.getStringSlot(_SLOT_PAIR_SYMBOL).value;
     }
 
