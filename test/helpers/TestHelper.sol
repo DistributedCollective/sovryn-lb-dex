@@ -6,12 +6,14 @@ import "forge-std/Test.sol";
 
 import "src/LBFactory.sol";
 import "src/LBPair.sol";
+import "src/LBPairExt.sol";
 import "src/LBRouter.sol";
 import "src/LBQuoter.sol";
 import "src/interfaces/ILBRouter.sol";
 import "src/interfaces/ISovrynLBRouter02.sol";
 import "src/interfaces/ILBLegacyRouter.sol";
 import "src/interfaces/ILBLegacyFactory.sol";
+import "src/interfaces/ILBPair.sol";
 import "src/LBToken.sol";
 import "src/libraries/math/Uint256x256Math.sol";
 import "src/libraries/Constants.sol";
@@ -80,6 +82,7 @@ abstract contract TestHelper is Test {
     LBQuoter internal quoter;
     LBPair internal pairImplementation;
     LBPairUpgradeableBeacon internal lbPairUpgradeableBeacon;
+    LBPairExt internal lbPairExt;
 
     // Forked contracts
     ISovrynLBRouter02 internal routerV1;
@@ -118,10 +121,11 @@ abstract contract TestHelper is Test {
         // Create factory
         LBFactory factoryImpl = new LBFactory();
         factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        lbPairExt = new LBPairExt(ILBFactory(address(factory)));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)), ILBPairExt(address(lbPairExt)));
         lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
-        pairImplementation = new LBPair(factory);
+        pairImplementation = new LBPair(factory, ILBPairExt(address(lbPairExt)));
 
         // Setup factory
         addAllAssetsToQuoteWhitelist();

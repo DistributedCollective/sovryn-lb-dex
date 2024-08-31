@@ -246,14 +246,14 @@ contract LBPairLiquidityTest is TestHelper {
 
     function test_revert_MintEmptyConfig() external {
         bytes32[] memory data = new bytes32[](0);
-        vm.expectRevert(ILBPair.LBPair__EmptyMarketConfigs.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__EmptyMarketConfigs.selector);
         pairWnative.mint(BOB, data, BOB);
     }
 
     function test_revert_MintZeroShares() external {
         bytes32[] memory data = new bytes32[](1);
         data[0] = LiquidityConfigurations.encodeParams(1e18, 1e18, activeId);
-        vm.expectRevert(abi.encodeWithSelector(ILBPair.LBPair__ZeroShares.selector, activeId));
+        vm.expectRevert(abi.encodeWithSelector(ILBPairErrors.LBPair__ZeroShares.selector, activeId));
         pairWnative.mint(BOB, data, BOB);
     }
 
@@ -277,25 +277,25 @@ contract LBPairLiquidityTest is TestHelper {
         uint256[] memory ids = new uint256[](0);
         uint256[] memory balances = new uint256[](1);
 
-        vm.expectRevert(ILBPair.LBPair__InvalidInput.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InvalidInput.selector);
         pairWnative.burn(DEV, DEV, ids, balances);
 
         ids = new uint256[](1);
         balances = new uint256[](0);
 
-        vm.expectRevert(ILBPair.LBPair__InvalidInput.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InvalidInput.selector);
         pairWnative.burn(DEV, DEV, ids, balances);
 
         ids = new uint256[](0);
         balances = new uint256[](0);
 
-        vm.expectRevert(ILBPair.LBPair__InvalidInput.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InvalidInput.selector);
         pairWnative.burn(DEV, DEV, ids, balances);
 
         ids = new uint256[](1);
         balances = new uint256[](2);
 
-        vm.expectRevert(ILBPair.LBPair__InvalidInput.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InvalidInput.selector);
         pairWnative.burn(DEV, DEV, ids, balances);
     }
 
@@ -322,7 +322,7 @@ contract LBPairLiquidityTest is TestHelper {
         ids[0] = activeId;
         balances[0] = 0;
 
-        vm.expectRevert(abi.encodeWithSelector(ILBPair.LBPair__ZeroAmount.selector, activeId));
+        vm.expectRevert(abi.encodeWithSelector(ILBPairErrors.LBPair__ZeroAmount.selector, activeId));
         pairWnative.burn(DEV, DEV, ids, balances);
     }
 
@@ -335,7 +335,7 @@ contract LBPairLiquidityTest is TestHelper {
 
         addLiquidity(DEV, DEV, pairWnative, activeId, 1e18, 1e18, 1, 1);
 
-        vm.expectRevert(abi.encodeWithSelector(ILBPair.LBPair__ZeroAmountsOut.selector, activeId));
+        vm.expectRevert(abi.encodeWithSelector(ILBPairErrors.LBPair__ZeroAmountsOut.selector, activeId));
         pairWnative.burn(DEV, DEV, ids, balances);
     }
 }

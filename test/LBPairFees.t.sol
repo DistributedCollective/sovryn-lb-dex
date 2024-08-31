@@ -560,7 +560,7 @@ contract LBPairFeesTest is TestHelper {
 
         vm.assume(baseFee + varFee > 1e17);
 
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)), ILBPairExt(address(lbPairExt)));
         LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         LBPairBeaconProxy lbDexBeaconProxy = new LBPairBeaconProxy(address(lbPairUpgradeableBeacon), address(wnative), address(usdc), binStep, "");
 
@@ -569,7 +569,7 @@ contract LBPairFeesTest is TestHelper {
         vm.prank(address(factory));
         pairWnative.initialize(1, 1, 1, 1, 1, 1, 1, 1);
 
-        vm.expectRevert(ILBPair.LBPair__MaxTotalFeeExceeded.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__MaxTotalFeeExceeded.selector);
         vm.prank(address(factory));
         pairWnative.setStaticFeeParameters(baseFactor, 1, 1, 1, variableFeeControl, 1, maxVolatilityAccumulator);
     }

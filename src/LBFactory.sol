@@ -20,6 +20,7 @@ import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {ILBPair} from "./interfaces/ILBPair.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
 import {LBPairBeaconProxy} from "./LBPairBeaconProxy.sol";
+import {Create2} from "@openzeppelin/contracts/utils/Create2.sol";
 
 /**
  * @title Liquidity Book Factory
@@ -371,16 +372,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
             );
 
              // Deterministic deployment
-            address pairAddress;
-            assembly {
-                pairAddress := create2(0, add(bytecode, 0x20), mload(bytecode), salt)
-                if iszero(extcodesize(pairAddress)) {
-                    revert(0, 0)
-                }
-            }
-
-            // Set the pair address
-            pair = ILBPair(pairAddress);
+            pair = ILBPair(Create2.deploy(0, salt, bytecode));
         }
 
         _lbPairsInfo[tokenA][tokenB][binStep] =

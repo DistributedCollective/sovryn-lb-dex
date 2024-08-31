@@ -92,10 +92,10 @@ contract LBPairSwapTest is TestHelper {
     }
 
     function test_revert_SwapInsufficientAmountIn() external {
-        vm.expectRevert(ILBPair.LBPair__InsufficientAmountIn.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InsufficientAmountIn.selector);
         pairWnative.swap(true, ALICE);
 
-        vm.expectRevert(ILBPair.LBPair__InsufficientAmountIn.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InsufficientAmountIn.selector);
         pairWnative.swap(false, ALICE);
     }
 
@@ -106,13 +106,13 @@ contract LBPairSwapTest is TestHelper {
         vm.prank(ALICE);
         wnative.transfer(address(pairWnative), 1);
 
-        vm.expectRevert(ILBPair.LBPair__InsufficientAmountOut.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InsufficientAmountOut.selector);
         pairWnative.swap(true, ALICE);
 
         vm.prank(ALICE);
         usdc.transfer(address(pairWnative), 1);
 
-        vm.expectRevert(ILBPair.LBPair__InsufficientAmountOut.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__InsufficientAmountOut.selector);
         pairWnative.swap(false, ALICE);
     }
 
@@ -123,13 +123,13 @@ contract LBPairSwapTest is TestHelper {
         vm.prank(ALICE);
         wnative.transfer(address(pairWnative), 2e18);
 
-        vm.expectRevert(ILBPair.LBPair__OutOfLiquidity.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__OutOfLiquidity.selector);
         pairWnative.swap(true, ALICE);
 
         vm.prank(ALICE);
         usdc.transfer(address(pairWnative), 2e18);
 
-        vm.expectRevert(ILBPair.LBPair__OutOfLiquidity.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__OutOfLiquidity.selector);
         pairWnative.swap(false, ALICE);
     }
 }

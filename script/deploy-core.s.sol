@@ -13,6 +13,7 @@ import {BipsConfig} from "./config/bips-config.sol";
 import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
 import { Options } from "openzeppelin-foundry-upgrades/Options.sol";
+import {LBPairExt, ILBPairExt} from "src/LBPairExt.sol";
 
 
 contract CoreDeployer is Script {
@@ -20,6 +21,7 @@ contract CoreDeployer is Script {
 
     uint256 private constant FLASHLOAN_FEE = 0.05e16; //0.05%
     address deployer;
+    uint256 envPK;
 
     struct Deployment {
         address factoryV1;
@@ -43,7 +45,7 @@ contract CoreDeployer is Script {
     function run() public {
         string memory json = vm.readFile("script/config/deployments.json");
         deployer = tx.origin;
-        uint256 envPK = vm.envOr("DEPLOYER_PRIVATE_KEY", uint256(0)); 
+        envPK = vm.envOr("DEPLOYER_PRIVATE_KEY", uint256(0)); 
         if(envPK != 0 && vm.envBool("USE_ENV_PK")) {
             // CLI command would look like USE_ENV_PK=true forge script ...
             deployer = vm.addr(envPK);
@@ -55,6 +57,7 @@ contract CoreDeployer is Script {
         address routerV2;
         address lbPairUpgradeableBeacon;
         address lbPairImplementation;
+        address lbPairExt;
         address quoter;
 
         vm.startBroadcast(deployer);
@@ -81,8 +84,12 @@ contract CoreDeployer is Script {
             }
 
             if(deployment.lbPairImplementation == address(0)) {
+                console.log("Deploying LBPairExt...");
+                lbPairExt = address(new LBPairExt(ILBFactory(factoryV2)));
+                console.log("LBPairExt deployed -->", lbPairExt);
+
                 console.log("Deploying lbPairImplementation...");
-                lbPairImplementation = address(new LBPair(ILBFactory(factoryV2)));
+                lbPairImplementation = address(new LBPair(ILBFactory(factoryV2), ILBPairExt(lbPairExt)));
                 deployment.lbPairImplementation = lbPairImplementation;
                 console.log("lbPairImplementation deployed -->", lbPairImplementation);
             } else {

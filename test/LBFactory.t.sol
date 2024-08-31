@@ -78,7 +78,7 @@ contract LiquidityBinFactoryTest is TestHelper {
         LBFactory factoryImpl = new LBFactory();
         LBFactory factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
         
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)), ILBPairExt(address(lbPairExt)));
         LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
 
         factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
@@ -198,7 +198,7 @@ contract LiquidityBinFactoryTest is TestHelper {
         LBFactory newFactoryImpl = new LBFactory();
         LBFactory newFactory = LBFactory(address(new TransparentUpgradeableProxy(address(newFactoryImpl), DEV, "")));
         
-        LBPair lbPairImplementation = new LBPair(ILBFactory(address(newFactory)));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(newFactory)), ILBPairExt(address(lbPairExt)));
         LBPairUpgradeableBeacon lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(newFactory));
 
         newFactory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));

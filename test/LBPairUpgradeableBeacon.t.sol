@@ -13,7 +13,7 @@ contract LBPairBeaconProxyTest is TestHelper {
 
     function setUp() public override {
         super.setUp();
-        lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        lbPairImplementation = new LBPair(ILBFactory(address(factory)), ILBPairExt(address(lbPairExt)));
         lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
         pausedTarget = new PausedTarget();
         vm.etch(DETERMINIST_TARGET_PAUSED_CONTRACT_ADDRESS, address(pausedTarget).code);

@@ -64,17 +64,17 @@ contract LBPairFlashloanTest is TestHelper {
         bytes32 amountsBorrowed = amountX.encode(amountY);
         bytes memory data = abi.encode(amountX + feeX - 1, amountY + feeY, Constants.CALLBACK_SUCCESS, 0);
 
-        vm.expectRevert(ILBPair.LBPair__FlashLoanInsufficientAmount.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__FlashLoanInsufficientAmount.selector);
         pairWnative.flashLoan(borrower, amountsBorrowed, data);
 
         data = abi.encode(amountX + feeX, amountY + feeY - 1, Constants.CALLBACK_SUCCESS, 0);
 
-        vm.expectRevert(ILBPair.LBPair__FlashLoanInsufficientAmount.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__FlashLoanInsufficientAmount.selector);
         pairWnative.flashLoan(borrower, amountsBorrowed, data);
 
         data = abi.encode(amountX + feeX - 1, amountY + feeY - 1, Constants.CALLBACK_SUCCESS, 0);
 
-        vm.expectRevert(ILBPair.LBPair__FlashLoanInsufficientAmount.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__FlashLoanInsufficientAmount.selector);
         pairWnative.flashLoan(borrower, amountsBorrowed, data);
     }
 
@@ -84,7 +84,7 @@ contract LBPairFlashloanTest is TestHelper {
         bytes32 amountsBorrowed = bytes32(uint256(1));
         bytes memory data = abi.encode(0, 0, callback, 0);
 
-        vm.expectRevert(ILBPair.LBPair__FlashLoanCallbackFailed.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__FlashLoanCallbackFailed.selector);
         pairWnative.flashLoan(borrower, amountsBorrowed, data);
     }
 
@@ -92,12 +92,12 @@ contract LBPairFlashloanTest is TestHelper {
         bytes32 amountsBorrowed = bytes32(uint256(1));
         bytes memory data = abi.encode(0, 0, callback, 1);
 
-        vm.expectRevert(ILBPair.LBPair__FlashLoanCallbackFailed.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__FlashLoanCallbackFailed.selector);
         pairWnative.flashLoan(borrower, amountsBorrowed, data);
     }
 
     function test_revert_FlashLoan0Amounts() external {
-        vm.expectRevert(ILBPair.LBPair__ZeroBorrowAmount.selector);
+        vm.expectRevert(ILBPairErrors.LBPair__ZeroBorrowAmount.selector);
         pairWnative.flashLoan(borrower, 0, "");
     }
 
