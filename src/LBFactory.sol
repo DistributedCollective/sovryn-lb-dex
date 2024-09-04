@@ -72,6 +72,7 @@ contract LBFactory is Ownable2StepUpgradeable, AccessControlUpgradeable, ILBFact
     mapping(IERC20 => mapping(IERC20 => EnumerableSet.UintSet)) private _availableLBPairBinSteps;
 
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }

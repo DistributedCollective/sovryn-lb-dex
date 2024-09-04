@@ -24,15 +24,29 @@ contract CoreDeployer is Script {
     struct Deployment {
         address factoryV1;
         address factoryV2;
-        address owner;
         address feeRecipient;
-        address routerV2;
-        address wNative;
         address lbPairImplementation;
         address lbPairUpgradeableBeacon;
+        address owner;
         address quoter;
-        address[] quoteAssets;
+        address routerV2;
+        address wNative;
     }
+
+    address[12] public quoteAssets = [
+        0xb5E3dbAF69A46B71Fe9c055e6Fa36992ae6b2c1A,
+        0x5fA95212825a474E2C75676e8D833330F261CaeD,
+        0xA6b5f74DDCc75b4b561D84B19Ad7FD51f0405483,
+        0x2267Ae86066097EF49884Aac96c63f70fE818eb3,
+        0x3E610F32806e09C2Ba65b8c88A6E4f777c8Cb559,
+        0x67bF6DE7f8d4d13FBa410CBe05219cB26242A7C9,
+        0xf1e7167A0b085B52A8ad02A5Cc48eD2027b8B577,
+        0xfCDaC6196C22908ddA4CE84fb595B1C7986346bF,
+        0x87d252A68a0AC2428C6e849f4Ec0b30DD3DCA62B,
+        0xFEbad8c0EA06e816FF21D1c772c46E02F10F2A23,
+        0xf83A152C0A526a45E93D91c95894a19A1258E30E,
+        0x5c7bEa38BD9d825212a1BCf0cCA4b9C122f6Bd00
+    ];
 
     string[] chains = ["bob_testnet"];
 
@@ -57,14 +71,14 @@ contract CoreDeployer is Script {
         address lbPairImplementation;
         address quoter;
 
-        vm.startBroadcast(deployer);
         for (uint256 i = 0; i < chains.length; i++) {
+            vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
+            vm.startBroadcast(deployer);
             bytes memory rawDeploymentData = json.parseRaw(string(abi.encodePacked(".", chains[i])));
+            console.logBytes(rawDeploymentData);
             Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
 
             console.log("\nDeploying V2.1 on %s", chains[i]);
-
-            vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
 
             if(deployment.factoryV2 == address(0)) {
                 console.log("Deploying factory v2...");
@@ -134,7 +148,7 @@ contract CoreDeployer is Script {
                 quoter = deployment.quoter;
             }
 
-            address[] memory quoteAssets = deployment.quoteAssets;
+            // address[] memory quoteAssets = deployment.quoteAssets;
             for (uint256 j = 0; j < quoteAssets.length; j++) {
                 IERC20 quoteAsset = IERC20(quoteAssets[j]);
                 if(LBFactory(factoryV2).isQuoteAsset(quoteAsset)) continue;
@@ -170,9 +184,9 @@ contract CoreDeployer is Script {
             json = json.serialize(string(abi.encodePacked(".", chains[i])), updatedDeployment);
 
             // Write the updated JSON back to the file
-            vm.writeFile("script/config/deployments.json", json);
+            // vm.writeFile("script/config/deployments.json", json);
+            vm.stopBroadcast();
         }
-        vm.stopBroadcast();
     }
 
     // function _overwriteDefaultArbitrumRPC() private {
