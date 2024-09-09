@@ -6,7 +6,6 @@ import {Constants} from "./Constants.sol";
 
 /**
  * @title Liquidity Book Fee Helper Library
- * @author Trader Sovryn LB
  * @notice This library contains functions to calculate fees
  */
 library FeeHelper {

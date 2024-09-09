@@ -9,7 +9,6 @@ import {ILBPair} from "./ILBPair.sol";
 
 /**
  * @title Liquidity Book Factory Interface
- * @author Trader Sovryn LB
  * @notice Required interface of LBFactory contract
  */
 interface ILBFactory {
@@ -30,7 +29,6 @@ interface ILBFactory {
     error LBFactory__SameFlashLoanFee(uint256 flashLoanFee);
     error LBFactory__LBPairSafetyCheckFailed(address LBPairImplementation);
     error LBFactory__SameImplementation(address LBPairImplementation);
-    error LBFactory__ImplementationNotSet();
     error LBFactory__SameHooksImplementation(address hooksImplementation);
     error LBFactory__SameHooksParameters(bytes32 hooksParameters);
     error LBFactory__InvalidHooksParameters();
@@ -89,7 +87,7 @@ interface ILBFactory {
 
     function getFlashLoanFee() external view returns (uint256);
 
-    function getLBPairImplementation() external view returns (address);
+    function getLBPairBeacon() external view returns (address);
 
     function getNumberOfLBPairs() external view returns (uint256);
 
@@ -98,6 +96,8 @@ interface ILBFactory {
     function getNumberOfQuoteAssets() external view returns (uint256);
 
     function getQuoteAssetAtIndex(uint256 index) external view returns (IERC20);
+
+    function initialize(address feeRecipient, address initialOwner, uint256 flashLoanFee, address lbPairBeaconAddress) external;
 
     function isQuoteAsset(IERC20 token) external view returns (bool);
 
@@ -129,7 +129,7 @@ interface ILBFactory {
         view
         returns (LBPairInformation[] memory LBPairsBinStep);
 
-    function setLBPairImplementation(address lbPairImplementation) external;
+    function getPauserRole() external pure returns (bytes32);
 
     function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep)
         external

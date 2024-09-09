@@ -13,7 +13,6 @@ import {TokenHelper, IERC20} from "./TokenHelper.sol";
 
 /**
  * @title Liquidity Book Bin Helper Library
- * @author Trader Sovryn LB
  * @notice This library contains functions to help interaction with bins.
  */
 library BinHelper {

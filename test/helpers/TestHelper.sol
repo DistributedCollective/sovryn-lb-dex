@@ -24,8 +24,11 @@ import "test/mocks/WNATIVE.sol";
 import "test/mocks/ERC20.sol";
 import "test/mocks/FlashBorrower.sol";
 import "test/mocks/ERC20TransferTax.sol";
+import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 
 import {AvalancheAddresses} from "../integration/Addresses.sol";
+import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+
 
 abstract contract TestHelper is Test {
     using Uint256x256Math for uint256;
@@ -76,6 +79,7 @@ abstract contract TestHelper is Test {
     LBPair internal pairWnative;
     LBQuoter internal quoter;
     LBPair internal pairImplementation;
+    LBPairUpgradeableBeacon internal lbPairUpgradeableBeacon;
 
     // Forked contracts
     ISovrynLBRouter02 internal routerV1;
@@ -85,7 +89,9 @@ abstract contract TestHelper is Test {
         wnative = WNATIVE(AvalancheAddresses.WNATIVE);
         // If not forking, deploy mock
         if (address(wnative).code.length == 0) {
-            vm.etch(address(wnative), address(new WNATIVE()).code);
+            //vm.etch(address(wnative), address(new WNATIVE()).code); // this doesn't work - e.g. no symbol() returned
+            // console2.log("wnative.symbol()", wnative.symbol());
+            wnative = new WNATIVE();
         }
 
         // Create mocks
@@ -112,17 +118,20 @@ abstract contract TestHelper is Test {
         factoryV1 = ISovrynLBFactoryV1(AvalancheAddresses.SovrynLB_V1_FACTORY);
 
         // Create factory
-        factory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);
+        LBFactory factoryImpl = new LBFactory();
+        factory = LBFactory(address(new TransparentUpgradeableProxy(address(factoryImpl), DEV, "")));
+        LBPair lbPairImplementation = new LBPair(ILBFactory(address(factory)));
+        lbPairUpgradeableBeacon = new LBPairUpgradeableBeacon(address(lbPairImplementation), DEV, address(factory));
+        factory.initialize(DEV, DEV, DEFAULT_FLASHLOAN_FEE, address(lbPairUpgradeableBeacon));
         pairImplementation = new LBPair(factory);
 
         // Setup factory
-        factory.setLBPairImplementation(address(pairImplementation));
         addAllAssetsToQuoteWhitelist();
         setDefaultFactoryPresets(DEFAULT_BIN_STEP);
 
         // Create router
-        router =
-            new LBRouter(factory, factoryV1, IWNATIVE(address(wnative)));
+        LBRouter routerImpl = new LBRouter(factory, factoryV1, IWNATIVE(address(wnative)));
+        router = LBRouter(payable(address(new TransparentUpgradeableProxy(address(routerImpl), DEV, abi.encodeCall(LBRouter.initialize, ())))));
 
         // Create quoter
         quoter = new LBQuoter(

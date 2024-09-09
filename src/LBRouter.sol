@@ -24,19 +24,22 @@ import {ISovrynLBFactoryV1} from "./interfaces/ISovrynLBFactoryV1.sol";
 import {ILBLegacyFactory} from "./interfaces/ILBLegacyFactory.sol";
 import {ILBFactory} from "./interfaces/ILBFactory.sol";
 import {IWNATIVE} from "./interfaces/IWNATIVE.sol";
+import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 /**
  * @title Liquidity Book Router
- * @author Trader Sovryn LB
  * @notice Main contract to interact with to swap and manage liquidity on Sovryn LB V2 exchange.
  */
-contract LBRouter is ILBRouter {
+contract LBRouter is Initializable, ILBRouter {
     using TokenHelper for IERC20;
     using SovrynLBLibrary for uint256;
     using PackedUint128Math for bytes32;
 
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable
     ILBFactory private immutable _factory2;
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable
     ISovrynLBFactoryV1 private immutable _factoryV1;
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable
     IWNATIVE private immutable _wnative;
 
     modifier onlyFactoryOwner() {
@@ -58,11 +61,11 @@ contract LBRouter is ILBRouter {
     }
 
     /**
-     * @notice Constructor
      * @param factory2 Address of LB DEX V2.2 factory
      * @param factoryV1 Address of LB DEX V1 factory
      * @param wnative Address of WNATIVE
      */
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor(
         ILBFactory factory2,
         ISovrynLBFactoryV1 factoryV1,
@@ -71,7 +74,11 @@ contract LBRouter is ILBRouter {
         _factory2 = factory2;
         _factoryV1 = factoryV1;
         _wnative = wnative;
+
+        _disableInitializers();
     }
+
+    function initialize() initializer external {}
 
     /**
      * @dev Receive function that only accept NATIVE from the WNATIVE contract
@@ -202,7 +209,7 @@ contract LBRouter is ILBRouter {
     {
         ILBPair lbPair = ILBPair(
             _getLBPairInformation(
-                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep, Version.V2
+                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep
             )
         );
         if (liquidityParameters.tokenX != lbPair.getTokenX()) revert LBRouter__WrongTokenOrder();
@@ -240,7 +247,7 @@ contract LBRouter is ILBRouter {
     {
         ILBPair _LBPair = ILBPair(
             _getLBPairInformation(
-                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep, Version.V2
+                liquidityParameters.tokenX, liquidityParameters.tokenY, liquidityParameters.binStep
             )
         );
         if (liquidityParameters.tokenX != _LBPair.getTokenX()) revert LBRouter__WrongTokenOrder();
@@ -291,7 +298,7 @@ contract LBRouter is ILBRouter {
         address to,
         uint256 deadline
     ) external override ensure(deadline) returns (uint256 amountX, uint256 amountY) {
-        ILBPair _LBPair = ILBPair(_getLBPairInformation(tokenX, tokenY, binStep, Version.V2));
+        ILBPair _LBPair = ILBPair(_getLBPairInformation(tokenX, tokenY, binStep));
         bool isWrongOrder = tokenX != _LBPair.getTokenX();
 
         if (isWrongOrder) (amountXMin, amountYMin) = (amountYMin, amountXMin);
@@ -327,7 +334,7 @@ contract LBRouter is ILBRouter {
         address payable to,
         uint256 deadline
     ) external override ensure(deadline) returns (uint256 amountToken, uint256 amountNATIVE) {
-        ILBPair lbPair = ILBPair(_getLBPairInformation(token, IERC20(_wnative), binStep, Version.V2));
+        ILBPair lbPair = ILBPair(_getLBPairInformation(token, IERC20(_wnative), binStep));
 
         {
             bool isNATIVETokenY = IERC20(_wnative) == lbPair.getTokenY();
@@ -961,10 +968,9 @@ contract LBRouter is ILBRouter {
      * @param tokenX The address of the tokenX
      * @param tokenY The address of the tokenY
      * @param binStep The bin step of the LBPair
-     * @param version The version of the LBPair
      * @return lbPair The address of the LBPair
      */
-    function _getLBPairInformation(IERC20 tokenX, IERC20 tokenY, uint256 binStep, Version version)
+    function _getLBPairInformation(IERC20 tokenX, IERC20 tokenY, uint256 binStep)
         private
         view
         returns (address lbPair)
@@ -994,7 +1000,7 @@ contract LBRouter is ILBRouter {
             pair = _factoryV1.getPair(address(tokenX), address(tokenY));
             if (pair == address(0)) revert LBRouter__PairNotCreated(address(tokenX), address(tokenY), binStep);
         } else {
-            pair = address(_getLBPairInformation(tokenX, tokenY, binStep, version));
+            pair = address(_getLBPairInformation(tokenX, tokenY, binStep));
         }
     }
 

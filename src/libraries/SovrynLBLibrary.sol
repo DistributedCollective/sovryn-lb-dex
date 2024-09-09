@@ -3,8 +3,7 @@
 pragma solidity ^0.8.10;
 
 /**
- * @title Liquidity Book Sovryn LB Library Helper Library
- * @author Trader Sovryn LB
+ * @title Sovryn LB Helper Library
  * @notice Helper contract used for Sovryn LB V1 related calculations
  */
 library SovrynLBLibrary {

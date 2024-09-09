@@ -221,7 +221,7 @@ contract BinHelperTest is TestHelper {
         bool swapForY,
         int16 deltaId,
         uint128 amountIn
-    ) external view {
+    ) external pure {
         bytes32 parameters = bytes32(0).setStaticFeeParameters(
             DEFAULT_BASE_FACTOR,
             DEFAULT_FILTER_PERIOD,

@@ -8,7 +8,6 @@ import {Encoded} from "./math/Encoded.sol";
 
 /**
  * @title Liquidity Book Pair Parameter Helper Library
- * @author Trader Sovryn LB
  * @dev This library contains functions to get and set parameters of a pair
  * The parameters are stored in a single bytes32 variable in the following format:
  * [0 - 16[: base factor (16 bits)

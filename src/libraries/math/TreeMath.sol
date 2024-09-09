@@ -6,7 +6,6 @@ import {BitMath} from "./BitMath.sol";
 
 /**
  * @title Liquidity Book Tree Math Library
- * @author Trader Sovryn LB
  * @notice This library contains functions to interact with a tree of TreeUint24.
  */
 library TreeMath {

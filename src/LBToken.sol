@@ -6,7 +6,6 @@ import {ILBToken} from "./interfaces/ILBToken.sol";
 
 /**
  * @title Liquidity Book Token
- * @author Trader Sovryn LB
  * @notice The LBToken is an implementation of a multi-token.
  * It allows to create multi-ERC20 represented by their ids.
  * Its implementation is really similar to the ERC1155 standard the main difference
@@ -58,7 +57,7 @@ abstract contract LBToken is ILBToken {
      * @notice Returns the name of the token.
      * @return The name of the token.
      */
-    function name() public view virtual override returns (string memory) {
+    function name() external view virtual override returns (string memory) {
         return "Liquidity Book Token";
     }
 
@@ -66,7 +65,7 @@ abstract contract LBToken is ILBToken {
      * @notice Returns the symbol of the token, usually a shorter version of the name.
      * @return The symbol of the token.
      */
-    function symbol() public view virtual override returns (string memory) {
+    function symbol() external view virtual override returns (string memory) {
         return "LBT";
     }
 

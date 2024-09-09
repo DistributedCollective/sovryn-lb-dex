@@ -6,7 +6,6 @@ import {SafeERC20, IERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeE
 import {Ownable2Step, Ownable} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 
 /// @title Faucet contract
-/// @author Trader Sovryn LB
 /// @dev This contract should only be used for testnet
 /// @notice Create a faucet contract that create test tokens and allow user to request for tokens.
 /// This faucet will also provide NATIVE if native were sent to the contract (either during the construction or after).

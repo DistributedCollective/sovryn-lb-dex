@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.20;
-
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {BinHelper} from "./libraries/BinHelper.sol";
-import {Clone} from "./libraries/Clone.sol";
 import {Constants} from "./libraries/Constants.sol";
 import {FeeHelper} from "./libraries/FeeHelper.sol";
 import {LiquidityConfigurations} from "./libraries/math/LiquidityConfigurations.sol";
@@ -24,13 +22,14 @@ import {TreeMath} from "./libraries/math/TreeMath.sol";
 import {Uint256x256Math} from "./libraries/math/Uint256x256Math.sol";
 import {Hooks} from "./libraries/Hooks.sol";
 import {ILBHooks} from "./interfaces/ILBHooks.sol";
+import {LBPairUnstructuredStorage} from "./LBPairUnstructuredStorage.sol";
+import {StorageSlot} from "@openzeppelin/contracts/utils/StorageSlot.sol";
 
 /**
  * @title Liquidity Book Pair
- * @author Trader Sovryn LB
  * @notice The Liquidity Book Pair contract is the core contract of the Liquidity Book protocol
  */
-contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
+contract LBPair is LBToken, ReentrancyGuardUpgradeable, LBPairUnstructuredStorage, ILBPair {
     using BinHelper for bytes32;
     using FeeHelper for uint128;
     using LiquidityConfigurations for bytes32;
@@ -57,7 +56,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
 
     uint256 private constant _MAX_TOTAL_FEE = 0.1e18; // 10%
 
-    address public immutable override implementation;
     ILBFactory private immutable _factory;
 
     bytes32 private _parameters;
@@ -78,14 +76,12 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      */
     constructor(ILBFactory factory_) {
         _factory = factory_;
-        implementation = address(this);
 
         _disableInitializers();
     }
 
     /**
      * @notice Initialize the Liquidity Book Pair fee parameters and active id
-     * @dev Can only be called by the Liquidity Book Factory
      * @param baseFactor The base factor for the static fee
      * @param filterPeriod The filter period for the static fee
      * @param decayPeriod The decay period for the static fee
@@ -120,6 +116,22 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
     }
 
     /**
+     * @notice Returns the name of the pair token.
+     * @return The name of the pair token.
+     */
+    function name() external override(ILBToken, LBToken) view returns (string memory) {
+        return StorageSlot.getStringSlot(_SLOT_PAIR_NAME).value;
+    }
+
+    /**
+     * @notice Returns the symbol of the pair token, usually a shorter version of the name.
+     * @return The symbol of the pair token.
+     */
+    function symbol() external override(ILBToken, LBToken) view returns (string memory) {
+         return StorageSlot.getStringSlot(_SLOT_PAIR_SYMBOL).value;
+    }
+
+    /**
      * @notice Returns the Liquidity Book Factory
      * @return factory The Liquidity Book Factory
      */
@@ -131,7 +143,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @notice Returns the token X of the Liquidity Book Pair
      * @return tokenX The address of the token X
      */
-    function getTokenX() external pure override returns (IERC20 tokenX) {
+    function getTokenX() external view override returns (IERC20 tokenX) {
         return _tokenX();
     }
 
@@ -139,7 +151,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @notice Returns the token Y of the Liquidity Book Pair
      * @return tokenY The address of the token Y
      */
-    function getTokenY() external pure override returns (IERC20 tokenY) {
+    function getTokenY() external view override returns (IERC20 tokenY) {
         return _tokenY();
     }
 
@@ -149,7 +161,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * For example, a bin step of 1 means that the price of the next bin is 0.01% higher than the price of the previous bin.
      * @return binStep The bin step of the Liquidity Book Pair, in 10_000th
      */
-    function getBinStep() external pure override returns (uint16) {
+    function getBinStep() external view override returns (uint16) {
         return _binStep();
     }
 
@@ -345,7 +357,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @param id The id of the bin
      * @return price The price corresponding to this id
      */
-    function getPriceFromId(uint24 id) external pure override returns (uint256 price) {
+    function getPriceFromId(uint24 id) external view override returns (uint256 price) {
         price = id.getPriceFromId(_binStep());
     }
 
@@ -356,7 +368,7 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @param price The price of y per x as a 128.128-binary fixed-point number
      * @return id The id of the bin corresponding to this price
      */
-    function getIdFromPrice(uint256 price) external pure override returns (uint24 id) {
+    function getIdFromPrice(uint256 price) external view override returns (uint24 id) {
         id = price.getIdFromPrice(_binStep());
     }
 
@@ -807,7 +819,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
 
     /**
      * @notice Sets the static fee parameters of the pool
-     * @dev Can only be called by the factory
      * @param baseFactor The base factor of the static fee
      * @param filterPeriod The filter period of the static fee
      * @param decayPeriod The decay period of the static fee
@@ -839,7 +850,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
 
     /**
      * @notice Sets the hooks parameter of the pool
-     * @dev Can only be called by the factory
      * @param hooksParameters The hooks parameter
      * @param onHooksSetData The data to be passed to the onHooksSet function of the hooks contract
      */
@@ -862,7 +872,6 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
 
     /**
      * @notice Forces the decay of the volatility reference variables
-     * @dev Can only be called by the factory
      */
     function forceDecay() external override nonReentrant onlyFactory {
         bytes32 parameters = _parameters;
@@ -900,24 +909,24 @@ contract LBPair is LBToken, ReentrancyGuardUpgradeable, Clone, ILBPair {
      * @dev Returns the address of the token X
      * @return The address of the token X
      */
-    function _tokenX() internal pure returns (IERC20) {
-        return IERC20(_getArgAddress(0));
+    function _tokenX() internal view returns (IERC20) {
+        return IERC20(StorageSlot.getAddressSlot(_SLOT_TOKEN_X).value);
     }
 
     /**
      * @dev Returns the address of the token Y
      * @return The address of the token Y
      */
-    function _tokenY() internal pure returns (IERC20) {
-        return IERC20(_getArgAddress(20));
+    function _tokenY() internal view returns (IERC20) {
+        return IERC20(StorageSlot.getAddressSlot(_SLOT_TOKEN_Y).value);
     }
 
     /**
      * @dev Returns the bin step of the pool, in basis points
-     * @return The bin step of the pool
+     * @return binStep The bin step of the pool
      */
-    function _binStep() internal pure returns (uint16) {
-        return _getArgUint16(40);
+    function _binStep() internal view returns (uint16) {
+        return uint16(StorageSlot.getUint256Slot(_SLOT_BIN_STEP).value);
     }
 
     /**

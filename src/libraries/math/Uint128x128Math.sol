@@ -7,7 +7,6 @@ import {BitMath} from "./BitMath.sol";
 
 /**
  * @title Liquidity Book Uint128x128 Math Library
- * @author Trader Sovryn LB
  * @notice Helper contract used for power and log calculations
  */
 library Uint128x128Math {
