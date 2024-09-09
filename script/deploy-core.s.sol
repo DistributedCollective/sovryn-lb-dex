@@ -13,6 +13,7 @@ import {BipsConfig} from "./config/bips-config.sol";
 import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
 import { Options } from "openzeppelin-foundry-upgrades/Options.sol";
+import {IDeployment} from "./interfaces/IDeployment.sol";
 
 
 contract CoreDeployer is Script {
@@ -21,19 +22,7 @@ contract CoreDeployer is Script {
     uint256 private constant FLASHLOAN_FEE = 0.05e16; //0.05%
     address deployer;
 
-    struct Deployment {
-        address factoryV1;
-        address factoryV2;
-        address owner;
-        address feeRecipient;
-        address routerV2;
-        address wNative;
-        address lbPairImplementation;
-        address lbPairUpgradeableBeacon;
-        address quoter;
-        address[] quoteAssets;
-    }
-
+    // string[] chains = ["anvil"];
     string[] chains = ["bob_testnet"];
 
     function setUp() public {
@@ -41,7 +30,7 @@ contract CoreDeployer is Script {
     }
 
     function run() public {
-        string memory json = vm.readFile("script/config/deployments.json");
+        string memory jsonAssets = vm.readFile("script/config/deployment_assets.json");
         deployer = tx.origin;
         uint256 envPK = vm.envOr("DEPLOYER_PRIVATE_KEY", uint256(0)); 
         if(envPK != 0 && vm.envBool("USE_ENV_PK")) {
@@ -57,14 +46,26 @@ contract CoreDeployer is Script {
         address lbPairImplementation;
         address quoter;
 
-        vm.startBroadcast(deployer);
         for (uint256 i = 0; i < chains.length; i++) {
-            bytes memory rawDeploymentData = json.parseRaw(string(abi.encodePacked(".", chains[i])));
-            Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
-
-            console.log("\nDeploying V2.1 on %s", chains[i]);
-
             vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
+            vm.startBroadcast(deployer);
+
+            bytes memory quoteAssetsRaw = jsonAssets.parseRaw(string(abi.encodePacked(".", chains[i],".quoteAssets")));
+            console.log("quoteAssetsRaw");
+            console.logBytes(quoteAssetsRaw);
+            address[] memory quoteAssets = abi.decode(quoteAssetsRaw, (address[]));
+            console.log("quoteAssets ->");
+            for (uint256 i = 0; i < quoteAssets.length; i++) {
+                console.log(quoteAssets[i]);
+            }
+            console.log("quoteAssets <-");
+            
+            string memory jsonBase = vm.readFile("script/config/deployments.json");
+            bytes memory rawDeploymentData = jsonBase.parseRaw(string(abi.encodePacked(".", chains[i])));
+            //console.logBytes(rawDeploymentData);
+            IDeployment.Deployment memory deployment = abi.decode(rawDeploymentData, (IDeployment.Deployment));
+
+            console.log("\nDeploying V2 on %s", chains[i]);
 
             if(deployment.factoryV2 == address(0)) {
                 console.log("Deploying factory v2...");
@@ -133,8 +134,11 @@ contract CoreDeployer is Script {
             } else {
                 quoter = deployment.quoter;
             }
+            // Serialize the updated deployment struct back to JSON
+            // @dev Moving the updatedJsonBase assignment down will cause Stack too deep issue
+            string memory updatedJsonBase = jsonBase.serialize(string(abi.encodePacked(".", chains[i])), abi.encode(deployment));
 
-            address[] memory quoteAssets = deployment.quoteAssets;
+            // address[] memory quoteAssets = deployment.quoteAssets;
             for (uint256 j = 0; j < quoteAssets.length; j++) {
                 IERC20 quoteAsset = IERC20(quoteAssets[j]);
                 if(LBFactory(factoryV2).isQuoteAsset(quoteAsset)) continue;
@@ -165,14 +169,11 @@ contract CoreDeployer is Script {
             console.log("The new pendingOwner: ", LBFactory(factoryV2).pendingOwner());
             console.log("Please accept the ownership of factory at: ", address(factoryV2));
 
-            // Serialize the updated deployment struct back to JSON
-            bytes memory updatedDeployment = abi.encode(deployment);
-            json = json.serialize(string(abi.encodePacked(".", chains[i])), updatedDeployment);
-
+            vm.stopBroadcast();
+            //@todo this approach messes up the json formatting - need to find the right way:
             // Write the updated JSON back to the file
-            vm.writeFile("script/config/deployments.json", json);
+            // vm.writeFile("script/config/deployments.json", abi.decode(updatedJsonBase)); 
         }
-        vm.stopBroadcast();
     }
 
     // function _overwriteDefaultArbitrumRPC() private {

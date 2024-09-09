@@ -89,7 +89,9 @@ abstract contract TestHelper is Test {
         wnative = WNATIVE(AvalancheAddresses.WNATIVE);
         // If not forking, deploy mock
         if (address(wnative).code.length == 0) {
-            vm.etch(address(wnative), address(new WNATIVE()).code);
+            //vm.etch(address(wnative), address(new WNATIVE()).code); // this doesn't work - e.g. no symbol() returned
+            // console2.log("wnative.symbol()", wnative.symbol());
+            wnative = new WNATIVE();
         }
 
         // Create mocks

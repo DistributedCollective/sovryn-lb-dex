@@ -35,8 +35,11 @@ contract LBRouter is Initializable, ILBRouter {
     using SovrynLBLibrary for uint256;
     using PackedUint128Math for bytes32;
 
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable
     ILBFactory private immutable _factory2;
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable
     ISovrynLBFactoryV1 private immutable _factoryV1;
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable
     IWNATIVE private immutable _wnative;
 
     modifier onlyFactoryOwner() {
@@ -62,6 +65,7 @@ contract LBRouter is Initializable, ILBRouter {
      * @param factoryV1 Address of LB DEX V1 factory
      * @param wnative Address of WNATIVE
      */
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor(
         ILBFactory factory2,
         ISovrynLBFactoryV1 factoryV1,
