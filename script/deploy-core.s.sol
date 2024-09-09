@@ -13,6 +13,7 @@ import {BipsConfig} from "./config/bips-config.sol";
 import {LBPairUpgradeableBeacon} from "src/LBPairUpgradeableBeacon.sol";
 import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
 import { Options } from "openzeppelin-foundry-upgrades/Options.sol";
+import {IDeployment} from "./interfaces/IDeployment.sol";
 
 
 contract CoreDeployer is Script {
@@ -20,18 +21,6 @@ contract CoreDeployer is Script {
 
     uint256 private constant FLASHLOAN_FEE = 0.05e16; //0.05%
     address deployer;
-
-    struct Deployment {
-        address factoryV1;
-        address factoryV2;
-        address feeRecipient;
-        address lbPairImplementation;
-        address lbPairUpgradeableBeacon;
-        address owner;
-        address quoter;
-        address routerV2;
-        address wNative;
-    }
 
     // string[] chains = ["anvil"];
     string[] chains = ["bob_testnet"];
@@ -74,7 +63,7 @@ contract CoreDeployer is Script {
             string memory jsonBase = vm.readFile("script/config/deployments.json");
             bytes memory rawDeploymentData = jsonBase.parseRaw(string(abi.encodePacked(".", chains[i])));
             //console.logBytes(rawDeploymentData);
-            Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
+            IDeployment.Deployment memory deployment = abi.decode(rawDeploymentData, (IDeployment.Deployment));
 
             console.log("\nDeploying V2 on %s", chains[i]);
 
